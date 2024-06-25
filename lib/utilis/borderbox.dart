@@ -57,7 +57,7 @@ var boxshadow = BoxShadow(
   spreadRadius: 2.0,
   offset: Offset(1.0, 1.0),
 );
-var boxshadow2 =    BoxShadow(
+var boxshadow2 =    const BoxShadow(
                   color:Color.fromARGB(255, 224, 224, 224),
                   offset: Offset(0.0, 0.0),
                   blurRadius: 2.0,

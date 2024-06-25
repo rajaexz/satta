@@ -14,7 +14,7 @@ import '../service/authapi.dart';
 
 
 class BannerAdd extends StatefulWidget {
-  final List<Banners> banners;
+  final List  banners;
   late  int? currentSlide;
 
   BannerAdd({required this.banners, this.currentSlide});
@@ -27,7 +27,7 @@ class _BannerAddState extends State<BannerAdd> {
   @override
   Widget build(BuildContext context) {
     List<Widget> bannerWidgets = widget.banners.map<Widget>((banner) {
-      return BannerWidget(imageUrl: banner.image, uri: banner.url);
+      return BannerWidget(imageUrl: banner, uri: banner);
     }).toList();
 
     return Column(
@@ -35,7 +35,7 @@ class _BannerAddState extends State<BannerAdd> {
       children: [
         CarouselSlider(
           options: CarouselOptions(
-            height: 80.0,
+            height: 140.0,
             aspectRatio: 15 / 9,
             viewportFraction: 1,
             autoPlay: true,
@@ -100,14 +100,12 @@ class BannerWidget extends StatelessWidget {
       child: Container(
         width: double.infinity,
         margin: EdgeInsets.symmetric(horizontal: 7, vertical: 7),
-        decoration: BoxDecoration(
-          // Add your decoration
-        ),
+       
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
-          child: Image.network(
-            "https://winners11.in/images/$imageUrl",
-            fit: BoxFit.cover,
+          child: Image.asset(
+            "$imageUrl",
+            fit: BoxFit.fill,
           ),
         ),
       ),

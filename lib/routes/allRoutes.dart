@@ -1,6 +1,6 @@
+import 'package:winner11/screen/auth/singup.dart';
 import 'package:winner11/screen/live/live.dart';
 import 'package:winner11/screen/profile/bankEdit.dart';
-import 'package:winner11/screen/tap3/myFullBlog.dart';
 
 import 'package:get/get.dart';
 import 'package:winner11/screen/KYC/kyc.dart';
@@ -9,18 +9,13 @@ import 'package:winner11/screen/aboutTerm&Condition/aboutus.dart';
 import 'package:winner11/screen/aboutTerm&Condition/faq.dart';
 import 'package:winner11/screen/auth/login.dart';
 import 'package:winner11/screen/auth/otpsrceen.dart';
-import 'package:winner11/screen/home.dart';
+import 'package:winner11/screen/my_home.dart';
 import 'package:winner11/screen/notification/enableNotification.dart';
 import 'package:winner11/screen/notification/noti.dart';
 import 'package:winner11/screen/profile/editProfile.dart';
 import 'package:winner11/screen/profile/profile.dart';
 import 'package:winner11/screen/setting/Setting.dart';
 import 'package:winner11/screen/setting/more.dart';
-import 'package:winner11/screen/tap2/AllShowContest.dart';
-import 'package:winner11/screen/tap2/ContList.dart';
-import 'package:winner11/screen/tap2/CreatCont.dart';
-import 'package:winner11/screen/tap2/MyContDetail.dart';
-import 'package:winner11/screen/tap2/mycontestStatus.dart';
 import 'package:winner11/screen/wallet/AllHestory.dart';
 import 'package:winner11/screen/wallet/wallet.dart';
 import 'package:winner11/screen/wallet/withdraw.dart';
@@ -31,10 +26,19 @@ import '../screen/aboutTerm&Condition/policy.dart';
 import '../screen/wallet/addmoney.dart';
 
 var allRutes = [
+
+  
+
+
+  GetPage(
+      name: '/signup',
+      page: () => SignupPage(),
+      transitionDuration: const Duration(milliseconds: 500),
+      transition: Transition.leftToRightWithFade),
   GetPage(
       name: '/splash',
-      page: () => SplashScreen(),
-      transitionDuration: Duration(milliseconds: 500),
+      page: () => const SplashScreen(),
+      transitionDuration: const Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
   GetPage(
       name: '/intro',
@@ -54,16 +58,7 @@ var allRutes = [
       name: '/otp',
       page: () => OtpPage(),
       transition: Transition.leftToRightWithFade),
-  GetPage(
-      name: '/contList',
-      page: () => ContList(),
-      transitionDuration: Duration(milliseconds: 500),
-      transition: Transition.leftToRightWithFade),
-  GetPage(
-      name: '/myCont',
-      page: () => MyCont(),
-      transitionDuration: Duration(milliseconds: 500),
-      transition: Transition.leftToRightWithFade),
+
   GetPage(
       name: '/myNoti',
       page: () => NotificationItem(),
@@ -78,9 +73,13 @@ var allRutes = [
       name: '/addMoney',
       page: () => Addmoney(),
       transition: Transition.leftToRightWithFade),
+      //   GetPage(
+      // name: '/QRcode',
+      // page: () => WebViewExample(),
+      // transition: Transition.leftToRightWithFade),
   GetPage(
       name: "/setting",
-      page: () => MySetting(),
+      page: () => const MySetting(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
   GetPage(
@@ -93,11 +92,7 @@ var allRutes = [
       page: () => BankEdit(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
-  GetPage(
-      name: "/createCont",
-      page: () => CreateCont(),
-      transitionDuration: Duration(milliseconds: 500),
-      transition: Transition.leftToRightWithFade),
+
 
   GetPage(
       name: "/showProfile",
@@ -117,7 +112,7 @@ var allRutes = [
   //terms and condition
   GetPage(
       name: "/faq",
-      page: () => Steps(),
+      page: () => const Steps(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
   GetPage(
@@ -140,11 +135,7 @@ var allRutes = [
       page: () => MyNotificationEnable(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
-  GetPage(
-      name: "/myContestStatus",
-      page: () => MyCricketContestStatus(),
-      transitionDuration: Duration(milliseconds: 500),
-      transition: Transition.leftToRightWithFade),
+
   GetPage(
       name: "/withdraw",
       page: () => WithdrawPage(),
@@ -156,18 +147,11 @@ var allRutes = [
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
 
-  GetPage(
-      name: "/AllShowContest",
-      page: () => AllShowContest(),
-      transition: Transition.leftToRightWithFade),
-  GetPage(
-      name: "/blog",
-      page: () => MyFullBlog(),
-      transitionDuration: Duration(milliseconds: 500),
-      transition: Transition.leftToRightWithFade),
+  
+
   GetPage(
       name: "/live",
-      page: () => LiveScores(),
+      page: () => const LiveScores(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade)
 ];

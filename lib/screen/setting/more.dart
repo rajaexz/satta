@@ -93,7 +93,7 @@ Icon getIconForTitle(String title) {
     case "About Us":
       return Icon(Icons.account_circle);
         case "Privacy Policy":
-      return Icon(Icons.help);
+      return Icon(Icons.document_scanner);
     case "FAQ":
       return Icon(Icons.help);
     // Add more cases for other titles as needed

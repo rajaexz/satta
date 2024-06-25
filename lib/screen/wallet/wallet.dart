@@ -30,7 +30,7 @@ class _MyWalletState extends State<MyWallet> {
     try {
       if (snapshot.connectionState == ConnectionState.waiting) {
         // While the future is still running, display a loading indicator
-        return CircularProgressIndicator();
+        return const CircularProgressIndicator();
       } else if (snapshot.hasError) {
         // If an error occurred, display an error message
         return Text('Error: ${snapshot.error}');
@@ -78,7 +78,7 @@ class _MyWalletState extends State<MyWallet> {
                       children: [
                     
                         size10w,
-                        Icon(
+                        const Icon(
                           Icons.info_outline,
                           size: 15,
                         )
@@ -88,7 +88,7 @@ class _MyWalletState extends State<MyWallet> {
                 ),
             
                 size20h,
-                Myhestory(
+                const Myhestory(
                   data: [],
                 )
               ],

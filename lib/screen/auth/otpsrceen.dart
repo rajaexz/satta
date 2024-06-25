@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:winner11/screen/auth/controller/authController.dart';
 import 'package:winner11/screen/component/deviceInfo.dart';
 import 'package:winner11/screen/component/pop.dart';
 import 'package:winner11/screen/component/trancetionId.dart';
@@ -24,6 +25,10 @@ class OtpPage extends StatefulWidget {
 }
 
 class _OtpPageState extends State<OtpPage> {
+
+
+    final SignupController authController = Get.put(SignupController());
+
   var _isLoading = true;
   var code = "";
   final themeSMS = Get.put(SmsController());
@@ -109,7 +114,7 @@ class _OtpPageState extends State<OtpPage> {
                   height: 45,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: myColorRed,
+                           backgroundColor: myColorRed,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       onPressed: () async {
@@ -122,55 +127,61 @@ class _OtpPageState extends State<OtpPage> {
                         final store = await SharedPreferences.getInstance();
                         try {
                           //Api Function
-                          var phoneNumber = data["phone"];
-                          var otp = data["otp"];
-                          if (code == otp) {
-                            // Get FCM Token
+
+  var phoneNumber = data["phone"];
+
+ var loginResponse  =  authController.verifyUser(phoneNumber!, code);      
+ 
+ 
+
+//                           var otp = data["otp"];
+//                           if (code == code) {
+//                             // Get FCM Token
                       
-final fcmToken = await FirebaseMessaging.instance.getToken();
-//  print("____FCM $fcmToken");
-                            // ctreate user with login
-                            final loginData = {
-                              "phone": "$phoneNumber",
-                              "otp": "${otp}",
-                              "device_token": fcmToken
-                            };
+// final fcmToken = await FirebaseMessaging.instance.getToken();
 
-                            //Send reponse data  thourgh api /user_Login
+//                             // ctreate user with login
+//                             final loginData = {
+//                               "phone": "$phoneNumber",
+//                               "otp": "${otp}",
+//                               "device_token": fcmToken
+//                             };
 
-                            final loginResponse =
-                                await apiService.userPostAllApi(
-                                    data: loginData, uri: '/user_Login');
+//                             //Send reponse data  thourgh api /user_Login
 
-                            if (loginResponse["status"] == "200") {
-                              //here we decode userID thorugh the jwt
+//                             final loginResponse =
+//                                 await apiService.userPostAllApi(
+//                                     data: loginData, uri: '/user_Login');
 
-                              Map<String, dynamic> decodedToken =
-                                  Jwt.parseJwt(loginResponse["data"]["token"]);
+//                             if (loginResponse["status"] == "200") {
+//                               //here we decode userID thorugh the jwt
 
-                              CustomToaster.showSuccess(
-                                  context, " Successfully  User Login ");
-                              // we save data in local storage  userId
-                              store.setString(
-                                  'userId', decodedToken["userId"].toString());
-                              // we save data in local storage  token
-                              store.setString(
-                                  'token', loginResponse["data"]["token"]);
-                              _isLoading = false;
+//                               Map<String, dynamic> decodedToken =
+//                                   Jwt.parseJwt(loginResponse["data"]["token"]);
+
+//                               CustomToaster.showSuccess(
+//                                   context, " Successfully  User Login ");
+//                               // we save data in local storage  userId
+//                               store.setString(
+//                                   'userId', decodedToken["userId"].toString());
+//                               // we save data in local storage  token
+//                               store.setString(
+//                                   'token', loginResponse["data"]["token"]);
+//                               _isLoading = false;
                               
-                              Get.offAllNamed("/home",
-                                  arguments: store.getString("userId"));
-                            } else {
-                              CustomToaster.showWarning(
-                                  context, " Warning  User Not  Login");
-                              _isLoading = false;
-                              Get.offAllNamed("/login");
-                            }
-                          } else {
-                             _isLoading = false;
-                            CustomToaster.showWarning(
-                                context, " Unauthorized OTP");
-                          }
+//                               Get.offAllNamed("/home",
+//                                   arguments: store.getString("userId"));
+//                             } else {
+//                               CustomToaster.showWarning(
+//                                   context, " Warning  User Not  Login");
+//                               _isLoading = false;
+//                               Get.offAllNamed("/login");
+//                             }
+//                           } else {
+//                              _isLoading = false;
+//                             CustomToaster.showWarning(
+//                                 context, " Unauthorized OTP");
+//                           }
                         } catch (e) {
                           print("password is woeng$e ");
                         }
@@ -179,6 +190,8 @@ final fcmToken = await FirebaseMessaging.instance.getToken();
                         "Verify Your Phone OTP",
                         style: TextStyle(color: myColorWhite),
                       ))),
+            
+            
               Row(
                 children: [
                   TextButton(
@@ -190,7 +203,18 @@ final fcmToken = await FirebaseMessaging.instance.getToken();
                         child: Text(
                           "Edit Phone Number ?",
                         ),
-                      ))
+                      )),
+
+                          TextButton(
+                      onPressed: () {
+                    authController.resendotp();
+                      },
+                      child: DefaultTextStyle(
+                        style: TextStyle(color: myColor),
+                        child: Text(
+                          "Resend opt ..",
+                        ),
+                      )),
                 ],
               )
             ],

@@ -156,6 +156,15 @@ Future<void> showPopup(context) async {
 }
 
 
+
+
+
+
+
+
+
+
+
 //networking 
 showDialogBox(context,isAlertSet,setState,isDeviceConnected) => showCupertinoDialog<String>(
         context: context,

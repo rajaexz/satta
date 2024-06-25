@@ -169,8 +169,12 @@ class _SimpleCounterState extends State<SimpleCounter> {
     DateTime now = DateTime.now();
     return '${now.year}-${now.month}-${now.day}';
   }
-String getMatchStatus(int totalSeconds, String matchDate, String matchTime) {
-  DateTime matchStartTime = DateTime.now();
+
+
+
+
+String getMatchStatus({required String Allyear, required int totalSeconds, required String matchDate, required String matchTime}) {
+  DateTime matchStartTime;
 
   // Parse the match date and time
   final matchTimeParts = matchTime.split(':');
@@ -178,8 +182,7 @@ String getMatchStatus(int totalSeconds, String matchDate, String matchTime) {
   final minutes = int.parse(matchTimeParts[1].split(' ')[0].trim());
   final amPm = matchTimeParts[1].split(' ')[1].trim().toLowerCase();
 
-  DateTime now = DateTime.now();
-  int year = now.year;
+  int year = int.parse(Allyear);
   int day = int.parse(matchDate.split('-')[0]);
   String monthStr = matchDate.split('-')[1];
   int month;
@@ -236,23 +239,27 @@ String getMatchStatus(int totalSeconds, String matchDate, String matchTime) {
   if (timeRemaining.isNegative) {
     return "Match Over";
   } else {
-    int seconds = timeRemaining.inSeconds;
-    int remainingSeconds = seconds % (24 * 60 * 60);
-    int days = seconds ~/ (24 * 60 * 60);
-    int hours = remainingSeconds ~/ (60 * 60);
-    remainingSeconds = remainingSeconds % (60 * 60);
-    int minutes = remainingSeconds ~/ 60;
-    remainingSeconds = remainingSeconds % 60;
+    if (year == DateTime.now().year) {
+      int seconds = timeRemaining.inSeconds;
+      int remainingSeconds = seconds % (24 * 60 * 60);
+      int days = seconds ~/ (24 * 60 * 60);
+      int hours = remainingSeconds ~/ (60 * 60);
+      remainingSeconds = remainingSeconds % (60 * 60);
+      int minutes = remainingSeconds ~/ 60;
+      remainingSeconds = remainingSeconds % 60;
 
-    String daysStr = days.toString().padLeft(2, '0');
-    String hoursStr = hours.toString().padLeft(2, '0');
-    String minutesStr = minutes.toString().padLeft(2, '0');
-    String secondsStr = remainingSeconds.toString().padLeft(2, '0');
+      String daysStr = days.toString().padLeft(2, '0');
+      String hoursStr = hours.toString().padLeft(2, '0');
+      String minutesStr = minutes.toString().padLeft(2, '0');
+      String secondsStr = remainingSeconds.toString().padLeft(2, '0');
 
-    if (daysStr == '00') {
-      return '${daysStr == '00' ? '' : daysStr + ":" }${hoursStr == '00' ? '' : "$hoursStr" }:$minutesStr:$secondsStr';
+      if (daysStr == '00') {
+        return '$hoursStr:$minutesStr:$secondsStr';
+      } else {
+        return '$daysStr Days Left';
+      }
     } else {
-      return '$daysStr Days Left';
+      return "Match Over";
     }
   }
 }

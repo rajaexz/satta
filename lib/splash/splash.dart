@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:winner11/screen/component/deviceInfo.dart';
+import 'package:winner11/screen/tap2/myGame.dart';
 import 'package:winner11/utilis/boxSpace.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -53,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen>
       final store = await SharedPreferences.getInstance();
       allreadyExit != null
           ? Get.offNamed("/home", arguments: store.getString("userId"))
-          : Get.offNamed("/login");
+          :  Get.offNamed("/home", arguments: store.getString("userId"));
     }
   }
 
@@ -66,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: myColorRed,
+      backgroundColor: myColorWhite,
       body: SafeArea(
         child: Container(
           alignment: Alignment.center,
@@ -80,20 +81,21 @@ class _SplashScreenState extends State<SplashScreen>
                     mainAxisAlignment: MainAxisAlignment.center,
                  
                     children: [
-                      Container(
-                     
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/splash.png"),
-                            fit: BoxFit.fill,
+                      Center(
+                        child: Container(
+                                             
+                          decoration: BoxDecoration(
+                            image: const DecorationImage(
+                              image: AssetImage("assets/splash.jpeg"),
+                              fit: BoxFit.fill,
+                            ),
+                            borderRadius: boRadiusAll,
                           ),
-                          borderRadius: boRadiusAll,
+                          height: 200, // Set the height as needed
+                          width: 200, // Set the width as needed
                         ),
-                        height: 200, // Set the height as needed
-                        width: 200, // Set the width as needed
                       ),
-                    
-                      Lottie.asset('assets/ball.json', width: 200, height: 200)
+                        
          
                     ],
                   ))),

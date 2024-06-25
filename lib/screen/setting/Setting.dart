@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:winner11/screen/component/darkmode.dart';
 import 'package:winner11/utilis/borderbox.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,6 +14,8 @@ import 'package:winner11/utilis/fontstyle.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../utilis/globlemargin.dart';
 
+import '../../service/authapi.dart';
+  final ThemeController themeController = Get.put(ThemeController());
 class MySetting extends StatefulWidget {
   const MySetting({super.key});
 
@@ -21,9 +24,49 @@ class MySetting extends StatefulWidget {
 }
 
 class _MySettingState extends State<MySetting> {
-      final ApiService apiService = ApiService();
+     
+ 
+
   @override
   Widget build(BuildContext context) {
+      
+       List<Widget> listTiles = [];
+    
+ List<Map<String, dynamic>> tileData = [
+    {
+      'iconData': Icons.star_rate,
+      'title': 'Rate Us',
+      'onTap': () async {
+       showRateUsDialogRating(context);
+      },
+    },
+ {
+      'iconData': Icons.update,
+      'title': 'Chech for Update',
+      'onTap': () async {
+     showRateUsDialogUpdate(context);
+      },
+    },
+    {
+      'iconData': Icons.wallet,
+      'title': 'Wallet History',
+      'onTap': () async {
+      Get.toNamed("/historyWallet");  
+      },
+    },
+  ];
+    
+    for (int index = 0; index < tileData.length; index++) {
+    var data = tileData[index];
+    listTiles.add(
+      customListTile(
+        index: index,
+        iconData: data['iconData'],
+        title: data['title'],
+        onTap: data['onTap'],
+      ),
+    );
+  }
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Settings',
@@ -35,88 +78,12 @@ class _MySettingState extends State<MySetting> {
             children: [
            
               
-              ListTile(
-                trailing: Icon(Icons.arrow_forward),
-                leading: Icon(
-                    Icons.info), // Change the icon to a different policy icon
-                title: Row(
-                  children: [
-                    Text('KYC', style: CustomStyles.header2TextStyle),
-                    size20w,
-                    size20w,
-                    size20w,
-                    size20w,  size20w,
-                   
-             
-                    size20w,
-                     ],
-                ),
-                onTap: () {
-                  Get.toNamed('/kyc');
-                },
-              ),
-          
-                 ListTile(
-                trailing: Icon(Icons.arrow_forward),
-                leading: Icon(
-                    Icons.info), // Change the icon to a different policy icon
-                title: Row(
-                  children: [
-                    Text('Rate Us', style: CustomStyles.header2TextStyle),
-                 
-                  ],
-                ),
-                onTap: () {
-                  showRateUsDialogRating(context);
-                  
-                },
-              ),
-
+            Column(children: listTiles,),
               
-                 ListTile(
-                trailing: Icon(Icons.arrow_forward),
-                leading: Icon(
-                    Icons.info), // Change the icon to a different policy icon
-                title: Row(
-                  children: [
-                    Text('Check For Update', style: CustomStyles.header2TextStyle),
-                 
-                  ],
-                ),
-                onTap: () {
-                 showRateUsDialogUpdate(context);
-                  
-                },
-              ),
-                 ListTile(
-                trailing: Icon(Icons.arrow_forward),
-                leading: Icon(
-                    Icons.info), // Change the icon to a different policy icon
-                title: Row(
-                  children: [
-                    Text('Withdraw', style: CustomStyles.header2TextStyle),
-                 
-                  ],
-                ),
-                onTap: () {
-                  Get.toNamed('/withdraw');
-                },
-              ),
+              
+        
 
-               ListTile(
-                trailing: Icon(Icons.arrow_forward),
-                leading: Icon(
-                    Icons.info), // Change the icon to a different policy icon
-                title: Row(
-                  children: [
-                    Text('History Wallet', style: CustomStyles.header2TextStyle),
-                 
-                  ],
-                ),
-                onTap: () {
-                
-    Get.toNamed("/historyWallet");  },
-              ),
+             
         ],
           )
         ]),
@@ -343,3 +310,30 @@ String _getStoreUrl(String packageName, String iOSAppId) {
     throw 'Unsupported platform';
   }
 }
+  Widget customListTile({
+    required int index,
+    required IconData iconData,
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return Obx(
+    ()=> Container(
+           margin: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                     border:border,
+                     borderRadius:boRadiusAll ,
+           color: themeController.isLightMode.value
+                                  ? myColorWhite
+                                  : myColor,
+                      boxShadow: [  themeController.isLightMode.value
+                                          ? boxdark
+                                          : boxshadow2 ],
+                    ),
+        child: ListTile(
+          leading: Icon(iconData),
+          title: Text(title, style: CustomStyles.header2TextStyle),
+          onTap: onTap,
+        ),
+      ),
+    );
+  }

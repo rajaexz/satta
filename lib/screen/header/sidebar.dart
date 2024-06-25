@@ -1,126 +1,275 @@
+import 'package:winner11/screen/component/darkmode.dart';
 import 'package:winner11/screen/header/Userdata_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winner11/screen/component/pop.dart';
 import 'package:winner11/screen/component/shimmer.dart';
 import 'package:winner11/utilis/AllColor.dart';
+import 'package:winner11/utilis/borderbox.dart';
+import 'package:winner11/utilis/boxSpace.dart';
 
 import 'package:winner11/utilis/fontstyle.dart';
 
-
 import '../../service/authapi.dart';
 
+final ThemeController themeController = Get.put(ThemeController());
 Drawer myDrawer(context, id) {
+  List<Widget> listTiles = [];
+  List<Widget> listData = [];
+  List<Widget> impotent = [];
+  List<Map<String, dynamic>> tileData = [
+    {
+      'iconData': Icons.settings,
+      'title': 'Settings',
+      'onTap': () async {
+        Get.toNamed('/setting');
+      },
+    },
+  ];
+
+  List<Map<String, dynamic>> moreData = [
+    {
+      'iconData': Icons.info,
+      'title': 'Terms & Condition',
+      'onTap': () async {
+        Get.toNamed('/tarmAnd');
+      },
+    },
+    {
+      'iconData': Icons.account_circle,
+      'title': 'About Us',
+      'onTap': () async {
+        Get.toNamed('/myAboutus');
+      },
+    },
+    {
+      'iconData': Icons.help,
+      'title': 'Privacy Policy',
+      'onTap': () async {
+        Get.toNamed('/privacy');
+      },
+    },
+    {
+      'iconData': Icons.help,
+      'title': 'FAQ',
+      'onTap': () async {
+        Get.toNamed('/faq');
+      },
+    },
+  ];
+
+  List<Map<String, dynamic>> impotentData = [
+    {
+      'iconData': Icons.money,
+      'title': 'Withdraw',
+      'onTap': () async {
+        Get.toNamed('/withdraw');
+      },
+    },
+    {
+      'iconData': Icons.security,
+      'title': 'Add bank Account',
+      'onTap': () async {
+        Get.toNamed('/kyc');
+      },
+    },
+  ];
+
+  Widget customListTile({
+    required int index,
+    required IconData iconData,
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return ListTile(
+      leading: Icon(
+        iconData,
+        color: myColorRed,
+      ),
+      title: Text(title, style: CustomStyles.header2TextStyle),
+      onTap: onTap,
+    );
+  }
+
+//////////////////////////////////////////////////////////////
+  for (int index = 0; index < tileData.length; index++) {
+    var data = tileData[index];
+    listTiles.add(
+      customListTile(
+        index: index,
+        iconData: data['iconData'],
+        title: data['title'],
+        onTap: data['onTap'],
+      ),
+    );
+  }
+
+//////////////////////////////////////////////////////////////
+  for (int index = 0; index < moreData.length; index++) {
+    var data = moreData[index];
+    listData.add(
+      customListTile(
+        index: index,
+        iconData: data['iconData'],
+        title: data['title'],
+        onTap: data['onTap'],
+      ),
+    );
+  }
+//////////////////////////////////////////////////////////////
+  for (int index = 0; index < impotentData.length; index++) {
+    var data = impotentData[index];
+    impotent.add(
+      customListTile(
+        index: index,
+        iconData: data['iconData'],
+        title: data['title'],
+        onTap: data['onTap'],
+      ),
+    );
+  }
   final ApiService apiService = ApiService();
   return Drawer(
-    child: Column(
-      children: [
-    FutureBuilder(
-  future: apiService.userMatchList(data: {"id": id}, uri: '/get_all_data_user'),
-  builder: (context, snapshot) {
-    try {
-      if (snapshot.connectionState == ConnectionState.done) {
-        if (snapshot.hasError) {
-          return showShummer2;
-        }
-
-        final data = (snapshot.data as Map<String, dynamic>)['data'];
-        if (data != null) {
-          final result = data["result"][0];
-
-
-          if (result != null) {
-            UserProfile userProfile = UserProfile.fromJson(result);
-
-            return Column(
+    child: Obx(
+      () => Column(
+        children: [
+          Expanded(
+            child: Column(
               children: [
+         profileInfo(),
                 Container(
-                  padding: EdgeInsets.only(top: 90),
-                  color: myColorRed,
-                  child: Row(
-                    children: <Widget>[
-                      Column(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.all(20.0),
-                            child: CircleAvatar(
-                              radius: 30.0,
-                              backgroundImage: NetworkImage("https://winners11.in/images/${userProfile.image}")
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(userProfile.name ?? "",
-                              style: CustomStyleswhite.headerTextStyle),
-                          Text(userProfile.phone?.toString() ?? "",
-                              softWrap: true,
-                              overflow: TextOverflow.ellipsis,
-                              style: CustomStyleswhite.header2TextStyle),
-                        ],
-                      )
+                  margin: EdgeInsets.all(13),
+                  decoration: BoxDecoration(
+                    border: border,
+                    borderRadius: boRadiusAll,
+                    color: themeController.isLightMode.value
+                        ? myColorWhite
+                        : myColor,
+                    boxShadow: [
+                      themeController.isLightMode.value ? boxdark : boxshadow2
                     ],
                   ),
+                  child: Column(
+                    children: listTiles,
+                  ),
                 ),
-                
-                ListTile(
-                  leading: Icon(Icons.policy),
-                  title: Text('Profile', style: CustomStyles.header2TextStyle),
-                  onTap: () {
-                    Get.toNamed("/showProfile", arguments: result);
-                  },
+                Container(
+                  margin: EdgeInsets.all(13),
+                  decoration: BoxDecoration(
+                    border: border,
+                    borderRadius: boRadiusAll,
+                    color: themeController.isLightMode.value
+                        ? myColorWhite
+                        : myColor,
+                    boxShadow: [
+                      themeController.isLightMode.value ? boxdark : boxshadow2
+                    ],
+                  ),
+                  child: Column(
+                    children: impotent,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(13),
+                  decoration: BoxDecoration(
+                    border: border,
+                    borderRadius: boRadiusAll,
+                    color: themeController.isLightMode.value
+                        ? myColorWhite
+                        : myColor,
+                    boxShadow: [
+                      themeController.isLightMode.value ? boxdark : boxshadow2
+                    ],
+                  ),
+                  child: Column(
+                    children: listData,
+                  ),
                 ),
               ],
-            );
-          } else {
-            return showShummer2;
-          }
-        } else {
-          return const Text('No data available');
-        }
-      } else if (snapshot.connectionState == ConnectionState.waiting) {
-        return showShummer2; // Display a loading indicator
-      } else {
-        return showShummer2;
-      }
-    } catch (e) {
-      print('Error: $e');
-      // Handle other errors, show an error message, or return an error widget
-      return showShummer2;
-    }
-  },
-),
-
-        ListTile(
-          leading: Icon(Icons.settings), // Change the icon to "settings"
-          title: Text('Settings', style: CustomStyles.header2TextStyle),
-          onTap: () async {
-            Get.toNamed('/setting');
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.logout), // Change the icon to "control_point"
-          title: Text('Logout', style: CustomStyles.header2TextStyle),
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return CustomPopupDialog2(); // Custom pop-up widget
+            ),
+          ),
+          TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(myColorRed),
+                  padding: MaterialStateProperty.all(
+                      EdgeInsets.symmetric(horizontal: 30, vertical: 10))),
+              isSemanticButton: true,
+              onPressed: () {
+                // showDialog(
+                //   context: context,
+                //   builder: (BuildContext context) {
+                //     return CustomPopupDialog2(); // Custom pop-up widget
+                //   },
+                // );
               },
-            );
-          },
-        ),
-        ListTile(
-          leading:
-              Icon(Icons.policy), // Change the icon to a different policy icon
-          title: Text('More', style: CustomStyles.header2TextStyle),
-          onTap: () {
-            Get.toNamed('/mySeeMore');
-          },
-        ),
-      ],
+              child: Text(
+                "Logout",
+                style: CustomStyleswhite.header2TextStyle,
+              )),
+          size10h
+        ],
+      ),
     ),
+  );
+}
+
+profileInfo() {
+  return Stack(
+    alignment: Alignment.topCenter,
+    children: [
+      Container(
+        color: myColor,
+        width: double.infinity,
+        child: Column(
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                  border: border,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(100),
+                  )),
+              margin: const EdgeInsets.only(bottom: 10, top: 100),
+              child: const CircleAvatar(
+                  radius: 50.0,
+                  backgroundImage: AssetImage(
+                      "assets/logo.jpeg")),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text("7011448878" ,
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                    style: CustomStyleswhite.headerTextStyle),
+                Text("raja "?? "",
+                    style: CustomStyles.textExternelgray),
+                size20h
+              ],
+            )
+          ],
+        ),
+      ),
+      Positioned(
+        left: 20,
+        top: 100,
+        child: InkWell(
+            onTap: () {
+              Get.toNamed("/showProfile");
+            },
+            child: const Row(
+              children: [
+                Icon(
+                  Icons.list_alt,
+                  size: 40,
+                  color: Colors.white,
+                ),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                  color: Colors.white,
+                ),
+              ],
+            )),
+      ),
+    ],
   );
 }

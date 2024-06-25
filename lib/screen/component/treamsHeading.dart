@@ -29,7 +29,7 @@ class SectionContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(8.0),
       child: Text(content,style: CustomStyles.smallTextStyle,),
     );
   }
@@ -44,7 +44,7 @@ class SectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(8.0),
       child: Text(
         title,
         style:CustomStyles.headerTextStyle,

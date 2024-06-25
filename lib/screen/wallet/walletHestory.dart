@@ -1,12 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:winner11/screen/component/darkmode.dart';
 import 'package:winner11/screen/header/headerTop.dart';
 import 'package:winner11/service/authapi.dart';
 import 'package:winner11/utilis/AllColor.dart';
+import 'package:winner11/utilis/borderbox.dart';
 import 'package:winner11/utilis/boxSpace.dart';
 import 'package:winner11/utilis/fontstyle.dart';
 
+  final ThemeController themeController = Get.put(ThemeController());
 class Myhestory extends StatefulWidget {
   final List<Map<String, dynamic>> data;
 
@@ -47,7 +51,7 @@ class _MyhestoryState extends State<Myhestory> {
                 titlebtn(HeadName: "MY History", context1: context, Headno: "See All", routes: "/historyWallet",),
                 size10h,
                 Container(
-                  height: 550,
+                  height: 650,
                   child: ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: itemCount, // Use 'data' instead of 'widget.data'
@@ -58,64 +62,72 @@ class _MyhestoryState extends State<Myhestory> {
        String day = "${dateTime.day}-${dateTime.month}-${dateTime.year}";
         String time = "${dateTime.hour}:${dateTime.minute}:${dateTime.second}";
    
-                      return Container(
-                        height: 100,
-                
-                        margin: const EdgeInsets.all(9),
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: myColorRed),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          
-                          children: [
-                                Text(item["transaction_id"].toString(),style: TextStyle(fontSize: 10,color: myColorGray), ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                 
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                     item["payment_status"] != "FAILURE" ?  const Icon(
-                                        Icons.check_circle_outline,
-                                        size: 20,
-                                      ): const Icon(
-                                        Icons.close,
-                                        size: 20,
-                                      ),
-                                      size10w,
-                                      Column(
-                                        children: [
-                                          //time
-                                          Text(
-                                            day,
-                                            style: CustomStyles.smallTextStyle,
-                                          ),
-                                          Text(
-                                           time,
-                                            style: CustomStyles.smallTextStyle,
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
+                      return Obx(
+                        ()=> Container(
+                          height: 100,
+                                        
+                          margin: const EdgeInsets.all(9),
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                                                 border:border,
+                                                 borderRadius:boRadiusAll ,
+                                 color: themeController.isLightMode.value
+                                      ? myColorWhite
+                                      : myColor,
+                                                  boxShadow: [  themeController.isLightMode.value
+                                              ? boxdark
+                                              : boxshadow2 ],
+                                                ),
+                          child: Column(
                             
-                              Column(
+                            children: [
+                                  Text(item["transaction_id"].toString(),style: TextStyle(fontSize: 10,color: myColorGray), ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                      Text(item["trans_type"].toString(),style: CustomStyles.textExternel,),
-                                  Text(" ₹${item["money"].toString()}",style: CustomStyles.textExternel,),
+                                  Container(
+                                   
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                       item["payment_status"] != "FAILURE" ?  const Icon(
+                                          Icons.check_circle_outline,
+                                          size: 20,
+                                        ): const Icon(
+                                          Icons.close,
+                                          size: 20,
+                                        ),
+                                        size10w,
+                                        Column(
+                                          children: [
+                                            //time
+                                            Text(
+                                              day,
+                                              style: CustomStyles.smallTextStyle,
+                                            ),
+                                            Text(
+                                             time,
+                                              style: CustomStyles.smallTextStyle,
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                              
+                                Column(
+                                  children: [
+                                        Text(item["trans_type"].toString(),style: CustomStyles.textExternel,),
+                                    Text(" ₹${item["money"].toString()}",style: CustomStyles.textExternel,),
+                                  ],
+                                )
                                 ],
-                              )
-                              ],
-                            ),
-                         Text(item["payment_status"].toString(),style: TextStyle(color: myColorgreen), )
-                          ],
+                              ),
+                           Text(item["payment_status"].toString(),style: TextStyle(color: myColorgreen), )
+                            ],
+                          ),
                         ),
                       );
                     },

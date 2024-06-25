@@ -1,10 +1,7 @@
 import 'package:winner11/screen/component/darkmode.dart';
 import 'package:winner11/utilis/AllColor.dart';
 import 'package:flutter/material.dart';
-import 'package:winner11/screen/component/imageComponet.dart';
-import 'package:winner11/screen/home.dart';
-import 'package:winner11/screen/wallet/wallet.dart';
-import 'package:winner11/utilis/alinement.dart';
+
 import 'package:winner11/utilis/borderbox.dart';
 import 'package:winner11/utilis/fontstyle.dart';
 import 'package:get/get.dart';

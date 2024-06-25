@@ -1,22 +1,54 @@
-import 'package:winner11/banner/banner_Model.dart';
+
 import 'package:winner11/screen/component/darkmode.dart';
-import 'package:winner11/screen/tap1/upComing_MatchsModel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:winner11/screen/component/custom_toaster.dart';
-import 'package:winner11/screen/component/imageComponet.dart';
-import 'package:winner11/screen/component/shimmer.dart';
 import 'package:winner11/screen/header/headerTop.dart';
-import 'package:winner11/screen/tap2/mycontest.dart';
+import 'package:winner11/screen/tap2/myGame.dart';
 import 'package:winner11/service/authapi.dart';
 import 'package:winner11/utilis/AllColor.dart';
-import 'package:winner11/utilis/borderbox.dart';
 import 'package:winner11/utilis/boxSpace.dart';
 import 'package:winner11/utilis/fontstyle.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:winner11/screen/wallet/wallet.dart';
 
-import '../../banner/banner.dart';
 import '../component/coundown.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class GameBid {
+  final String gameId;
+  final String gameType;
+  final String session;
+  final String bidPoints;
+  final String openDigit;
+  final String closeDigit;
+  final String openPanna;
+  final String closePanna;
+
+  GameBid({
+    required this.gameId,
+    required this.gameType,
+    required this.session,
+    required this.bidPoints,
+    required this.openDigit,
+    required this.closeDigit,
+    required this.openPanna,
+    required this.closePanna,
+  });
+
+  factory GameBid.fromJson(Map<String, dynamic> json) {
+    return GameBid(
+      gameId: json['game_id'],
+      gameType: json['game_type'],
+      session: json['session'],
+      bidPoints: json['bid_points'],
+      openDigit: json['open_digit'],
+      closeDigit: json['close_digit'],
+      openPanna: json['open_panna'],
+      closePanna: json['close_panna'],
+    );
+  }
+}
 
 class UpComming extends StatefulWidget {
   const UpComming({super.key});
@@ -26,17 +58,50 @@ class UpComming extends StatefulWidget {
 }
 
 class _UpCommingState extends State<UpComming> {
+ final List<GameBid> bids = [
+    GameBid(
+      gameId: "3",
+      gameType: "single_digit",
+      session: "Open",
+      bidPoints: "10",
+      openDigit: "9",
+      closeDigit: "",
+      openPanna: "",
+      closePanna: "",
+    ),
+    GameBid(
+      gameId: "3",
+      gameType: "single_digit",
+      session: "Open",
+      bidPoints: "10",
+      openDigit: "8",
+      closeDigit: "",
+      openPanna: "",
+      closePanna: "",
+    ),
+    GameBid(
+      gameId: "3",
+      gameType: "single_digit",
+      session: "Open",
+      bidPoints: "40",
+      openDigit: "5",
+      closeDigit: "",
+      openPanna: "",
+      closePanna: "",
+    ),
+  ];
+
+
   late SharedPreferences _prefs;
   late String _lastPopupDate;
   @override
   void initState() {
     super.initState();
-   _initPreferences();
+    _initPreferences();
   }
 
-
   Future<void> _initPreferences() async {
-   _prefs  = await SharedPreferences.getInstance();
+    _prefs = await SharedPreferences.getInstance();
     _lastPopupDate = _prefs.getString('lastPopupDate') ?? '';
 
     if (_lastPopupDate != getCurrentDate()) {
@@ -51,89 +116,122 @@ class _UpCommingState extends State<UpComming> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Container(
+          width: Get.width,
+          height: 150,
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              color: Theme.of(context).brightness == Brightness.light
+                  ? myColorWhite
+                  : myColorRed,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.grey),
+              boxShadow: [
+                Theme.of(context).brightness == Brightness.light
+                    ? BoxShadow(color: Colors.black26, blurRadius: 5)
+                    : BoxShadow(color: Colors.black54, blurRadius: 5)
+              ]),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              customImageContainer(
+                  context: context,
+                  imageUrl: 'assets/wh.jpg',
+                  onTap: openWhatsApp,
+                  name: "Whatsapp",
+                  imageSize:50
+                  ),
+           
+           
+           
+              customImageContainer(
+                 imageSize:50,
+                name: "waallet",
+                context: context,
+                imageUrl: Theme.of(context).brightness == Brightness.light
+                    ? "assets/icon/wallet.png"
+                    : "assets/icon/wallet2.png",
+                onTap: () {
+                  showModalBottomSheet<void>(
+                    showDragHandle: true,
+                    useSafeArea: true,
+                    isScrollControlled: true,
+                    elevation: 8,
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(16.0),
+                        topRight: Radius.circular(16.0),
+                      ),
+                    ),
+                    builder: (BuildContext context) {
+                      return const FractionallySizedBox(
+                        heightFactor:
+                            0.5, // Adjust this value to control the height (0.0 to 1.0).
+                        child: MyWallet(),
+                      );
+                    },
+                  );
+                },
+              ),
+            
+            
+              customImageContainer(
+                 imageSize:50,
+                name: "Addmoney",
+                context: context,
+                imageUrl: 'assets/person.png',
+                onTap: () {
+                  Get.toNamed("/addMoney");
+                },
+              ),
+           
+           
+           
+           
+            ],
+          ),
+        ),
 
 // Mycontest ----------------------------------------------------------
-FutureBuilder(
-  future: apiService.userAllDoc(uri: "/user_upcoming_matches"),
-  builder: (context, snapshot) {
-    try {
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        // While the future is still running, display a loading indicator
-        return imageShimmer;
-      } else if (snapshot.hasError) {
-        // If an error occurred, display an error message
-        return Text('Error: ${snapshot.error}');
-      } else {
-      
-        // Data has been successfully fetched
-        final data = (snapshot.data as Map<String, dynamic>)["data"]["result"];
 
-        if (data == null || data.isEmpty) {
-          return Text("");
-        }
+        size10h,
+        Simpletitlebtn(HeadName: "Curent Sata Game"),
+//Upcoming Match List
 
+
+       LayoutBuilder(
+      builder: (context, constraints) {
+        double width = constraints.maxWidth;
+        double padding = width * 0.03;
+        double imageSize = width * 0.1;
+        double containerHeight = width * 0.4;
+        
         return Column(
           children: [
-            titlebtn(
-              HeadName: "MY Contest match",
-              context1: context,
-              Headno: "See All",
-              routes: "/AllShowContest",
-            ),
-            size20h,
-            Mycontest(
-              data: data,
-              type: "upcoming_page",
-            ),
-            size10h,
-          ],
-        );
-      }
-    } catch (e) {
-      return imageShimmer;
-      // Handle network-related errors here, show a message to the user, etc.
-    }
-  },
-),
-
-       
-        size10h,
-        Simpletitlebtn(HeadName: "Upcomming Matches"),
-//Upcoming Match List 
-
-    FutureBuilder(
-  future: apiService.userMatchList(data: {"id": id}, uri: '/show_matches'),
-  builder: (context, snapshot) {
-    try {
-      if (snapshot.connectionState == ConnectionState.done) {
-        if (snapshot.hasError) {
-          throw Exception('Error: ${snapshot.error}');
-        }
-        final data = (snapshot.data as Map<String, dynamic>);
-        final matchData = MatchData.fromJson(data['data']);
-        final reversedData = List.from(matchData.result.reversed);
-        final itemCount = reversedData.length;
-
-        return Column(
-          children: List.generate(itemCount, (index) {
-            var match = reversedData[index];
-
-            if (getMatchStatus(1, match.matchDate.toString(), match.matchTime.toString()) != "Match Over") {
-              return GestureDetector(
+            
+      
+            for (var bid in bids)
+              GestureDetector(
                 onTap: () {
-                  CustomToaster.showWarning(context, "The Match Is Over");
+                  Get.to(GridViewWidget());
                 },
-                child: Obx(() => Container(
-                  height: 190,
+                child: Container(
+                  height: 200,
                   margin: const EdgeInsets.only(top: 20),
-                  padding: const EdgeInsets.only(top: 10, bottom: 5, right: 10, left: 10),
+                  padding: const EdgeInsets.only(
+                      top: 10, bottom: 5, right: 10, left: 10),
                   decoration: BoxDecoration(
-                    border: border,
-                    color: themeController.isLightMode.value ? myColorWhite : myColor,
+                    border: Border.all(color: Colors.grey),
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Colors.white
+                        : Colors.grey[800],
                     boxShadow: [
-                      themeController.isLightMode.value ? boxdark : boxshadow2
+                      Theme.of(context).brightness == Brightness.light
+                          ? BoxShadow(color: Colors.black26, blurRadius: 5)
+                          : BoxShadow(color: Colors.black54, blurRadius: 5),
                     ],
-                    borderRadius: boRadiusAll,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   child: Column(
                     children: [
@@ -142,276 +240,140 @@ FutureBuilder(
                         children: [
                           Container(
                             height: 30,
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 image: AssetImage(
-                                  themeController.isLightMode.value
-                                    ? "assets/banner.png"
-                                    : "assets/banner-dark.png"),
+                                  Theme.of(context).brightness == Brightness.light
+                                      ? "assets/banner.png"
+                                      : "assets/banner-dark.png",
+                                ),
                                 fit: BoxFit.fill,
-                                alignment: Alignment.centerRight),
+                                alignment: Alignment.centerRight,
+                              ),
                             ),
                             child: Container(
                               width: 260,
                               child: Text(
-                                "${match.series}",
+                                "Star Morning",
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ),
-                          const Column(
-                            children: [
-                           Icon(Icons.tv)
-                            ],
+                          Image.asset(
+                            "assets/network-removebg-preview.png",
+                            width: 30,
+                            height: 30,
+                            fit: BoxFit.cover,
                           ),
-                          const Column(
-                            children: [
-                              Icon(Icons.access_alarm),
-                            ],
-                          )
                         ],
                       ),
-                      size10h,
-                      ImageColoum(
-                        Image1: match.matchFlagA,
-                        Image2: match.matchFlagB,
-                        short_nameA: match.sortNameA,
-                        short_nameB: match.sortNameB,
-                        long_nameA: match.teamA,
-                        long_nameB: match.teamB,
-                        matchData: match.matchDate,
-                        matchtime: match.matchTime,
+                      SizedBox(height: 10),
+                      Divider(),
+                      Text(
+                        "232-233-3223",
+                        style: CustomStyles.headerTextStyle,
                       ),
                       Divider(),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            width: 250,
-                            height: 40,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/banner1.png"),
-                                fit: BoxFit.contain,
+                          Text(
+                            "Open : 9:00 PM",
+                            style: CustomStyles.textExternel,
+                          ),
+                          TextButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(const Color.fromARGB(255, 26, 113, 29)),
+                              padding: MaterialStateProperty.all(
+                                EdgeInsets.symmetric(
+                                    horizontal: 35, vertical: 10),
                               ),
                             ),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 10.0, left: 15.0),
-                              child: Text(
-                                "MEGA ₹1 Core",
-                                style: CustomStyles.textExternel,
-                              ),
+                            isSemanticButton: true,
+                            onPressed: () {},
+                            child: Text(
+                              "Open",
+                              style: CustomStyleswhite.header2TextStyle,
                             ),
-                          )
+                          ),
+                          Text(
+                            "Close : 9:00 PM",
+                            style: CustomStyles.textExternel,
+                          ),
                         ],
-                      )
-                      // ... Add more UI elements for Match Over scenario
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Bid Points: ${bid.bidPoints}, Open Digit: ${bid.openDigit}',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ],
                   ),
-                )),
-              );
-            } else {
-              return InkWell(
-                onTap: () {
-                  Get.toNamed('/contList', arguments: {"poolId": match.matchId, "id": id});
-                },
-                child: Obx(() => Container(
-                  height: 190,
-                  margin: EdgeInsets.only(top: 20),
-                  padding: const EdgeInsets.only(top: 10, bottom: 5, right: 10, left: 10),
-                  decoration: BoxDecoration(
-                    border: border,
-                    color: themeController.isLightMode.value ? myColorWhite : myColor,
-                    boxShadow: [
-                      themeController.isLightMode.value ? boxdark : boxshadow2
-                    ],
-                    borderRadius: boRadiusAll,
-                  ),
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              height: 30,
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                    themeController.isLightMode.value
-                                      ? "assets/banner.png"
-                                      : "assets/banner-dark.png"),
-                                  fit: BoxFit.fill,
-                                  alignment: Alignment.centerRight),
-                              ),
-                              child: Container(
-                                width: 260,
-                                child: Text(
-                                  "${match.series}",
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                            const Column(
-                              children: [
-                                Icon(Icons.tv),
-                              ],
-                            ),
-                            const Column(
-                              children: [
-                                Icon(Icons.access_alarm),
-                              ],
-                            )
-                          ],
-                        ),
-                        size10h,
-                        ImageColoum(
-                          Image1: match.matchFlagA,
-                          Image2: match.matchFlagB,
-                          short_nameA: match.sortNameA,
-                          short_nameB: match.sortNameB,
-                          long_nameA: match.teamA,
-                          long_nameB: match.teamB,
-                          matchData: match.matchDate,
-                          matchtime: match.matchTime,
-                        ),
-                        Divider(),
-                        Row(
-                          children: [
-                            Container(
-                              width: 250,
-                              height: 40,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage("assets/banner1.png"),
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 10.0, left: 15.0),
-                                child: Text(
-                                  "MEGA ₹1 Core",
-                                  style: CustomStyles.textExternel,
-                                ),
-                              ),
-                            )
-                          ],
-                        )
-                        // ... Add more UI elements for Match Over scenario
-                      ],
-                    ),
-                  ),
-                )),
-              );
-            }
-          }),
+                ),
+              ),
+          ],
         );
-      } else if (snapshot.connectionState == ConnectionState.waiting) {
-        return imageShimmer;
-      } else {
-        return Text('Data retrieval is not in progress');
-      }
-    } catch (e) {
-      print('Error in FutureBuilder: $e');
-      // Handle the error gracefully, e.g., display an error message to the user
-      return          imageShimmer;
-;
-    }
-  },
-)
-  ],
+      },
+    )
+      ],
     );
   }
 }
 
-ImageColoum(
-    {Image1,
-    Image2,
-    short_nameA,
-    short_nameB,
-    long_nameA,
-    long_nameB,
-    matchData,
-    matchtime}) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              ImageComponentNet(
-                myWidth: 40.0,
-                myheight: 40.0,
-                myImage: Image1 ?? "",
-              ),
-              size10w,
-              Text(
-                short_nameA ?? "",
-                style: CustomStyles.smallTextStyle,
-              )
-            ],
-          ),
-          size10h,
-          Text(
-            long_nameA ?? "",
-            style: CustomStyles.header3TextStyle,
-          )
+Widget customImageContainer(
+    {required BuildContext context,
+    required String imageUrl,
+    required double imageSize,
+    required VoidCallback onTap,
+    required String name}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      padding: EdgeInsets.all(5),
+      width: MediaQuery.of(context).size.width / 4,
+      height: 80,
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.red),
+        boxShadow: [
+          Theme.of(context).brightness == Brightness.light
+              ? BoxShadow(color: Colors.black26, blurRadius: 5)
+              : BoxShadow(color: Colors.black54, blurRadius: 5)
         ],
       ),
-      Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          children: [
-            // Text(
-
-            //   getMatchStatus(
-            //     1, // Total seconds until the match starts
-            //     matchData, // Match date (customize it according to your data)
-            //     matchtime,
-            //   ),
-            //   style: TextStyle(
-            //     color: myColorRed,
-            //     fontSize: 16,
-            //     fontWeight: FontWeight.bold,
-            //   ),
-            // ),
-            SimpleCounter(
-                matchDate: matchData, matchTime: matchtime, totalSeconds: 1)
-          ],
-        ),
-      ),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: Column(
         children: [
-          Row(
-            children: [
-              Text(
-                short_nameB ?? "",
-                style: CustomStyles.smallTextStyle,
+          CircleAvatar(
+            radius: 20,
+            backgroundColor:
+                Colors.transparent, // Set a background color if needed
+            child: ClipOval(
+              child: Image.asset(
+                imageUrl,
+                width: imageSize,
+               height: imageSize,
+                fit: BoxFit.cover,
               ),
-              size10w,
-              ImageComponentNet(
-                myWidth: 40.0,
-                myheight: 40.0,
-                myImage: Image2 ?? "",
-              ),
-            ],
+            ),
           ),
-          size10h,
-          Container(
-            alignment: Alignment.bottomRight,
-            width: 100,
-            child: Text(long_nameB ?? "",
-                style: CustomStyles.header3TextStyle,
-                overflow: TextOverflow.ellipsis),
-          )
+          Text(name)
         ],
       ),
-    ],
+    ),
   );
+}
+
+Future<void> openWhatsApp() async {
+  const phoneNumber = '1234567890'; // Replace with the actual phone number
+  final whatsappUrl = 'whatsapp://send?phone=$phoneNumber';
+
+  if (await canLaunch(whatsappUrl)) {
+    await launch(whatsappUrl);
+  } else {
+    throw 'Could not launch $whatsappUrl';
+  }
 }

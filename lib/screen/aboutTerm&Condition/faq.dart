@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:winner11/screen/component/headNavi.dart';
 import 'package:winner11/screen/component/treamsHeading.dart';
 import 'package:winner11/screen/header/appbar.dart';
 import 'package:winner11/screen/header/headerTop.dart';
 import 'package:winner11/service/authapi.dart';
-import 'package:winner11/utilis/AllColor.dart';
 import 'package:winner11/utilis/boxSpace.dart';
 import 'package:winner11/utilis/globlemargin.dart';
 
@@ -45,52 +43,27 @@ class Steps extends StatelessWidget {
               Simpletitlebtn(HeadName: "FAQ :-"),
               size20h,
               size20h,
-              FutureBuilder(
-                future: apiService.userAllDoc(uri: '/user_faq'),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    }
-
-                    final data =
-                        (snapshot.data as Map<String, dynamic>)['data'];
-                        print(data);
-                    if (data != null) {
-                      final result = data["result"];
-                    return Container(
-          margin: GlobleglobleMargin.globleMargin,
-          child: Container(
-            height: 600,
-            child: ListView.builder(
-              itemCount: result.length,
-              itemBuilder: (context, index) {
-                var faqItem = result[index];
-                return Column(
-                  children: [
-                    SectionTitle(title: faqItem["question"]),
-                     SectionContent(content: faqItem["answer"]),
-                  
-                    
-                  ],
-                );
-              },
-            ),
-          ),
-        );
-
-                    } else {
-                      return Text('No data available');
-                    }
-                  } else if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    return CircularProgressIndicator(); // Display a loading indicator
-                  } else {
-                    return Text('Data retrieval is not in progress');
-                  }
-                },
-              ),
-                ],
+                 Container(
+                        margin: GlobleglobleMargin.globleMargin,
+                        child: SizedBox(
+                          height: 600,
+                          child: ListView.builder(
+                            itemCount:1,
+                            itemBuilder: (context, index) {
+                              var faqItem = {"question": " satta game Khelo", "answer":"khelo sub" };
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SectionTitle(title: faqItem["question"] ?? ""),
+                                  SectionContent(content: faqItem["answer"]?? ""),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                      )
+       
+            ],
           ),
         ),
       ),

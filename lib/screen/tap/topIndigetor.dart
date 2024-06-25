@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:winner11/utilis/borderbox.dart';
-import 'package:winner11/utilis/boxSpace.dart';
-import 'package:winner11/utilis/fontstyle.dart';
 import 'package:winner11/utilis/globlemargin.dart';
 
 import '../../utilis/AllColor.dart';
@@ -52,8 +49,14 @@ class _IndigatorState extends State<Indigator> {
               color: myColorWhite,
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
               ),
-              child:  num== 2 ?  Icon(Icons.arrow_circle_down ,size:  isActive ? 15.0 : 10.0, color: myColor ) : 
-              Icon(Icons.arrow_forward ,size:  isActive ? 11.0 : 10.0, color: myColor ),
+              child:   num == 0
+    ? Icon(Icons.star, size: isActive ? 15.0 : 10.0, color: myColor)
+    : num == 1
+        ? Icon(Icons.group_add, size: isActive ? 11.0 : 10.0, color: myColor)
+        : num == 2
+            ? Icon(Icons.check_circle, size: isActive ? 13.0 : 10.0, color: myColor)
+            : Icon(Icons.error), // Default icon for unknown status
+              // Icon(Icons.arrow_forward ,size:  isActive ? 11.0 : 10.0, color: myColor ),
             ),
            ],
         ),

@@ -3,7 +3,8 @@ import 'package:winner11/screen/component/darkmode.dart';
 import 'package:winner11/screen/profile/profile.dart';
 import 'package:winner11/screen/profile/profile_model.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+
+import 'package:get/get.dart';
 
 import 'package:flutter/material.dart';
 import 'package:winner11/screen/component/custom_toaster.dart';
@@ -130,6 +131,8 @@ class _EditProfileState extends State<EditProfile> {
                                 emailController: emailController,
                             
                               );
+
+                              
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -177,7 +180,7 @@ TextEditingController?  nameController,
     uri: "/user_update_profile",
     data: editData,
   );
-print(result);
+
   // Update the widget state inside setState
   setState(() {
     dataProfile = result;

@@ -1,24 +1,24 @@
-import 'package:winner11/screen/component/pop.dart';
+
 import 'package:winner11/service/authapi.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 
 //contraction
-contractionDeviceInfo(context) async {
-  final ApiService apiService = ApiService();
+// contractionDeviceInfo(context) async {
+//   final ApiService apiService = ApiService();
   
-  var data = await apiService.userallGet(uri: "/toggle_get_user");
+//   var data = await apiService.userallGet(uri: "/toggle_get_user");
     
-  if (data["status"] == "200") {
+//   if (data["status"] == "200") {
     
-    if (data["data"]["status"] != "Active") {
+//     if (data["data"]["status"] != "Active") {
 
-      await DialogHelper.showInputDialog(context);
-    }
-  } else {
-    return null;
-  }
-}
+//       await DialogHelper.showInputDialog(context);
+//     }
+//   } else {
+//     return null;
+//   }
+// }
 
 Future<void> getDeviceInfo(context) async {
  

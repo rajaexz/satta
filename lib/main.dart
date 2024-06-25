@@ -1,10 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 
 import 'package:get/get.dart';
 
@@ -12,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:winner11/DataGet/notiLocal.dart';
 import 'package:winner11/firebase_options.dart';
 import 'package:winner11/routes/allRoutes.dart';
-import 'package:winner11/screen/component/statusBar.dart';
 import 'package:winner11/service/authapi.dart';
 import 'package:winner11/utilis/AllColor.dart';
 
@@ -50,23 +45,16 @@ _fcmConfigure() {
             themeController.isLightMode.value ? myColorWhite : myColor);
   });
 
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print("onLaunch: $message");
-    Get.snackbar(message.notification?.title ?? "No Title",
-        message.notification?.body ?? "No body",
-        snackPosition: SnackPosition.TOP,
-        backgroundColor:
-            themeController.isLightMode.value ? myColorWhite : myColor);
-  });
+  // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  //   print("onLaunch: $message");
+  //   Get.snackbar(message.notification?.title ?? "No Title",
+  //       message.notification?.body ?? "No body",
+  //       snackPosition: SnackPosition.TOP,
+  //       backgroundColor:
+  //           themeController.isLightMode.value ? myColorWhite : myColor);
+  // });
 
-  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    print("onResume: $message");
-    Get.snackbar(message.notification?.title ?? "No Title",
-        message.notification?.body ?? "No body",
-        snackPosition: SnackPosition.TOP,
-        backgroundColor:
-            themeController.isLightMode.value ? myColorWhite : myColor);
-  });
+
 }
 
 @pragma('vm:entry-point')
@@ -110,13 +98,11 @@ class _MyAppState extends State<MyApp> {
 
         // Retrieve notification count from SharedPreferences
         var currentNotiNumber = store.getInt('noti_number');
-  
+
         if (currentNotiNumber != notiController.noti_number.value) {
-        
           if (result.isNotEmpty) {
-           
             var lastElement = result.last;
-            var title = lastElement["tittle"];
+            var title = lastElement["title"];
 
             var dis = lastElement["description"];
             notiController.showNotification(title, dis);
@@ -124,7 +110,8 @@ class _MyAppState extends State<MyApp> {
             var checkWelcome = store.getString('checkWelcome');
 
             checkWelcome == "null" || checkWelcome == null
-                ? notiController.showNotification("Welcome", "Welcome to winner11")
+                ? notiController.showNotification(
+                    "Welcome", "Welcome to WINNERSATTA")
                 : null;
           }
         }
@@ -144,7 +131,7 @@ class _MyAppState extends State<MyApp> {
         initialRoute: '/splash',
         debugShowCheckedModeBanner: false,
         getPages: allRutes,
-        title: 'winner11',
+        title: 'winners11',
         builder: (context, child) {
           return MediaQuery(
             data: MediaQuery.of(context)
