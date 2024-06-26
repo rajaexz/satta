@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:winner11/screen/component/coundown.dart';
 import 'package:winner11/screen/component/custom_toaster.dart';
 import 'package:winner11/screen/component/darkmode.dart';
 
@@ -9,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:winner11/screen/component/imageComponet.dart';
 import 'package:winner11/screen/header/appbar.dart';
-import 'package:winner11/service/authapi.dart';
 import 'package:winner11/utilis/AllColor.dart';
 import 'package:winner11/utilis/borderbox.dart';
 import 'package:winner11/utilis/boxSpace.dart';
@@ -34,7 +32,6 @@ class _ShowProfileState extends State<ShowProfile> {
   File? pickedFile;
   bool _isLoading = true;
 
-  ApiService apiService = ApiService();
 Future<void> handlePickedImage() async {
   final pickedFile1 =
       await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -50,11 +47,7 @@ Future<void> handlePickedImage() async {
     const url = "/user_img_upload";
     pickedFile = File(pickedFile1.path);
 
-    var result = await apiService.userImageUpload(
-      panImage: pickedFile!,
-      id: id!,
-      url: url,
-    );
+    var result = "";
 
     _isLoading = false; // Move this line outside of the if (_isLoading) check
 
@@ -116,7 +109,7 @@ Future<void> handlePickedImage() async {
 
   @override
   Widget build(BuildContext context) {
-    final ApiService apiService = ApiService();
+
     double fem = MediaQuery.of(context).size.width / 390;
     final dynamic data = Get.arguments as dynamic;
 

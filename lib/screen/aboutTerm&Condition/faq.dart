@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:winner11/screen/component/treamsHeading.dart';
 import 'package:winner11/screen/header/appbar.dart';
 import 'package:winner11/screen/header/headerTop.dart';
-import 'package:winner11/service/authapi.dart';
+
 import 'package:winner11/utilis/boxSpace.dart';
 import 'package:winner11/utilis/globlemargin.dart';
 
@@ -25,7 +25,6 @@ Future<List<Step>> getSteps() async {
   return Future<List<Step>>.delayed(const Duration(seconds: 2), () => _items);
 }
 
-final ApiService apiService = ApiService();
 
 class Steps extends StatelessWidget {
   const Steps({Key? key}) : super(key: key);

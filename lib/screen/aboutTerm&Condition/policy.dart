@@ -15,7 +15,7 @@ class Privacy extends StatefulWidget {
 }
 
 class _TarmAndState extends State<Privacy> {
-    final ApiService apiService = ApiService();
+ 
   @override
   Widget build(BuildContext context) {
     final mQ = MediaQuery.of(context).size;

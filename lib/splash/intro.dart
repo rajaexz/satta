@@ -45,7 +45,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((_) async {
-      await contractionDeviceInfo(context);
+      // await contractionDeviceInfo(context);
       await getDeviceInfo(context);
     });
   }

@@ -1,10 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:winner11/screen/component/headNavi.dart';
+
 import 'package:winner11/screen/component/treamsHeading.dart';
 import 'package:winner11/screen/header/appbar.dart';
-import 'package:winner11/service/authapi.dart';
-import 'package:winner11/utilis/AllColor.dart';
+
 import 'package:winner11/utilis/boxSpace.dart';
 import 'package:winner11/utilis/globlemargin.dart';
 class TarmAnd extends StatefulWidget {
@@ -15,7 +14,7 @@ class TarmAnd extends StatefulWidget {
 }
 
 class _TarmAndState extends State<TarmAnd> {
-    final ApiService apiService = ApiService();
+
   @override
   Widget build(BuildContext context) {
     final mQ = MediaQuery.of(context).size;

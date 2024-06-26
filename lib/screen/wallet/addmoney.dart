@@ -6,7 +6,7 @@ import 'dart:typed_data';
 
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:winner11/DataGet/notiLocal.dart';
+
 import 'package:winner11/screen/component/custom_toaster.dart';
 
 import 'package:winner11/screen/component/profileContainer.dart';
@@ -25,7 +25,7 @@ import 'package:winner11/screen/header/appbar.dart';
 import 'package:winner11/utilis/AllColor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final ValueController valueController = Get.put(ValueController());
+
 
 class Addmoney extends StatefulWidget {
   Addmoney({Key? key}) : super(key: key);
@@ -75,7 +75,7 @@ class _AddmoneyState extends State<Addmoney> {
                         onChanged: (newValue) {
                           inputdata = newValue;
                           try {
-                            valueController.maoney.value = int.parse(newValue);
+                            // valueController.maoney.value = int.parse(newValue);
                           } catch (e) {
                             // Handle the case where the input is not a valid integer
                           }
@@ -184,12 +184,7 @@ class _MyUpiState extends State<MyUpi> {
   bool isApiRequestInProgress = false;
    late Razorpay _razorpay;
   hitApi(id, response) async {
-    await apiService.userallType(data: {
-      "id": id,
-      "trans_id": response.orderId.toString(),
-      "money": valueController.maoney.value,
-      "payment_status": "success"
-    }, uri: "/add_money");
+   
   }
 
   Future<void> tapPayhitApi() async {
@@ -197,14 +192,14 @@ class _MyUpiState extends State<MyUpi> {
        final store = await SharedPreferences.getInstance();
     setState(() {
       isSLoading = true; // Start loading
-      orderId = valueController.generateOrderId();
+      orderId = "0";
     });
 
    
       store.setString("stOrderId", orderId) ;
     var url = 'http://sky11live.com/nodeserver/checkTapPay.php';
     var data = {
-      'amount': '${valueController.maoney.value}',
+      'amount': '0',
       'currency': 'IND',
       'email': 'Winner@gmail.com',
       'phone': '7011448878',
@@ -252,47 +247,7 @@ class _MyUpiState extends State<MyUpi> {
      }
 
   void performStatusCheck() async {
-    if (isApiRequestInProgress) {
-    return; // Exit if success has already been processed
-  }
-    try {
-      var response = await valueController.checkStatus(orderId: orderId);
-
-
-        final store = await SharedPreferences.getInstance();
-        final id = store.getString("userId") ?? '';
-       stOrderId = store.getString("stOrderId")!;
-     if(stOrderId == orderId){
-        
-      if (response['txn_status'] == "PENDING") {
-   
-        return;
-      }else if (response['txn_status'] == "SUCCESS") {
-    
-        var data  = await apiService.userallType(data: {
-          "id": id,
-          "trans_id": orderId,
-          "money": valueController.maoney.value,
-          "payment_status": "success"
-        }, uri: "/add_money");
-
-        
-    isApiRequestInProgress = true; // Mark the API request as started
-
-        if (data != null) {
-          CustomToaster.showSuccess(context, "Payment successful");
-        } else {
-          CustomToaster.showWarning(context, "Error processing payment.");
-        }
-      }
-     }else{
-          CustomToaster.showWarning(context, "Error processing payment.");
-     }
-
-    } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Error: $e')));
-    }
+  
   }
 
 
@@ -346,7 +301,7 @@ class _MyUpiState extends State<MyUpi> {
   void _startPayment() async {
     var options = {
       'key': 'rzp_test_UsSB8qTArOcYxL',
-      'amount': (valueController.maoney * 100)
+      'amount': (1 * 100)
           .toString(), // amount in the smallest currency unit (e.g., paise)
       'name': 'WINNER11',
       'description': 'Payment for your product or service',

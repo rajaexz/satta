@@ -17,41 +17,26 @@ class AllHestory extends StatefulWidget {
 }
 
 class _AllHestoryState extends State<AllHestory> {
-  ApiService apiService = ApiService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: "Wallet History"),
       body: Container(
         margin: GlobleglobleMargin.Margin10H,
-        child: FutureBuilder(
-          future: apiService.userAllDoc(uri: "/transaction_history"),
-          builder: (BuildContext context, snapshot) {
-            try {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-
-                final data =
-                    (snapshot.data as Map<String, dynamic>)['data']["result"];
-                final reversedData =
-                    List.from(data.reversed); // Reverse the data list
-                final itemCount = reversedData
-                    .length; // Set itemCount to a maximum of 5 items
-
-                if (data != null) {
-                  return ListView.builder(
+        child:
+        
+           ListView.builder(
                     itemCount:
-                        itemCount, // Use 'data' instead of 'widget.data'
+                        1, // Use 'data' instead of 'widget.data'
                     itemBuilder: (context, index) {
-                      Map<String, dynamic> item = reversedData[index];
                   
-                      DateTime dateTime = DateTime.parse(item["timestamps"]);
+                  
+                      DateTime dateTime = DateTime.parse("timestamps");
                       String day =
-                          "${dateTime.day}-${dateTime.month}-${dateTime.year}";
+                          "${3}-${6}-${2000}";
                       String time =
-                          "${dateTime.hour}:${dateTime.minute}:${dateTime.second}";
+                          "${3}-${6}-${2000}";
                   
                       return Obx(
                         () => Container(
@@ -73,7 +58,7 @@ class _AllHestoryState extends State<AllHestory> {
                           child: Column(
                             children: [
                               Text(
-                                item["transaction_id"].toString(),
+                              "transaction_id".toString(),
                                 style: TextStyle(
                                     fontSize: 10, color: myColorGray),
                               ),
@@ -89,7 +74,7 @@ class _AllHestoryState extends State<AllHestory> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        item["payment_status"] != "FAILURE"
+                                "payment_status" != "FAILURE"
                                             ? const Icon(
                                                 Icons.check_circle_outline,
                                                 size: 20,
@@ -120,11 +105,11 @@ class _AllHestoryState extends State<AllHestory> {
                                   Column(
                                     children: [
                                       Text(
-                                        item["trans_type"].toString(),
+                                        "trans_type".toString(),
                                         style: CustomStyles.textExternel,
                                       ),
                                       Text(
-                                        " ₹${item["money"].toString()}",
+                                        " ₹${"money".toString()}",
                                         style: CustomStyles.textExternel,
                                       ),
                                     ],
@@ -132,7 +117,7 @@ class _AllHestoryState extends State<AllHestory> {
                                 ],
                               ),
                               Text(
-                                item["payment_status"].toString(),
+                           "payment_status".toString(),
                                 style: TextStyle(color: myColorgreen),
                               )
                             ],
@@ -140,21 +125,8 @@ class _AllHestoryState extends State<AllHestory> {
                         ),
                       );
                     },
-                  );
-                } else {
-                  return Text('No data available');
-                }
-              } else if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator(); // Display a loading indicator
-              } else {
-                return Text('Data retrieval is not in progress');
-              }
-            } catch (e) {
-              return Text('Error: $e'); // Handle other errors
-            }
-          },
-        ),
-      ),
+                  )
+               ),
     );
   }
 }

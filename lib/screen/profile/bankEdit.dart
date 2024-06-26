@@ -128,7 +128,7 @@ class _BankEditState extends State<BankEdit> {
 TextEditingController?  bankAccountController,
  TextEditingController? ifscCodeController,
 }) async {
-  ApiService apiService = ApiService();
+
   final store = await SharedPreferences.getInstance();
   var id = store.getString("userId");
 
@@ -144,10 +144,7 @@ TextEditingController?  bankAccountController,
     "bank_name": bankNameController.text,
   };
 
-  var bankProfile = await apiService.userallType(
-    uri: "/add_bank_account",
-    data: editDataBank,
-  );
+  var bankProfile = "";
 
   if (bankProfile != "nodata") {
     CustomToaster.showSuccess(context, "Add Bank Edit Successfully $bankProfile");

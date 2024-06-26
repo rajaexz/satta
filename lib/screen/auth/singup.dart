@@ -30,7 +30,7 @@ class SignupPage extends StatelessWidget {
               Column(
                 crossAxisAlignment: AlignmentStartCross,
                 children: [
-                  Text("Sign up on WINNERSATTA App",
+                  Text("Sign up on SATTA App",
                       style: CustomStyles.headerTextStyle),
                   size10h,
                   Text("Get 50 Coins on  Sign up",
@@ -63,7 +63,6 @@ class SignupPage extends StatelessWidget {
                           return null;
                         },
                       ),
-                  
                       TextFormField(
                         controller: signupController.passwordController,
                         decoration: InputDecoration(labelText: 'Password'),
@@ -75,16 +74,17 @@ class SignupPage extends StatelessWidget {
                           return null;
                         },
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       GestureDetector(
                         onTap: () {
-                          if (signupController.formKey.currentState!.validate()) {
+                          if (signupController.formKey.currentState!
+                              .validate()) {
                             signupController.signup();
-                          }
+                          } else {}
                         },
                         child: Container(
                           alignment: Alignment.center,
-                          decoration:  BoxDecoration(
+                          decoration: BoxDecoration(
                               color: myColorRed,
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(20))),
@@ -104,19 +104,18 @@ class SignupPage extends StatelessWidget {
                           return Container();
                         }
                       }),
-        
-                        Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Already have an account? '),
-                      TextButton(
-                        onPressed: () {
-                          Get.to(() => Loginpage());
-                        },
-                        child: Text('Login'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('Already have an account? '),
+                          TextButton(
+                            onPressed: () {
+                              Get.to(() => Loginpage());
+                            },
+                            child: Text('Login'),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
                     ],
                   ),
                 ),

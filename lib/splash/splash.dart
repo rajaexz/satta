@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:winner11/screen/component/deviceInfo.dart';
 import 'package:winner11/screen/tap2/myGame.dart';
+
 import 'package:winner11/utilis/boxSpace.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,7 +12,9 @@ import 'package:winner11/utilis/globlemargin.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../network/storage_repository.dart';
 import '../utilis/AllColor.dart';
+import '../utilis/app_constant.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -26,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen>
   final _splashDelay = 3000;
   late AnimationController _animationController;
 
-  String? allreadyExit;
+  String? token;
   String? Intro;
   @override
   void initState() {
@@ -40,8 +43,8 @@ class _SplashScreenState extends State<SplashScreen>
 
   _loadWidget() async {
     final store = await SharedPreferences.getInstance();
-    allreadyExit = store.getString('userId');
-    Intro = store.getString('into');
+    token = store.getString(AppConstant.tokenKey);
+    Intro = store.getString(AppConstant.isinto);
     var duration = Duration(milliseconds: _splashDelay);
 
     return Timer(duration, navigationPage);
@@ -52,9 +55,7 @@ class _SplashScreenState extends State<SplashScreen>
       Get.offNamed("/intro");
     } else {
       final store = await SharedPreferences.getInstance();
-      allreadyExit != null
-          ? Get.offNamed("/home", arguments: store.getString("userId"))
-          :  Get.offNamed("/home", arguments: store.getString("userId"));
+      token != null ? Get.offNamed("/home") : Get.offNamed("/login");
     }
   }
 
@@ -71,19 +72,15 @@ class _SplashScreenState extends State<SplashScreen>
       body: SafeArea(
         child: Container(
           alignment: Alignment.center,
-         
-        height: 600,
+          height: 600,
           child: Center(
-          
               child: ScaleTransition(
                   scale: _animationController,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                 
                     children: [
                       Center(
                         child: Container(
-                                             
                           decoration: BoxDecoration(
                             image: const DecorationImage(
                               image: AssetImage("assets/splash.jpeg"),
@@ -95,8 +92,6 @@ class _SplashScreenState extends State<SplashScreen>
                           width: 200, // Set the width as needed
                         ),
                       ),
-                        
-         
                     ],
                   ))),
         ),

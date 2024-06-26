@@ -9,10 +9,11 @@ import 'package:winner11/utilis/boxSpace.dart';
 
 import 'package:winner11/utilis/fontstyle.dart';
 
+import '../../network/storage_repository.dart';
 import '../../service/authapi.dart';
 
 final ThemeController themeController = Get.put(ThemeController());
-Drawer myDrawer(context, id) {
+Drawer myDrawer(context) {
   List<Widget> listTiles = [];
   List<Widget> listData = [];
   List<Widget> impotent = [];
@@ -127,7 +128,7 @@ Drawer myDrawer(context, id) {
       ),
     );
   }
-  final ApiService apiService = ApiService();
+
   return Drawer(
     child: Obx(
       () => Column(
@@ -135,7 +136,7 @@ Drawer myDrawer(context, id) {
           Expanded(
             child: Column(
               children: [
-         profileInfo(),
+                profileInfo(),
                 Container(
                   margin: EdgeInsets.all(13),
                   decoration: BoxDecoration(
@@ -194,12 +195,8 @@ Drawer myDrawer(context, id) {
                       EdgeInsets.symmetric(horizontal: 30, vertical: 10))),
               isSemanticButton: true,
               onPressed: () {
-                // showDialog(
-                //   context: context,
-                //   builder: (BuildContext context) {
-                //     return CustomPopupDialog2(); // Custom pop-up widget
-                //   },
-                // );
+                StorageRepository.destroyOfflineStorage();
+                Get.toNamed('/login');
               },
               child: Text(
                 "Logout",
@@ -230,18 +227,16 @@ profileInfo() {
               margin: const EdgeInsets.only(bottom: 10, top: 100),
               child: const CircleAvatar(
                   radius: 50.0,
-                  backgroundImage: AssetImage(
-                      "assets/logo.jpeg")),
+                  backgroundImage: AssetImage("assets/logo.jpeg")),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("7011448878" ,
+                Text("7011448878",
                     softWrap: true,
                     overflow: TextOverflow.ellipsis,
                     style: CustomStyleswhite.headerTextStyle),
-                Text("raja "?? "",
-                    style: CustomStyles.textExternelgray),
+                Text("raja " ?? "", style: CustomStyles.textExternelgray),
                 size20h
               ],
             )

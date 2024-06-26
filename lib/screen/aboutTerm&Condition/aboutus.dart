@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:winner11/screen/component/headNavi.dart';
-import 'package:winner11/screen/component/shimmer.dart';
+
 import 'package:winner11/screen/component/treamsHeading.dart';
 import 'package:winner11/screen/header/appbar.dart';
-import 'package:winner11/service/authapi.dart';
-import 'package:winner11/utilis/AllColor.dart';
-import 'package:winner11/utilis/fontstyle.dart';
+
 import 'package:winner11/utilis/globlemargin.dart';
 
 class Myaboutus extends StatefulWidget {
@@ -18,7 +15,7 @@ class Myaboutus extends StatefulWidget {
 class _MyaboutusState extends State<Myaboutus> {
   @override
     Widget build(BuildContext context) {
-          final ApiService apiService = ApiService();
+    
     final mQ = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -26,11 +23,7 @@ class _MyaboutusState extends State<Myaboutus> {
           title: "About Us",
         ),
         body: SingleChildScrollView(
-           child:    FutureBuilder(
-          future:
-              apiService.userAllDoc( uri: '/user_about_us'),
-          builder: (context, snapshot) {
-       return     Column(
+           child:        Column(
               children: [
                 Container(
                   margin: GlobleglobleMargin.globleMargin,
@@ -45,10 +38,8 @@ class _MyaboutusState extends State<Myaboutus> {
                 )
               
                  ],
-            );
-  
-              },
-                )
+            )
+ 
           ),
       ),
     );

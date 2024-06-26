@@ -1,5 +1,5 @@
 import 'package:winner11/screen/auth/singup.dart';
-import 'package:winner11/screen/live/live.dart';
+
 import 'package:winner11/screen/profile/bankEdit.dart';
 
 import 'package:get/get.dart';
@@ -149,9 +149,5 @@ var allRutes = [
 
   
 
-  GetPage(
-      name: "/live",
-      page: () => const LiveScores(),
-      transitionDuration: Duration(milliseconds: 500),
-      transition: Transition.leftToRightWithFade)
+
 ];

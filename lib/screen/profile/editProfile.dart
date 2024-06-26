@@ -165,7 +165,6 @@ TextEditingController?  nameController,
   TextEditingController? emailController,
  
 }) async {
-  ApiService apiService = ApiService();
   final store = await SharedPreferences.getInstance();
   var id = store.getString("userId");
 
@@ -176,10 +175,7 @@ TextEditingController?  nameController,
   };
 
 
-   var result = await apiService.userallType(
-    uri: "/user_update_profile",
-    data: editData,
-  );
+   var result = "";
 
   // Update the widget state inside setState
   setState(() {

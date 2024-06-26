@@ -110,7 +110,7 @@ class _UpCommingState extends State<UpComming> {
   }
 
   final ThemeController themeController = Get.put(ThemeController());
-  final ApiService apiService = ApiService();
+
   final String? id = Get.arguments as String?;
   @override
   Widget build(BuildContext context) {

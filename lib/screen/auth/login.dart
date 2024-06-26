@@ -146,8 +146,8 @@ class _LoginpageState extends State<Loginpage> {
                             color: Colors.red,
                           ): _buildLoginBtn(
                             context: context,
-                            phController: phoneController.text,
-                            pass: pass.text,
+                            phController: phoneController,
+                            pass: pass,
                             colors: myColorRed),
                         
                   ],
@@ -160,7 +160,7 @@ class _LoginpageState extends State<Loginpage> {
                       onPressed: () {
                         Get.to(() => SignupPage());
                       },
-                      child: const Text('Login'),
+                      child: const Text('Signup'),
                     ),
                   ],
                 ),
@@ -172,14 +172,19 @@ class _LoginpageState extends State<Loginpage> {
     );
   }
 
-  Widget _buildLoginBtn({context, phController, pass, Color? colors}) {
+  Widget _buildLoginBtn({
+    required BuildContext context,
+    required TextEditingController phController,
+    required TextEditingController pass,
+    required Color colors,
+  }) {
     return GestureDetector(
       onTap: () async {
         if (formKey.currentState!.validate()) {
-          loginController.login(mobile: phController, password: pass);
+          loginController.login(mobile: phController.text, password: pass.text);
         } else {
           CustomToaster.showWarning(
-              context, "Something went wrong All field are requare ");
+              context, "Something went wrong. All fields are required.");
         }
       },
       child: Container(

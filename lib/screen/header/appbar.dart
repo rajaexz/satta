@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winner11/DataGet/notiLocal.dart';
+
 import 'package:winner11/screen/component/darkmode.dart';
 import 'package:winner11/screen/component/imageComponet.dart';
 import 'package:winner11/screen/wallet/wallet.dart';
@@ -15,40 +15,21 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> actions;
 
   final ThemeController themeController;
-  final NotiController notiController;
+
 
   CustomAppBar({
     required this.title,
     this.actions = const [],
-  })   : themeController = Get.put(ThemeController()),
-        notiController = Get.put(NotiController());
+  })   : themeController = Get.put(ThemeController());
   var currentNotiNumber ;
 
-
-  Future<void> fetchData() async {
-    try {
-      final ApiService apiService = ApiService();
-      final data = await apiService.userallGet(uri: "/notification_get_user");
-
-      var result = data["data"]["result"];
-      notiController.updateNotificationCount(result);
-
-      final store = await SharedPreferences.getInstance();
-       currentNotiNumber = store.getInt('noti_number');
-          
-       print(currentNotiNumber);
-        print(notiController.noti_number.value);
-    } catch (e) {
-      print('Error fetching data: $e');
-    }
-  }
 
   @override
   Size get preferredSize => Size.fromHeight(56.0);
 
   @override
   Widget build(BuildContext context) {
-    fetchData(); // Consider moving this to an init method
+
 
     return AppBar(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -126,8 +107,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             themeController.toggleTheme();
           },
         ),
-        Obx(
-           ()=>Stack(
+             Stack(
             children: [
                IconButton(
                 icon: Icon(
@@ -139,14 +119,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   Get.toNamed('/myNoti');
                 },
               ),
-               Positioned(
-                top: 10,
-                left: 10,
-                child:   currentNotiNumber != notiController.noti_number.value ? Container(height: 5, width:  5, decoration: BoxDecoration(borderRadius: boRadiusAll, color: myColor),) : const Text(""),)
-         
+            
             ],
           ),
-        )
+      
       ],
     );
   }

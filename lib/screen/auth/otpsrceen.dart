@@ -1,24 +1,23 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:winner11/screen/auth/controller/authController.dart';
-import 'package:winner11/screen/component/deviceInfo.dart';
-import 'package:winner11/screen/component/pop.dart';
-import 'package:winner11/screen/component/trancetionId.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+
+
 
 import 'package:get/get.dart';
-import 'package:winner11/DataGet/formGet.dart';
+
 import 'package:winner11/routes/Api.dart';
-import 'package:winner11/screen/component/custom_toaster.dart';
+
 import 'package:winner11/utilis/AllColor.dart';
 import 'package:pinput/pinput.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../service/authapi.dart';
+
 import 'package:flutter/material.dart';
-import 'package:jwt_decode/jwt_decode.dart';
+
 
 class OtpPage extends StatefulWidget {
-  const OtpPage({super.key});
+  int? mobile ;
+   OtpPage({super.key,   this.mobile});
 
   @override
   State<OtpPage> createState() => _OtpPageState();
@@ -33,10 +32,10 @@ class _OtpPageState extends State<OtpPage> {
   var code = "";
   final themeSMS = Get.put(SmsController());
   //api
-  final ApiService apiService = ApiService();
+  
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((_) async {
-      await contractionDeviceInfo(context);
+      // await contractionDeviceInfo(context);
     });
   }
 
@@ -121,8 +120,8 @@ class _OtpPageState extends State<OtpPage> {
                         //json decode
                         WidgetsBinding.instance
                             ?.addPostFrameCallback((_) async {
-                          if (_isLoading)
-                            showProgressDialog(context, 'Process Bar...');
+                          // if (_isLoading)
+                            // showProgressDialog(context, 'Process Bar...');
                         });
                         final store = await SharedPreferences.getInstance();
                         try {

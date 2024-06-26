@@ -22,7 +22,7 @@ import 'package:flutter/material.dart';
 
 Future<void> getDeviceInfo(context) async {
  
-  final ApiService apiService = ApiService();
+ 
 
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   AndroidDeviceInfo androidInfo;
@@ -35,12 +35,7 @@ Future<void> getDeviceInfo(context) async {
       deviceId = androidInfo.androidId;
       deviceName = androidInfo.model;
       if (androidInfo != "" && deviceId != "" && deviceName != "") {
-        var demo = await apiService.userallType(data: {
-          "device_name": deviceName.toString(),
-          "device_id": deviceId.toString(),
-          "imei": "${androidInfo.product}mplmydevices"
-        }, uri: "/download_app_api");
-          
+        var demo = {};
       } else {
         return;
       }
@@ -50,11 +45,7 @@ Future<void> getDeviceInfo(context) async {
       deviceName = iosInfo.utsname.machine;
 
       if (iosInfo != "" && deviceId != "" && deviceName != "") {
-        var demo = await apiService.userallType(data: {
-          "device_name": deviceName.toString(),
-          "device_id": deviceId.toString(),
-          "imei": iosInfo.toString()
-        }, uri: "/download_app_api");
+        var demo ={};
       } else {
         return;
       }

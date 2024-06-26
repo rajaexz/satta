@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../service/authapi.dart';
-    final ApiService apiService = ApiService();
+
 class CustomToaster {
   // static void showSuccess(BuildContext context, String message) {
   //   _showToast(context, message, Colors.green);
@@ -68,28 +68,7 @@ Future<void> showPopup(context) async {
         contentPadding: EdgeInsets.zero,
         content: 
         
-        FutureBuilder(
-  future: apiService.userAllDoc(uri: "/popup_get_user"),
-  builder: (context, snapshot) {
-    try {
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        // While the future is still running, display a loading indicator
-        return  Container(
-      height: 200,
-      child: const CircularProgressIndicator());
-      } else if (snapshot.hasError) {
-        // If an error occurred, display an error message
-        return Text('Error: ${snapshot.error}');
-      } else {
-      
-        // Data has been successfully fetched
-        final data = (snapshot.data as Map<String, dynamic>)["data"]["result"];
-
-        if (data == null || data.isEmpty) {
-          return const Text("");
-        }
-
-     return SizedBox(
+       SizedBox(
               width: double.maxFinite,
               child: Stack(
                 children: [
@@ -97,12 +76,12 @@ Future<void> showPopup(context) async {
                   GestureDetector(
                     onTap: (){
                      
-                  launchUrl(Uri.parse(data["url"]));
+                  launchUrl(Uri.parse("https://google.com"));
 
 
                     },
                     child: Image.network(
-                      'https://winners11.in/images/${data["image"]}',
+                      'https://google.com',
                       fit: BoxFit.fitHeight,
                       height: 200,
                       // Adjust the height as needed
@@ -122,21 +101,8 @@ Future<void> showPopup(context) async {
                   ),
                 ],
               ),
-            );
-       
-        
-    }
-    } catch (e) {
-      return  Scaffold(body: 
-      
-      
-    Container(
-      height: 200,
-      child: CircularProgressIndicator()));
-      // Handle network-related errors here, show a message to the user, etc.
-    }
-  },
-),
+            )
+ 
 
         
         
