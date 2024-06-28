@@ -255,7 +255,7 @@ class _UpCommingState extends State<UpComming> {
                             ),
                             child: Container(
                               width: 260,
-                              child: Text(
+                              child: const Text(
                                 "Star Morning",
                                 overflow: TextOverflow.ellipsis,
                               ),

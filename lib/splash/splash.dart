@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen>
     if (Intro == "0" || Intro == null) {
       Get.offNamed("/intro");
     } else {
-      final store = await SharedPreferences.getInstance();
+    
       token != null ? Get.offNamed("/home") : Get.offNamed("/login");
     }
   }
