@@ -142,7 +142,7 @@ class SingleDigitPage extends StatelessWidget {
              shadowColor: Colors.black,
                   backgroundColor: Colors.red[900],
                 ),
-                child: const Text('Submit'),
+                child: const Text('Submit',style: TextStyle(color: Colors.white),),
               ),
             ],
           ),

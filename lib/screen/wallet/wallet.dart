@@ -17,14 +17,14 @@ class MyWallet extends StatefulWidget {
 class _MyWalletState extends State<MyWallet> {
   @override
   Widget build(BuildContext context) {
-
     return SingleChildScrollView(
       child: Container(
         margin: GlobleglobleMargin.globleMargin,
         alignment: Alignment.center,
         child: Column(
           children: [
-       Text("₹1", style: CustomStyles.headerTextStyle),ElevatedButton(
+            Text("₹1", style: CustomStyles.headerTextStyle),
+            ElevatedButton(
               onPressed: () {
                 Get.toNamed("/addMoney");
               },
@@ -45,7 +45,6 @@ class _MyWalletState extends State<MyWallet> {
                   children: [
                     Row(
                       children: [
-                    
                         size10w,
                         const Icon(
                           Icons.info_outline,
@@ -55,10 +54,9 @@ class _MyWalletState extends State<MyWallet> {
                     )
                   ],
                 ),
-            
                 size20h,
                 const Myhestory(
-                  data: [],
+                 
                 )
               ],
             ),

@@ -16,13 +16,18 @@ import 'package:winner11/screen/profile/editProfile.dart';
 import 'package:winner11/screen/profile/profile.dart';
 import 'package:winner11/screen/setting/Setting.dart';
 import 'package:winner11/screen/setting/more.dart';
+import 'package:winner11/screen/tap1/starline_game.dart';
 import 'package:winner11/screen/wallet/AllHestory.dart';
+import 'package:winner11/screen/wallet/transfer_point.dart';
 import 'package:winner11/screen/wallet/wallet.dart';
+import 'package:winner11/screen/wallet/winHestory.dart';
 import 'package:winner11/screen/wallet/withdraw.dart';
 import 'package:winner11/splash/intro.dart';
 import 'package:winner11/splash/splash.dart';
 
+
 import '../screen/aboutTerm&Condition/policy.dart';
+import '../screen/wallet/BitHestory.dart';
 import '../screen/wallet/addmoney.dart';
 
 var allRutes = [
@@ -87,6 +92,13 @@ var allRutes = [
       page: () => KYC(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
+GetPage(
+      name: "/StarlineGame",
+      page: () => StarlineGamePage(),
+      transitionDuration: Duration(milliseconds: 500),
+      transition: Transition.leftToRightWithFade),
+
+      
   GetPage(
       name: "/bank",
       page: () => BankEdit(),
@@ -97,8 +109,25 @@ var allRutes = [
   GetPage(
       name: "/showProfile",
       page: () => ShowProfile(),
-      transitionDuration: Duration(milliseconds: 500),
-      transition: Transition.leftToRightWithFade),
+      transitionDuration: Duration(milliseconds: 200),
+      transition: Transition.fadeIn),
+
+        GetPage(
+      name: "/bitHestory",
+      page: () => const BitHestory(),
+      transitionDuration: Duration(milliseconds: 200),
+      transition: Transition.fadeIn),
+ GetPage(
+      name: "/winHestory",
+      page: () => const WinHestory(),
+      transitionDuration: Duration(milliseconds: 200),
+      transition: Transition.fadeIn),
+
+  GetPage(
+      name: "/transfer",
+      page: () => TransferPage(),
+      transitionDuration: Duration(milliseconds: 200),
+      transition: Transition.fadeIn),
 
   GetPage(
       name: "/editProfile",

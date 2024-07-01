@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:winner11/banner/banner.dart';
 import 'package:winner11/banner/banner_Model.dart';
 import 'package:winner11/screen/component/deviceInfo.dart';
@@ -77,7 +79,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     'assets/onboarding2.jpg',
     'assets/onboarding0.jpg',
   ];
-
+ScrollController _scrollController = ScrollController();
+bool _showButton = false; 
   @override
   Widget build(BuildContext context) {
     List<String> banners = imageUrls.map((url) => url).toList();
@@ -90,10 +93,19 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         ),
         drawer: myDrawer(context),
         body: SingleChildScrollView(
+
+          controller: _scrollController,
           child: Column(
             children: [
               //banner----------------------------------------------------
-
+_showButton
+                ? ElevatedButton(
+                    onPressed: () {
+                      // Handle button press
+                    },
+                    child: Text('Button'),
+                  )
+                : SizedBox.shrink(),
               BannerAdd(banners: banners, currentSlide: banners.length),
               Container(
                 margin: GlobleglobleMargin.globleMargin,

@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 import 'package:winner11/screen/component/iconStatus.dart';
 import 'package:winner11/screen/header/appbar.dart';
-import 'package:winner11/service/authapi.dart';
+import 'package:winner11/screen/wallet/wallet_controller.dart/bit_hestory_controller.dart';
+import 'package:winner11/screen/wallet/wallet_controller.dart/win_hestory_controller.dart';
+
 import 'package:winner11/utilis/AllColor.dart';
 import 'package:winner11/utilis/borderbox.dart';
 import 'package:winner11/utilis/boxSpace.dart';
@@ -10,21 +12,18 @@ import 'package:winner11/utilis/globlemargin.dart';
 import 'package:flutter/material.dart';
 import 'package:winner11/screen/wallet/walletHestory.dart';
 
-import 'wallet_controller.dart/all_hestory_controller.dart';
 
-
-
-class AllHestory extends GetView<AllHestoryController> {
-  const AllHestory({Key? key}) : super(key: key);
+class WinHestory extends GetView<WinHestoryController> {
+  const WinHestory({Key? key}) : super(key: key);
 
   Widget build(BuildContext context) {
-    Get.put(AllHestoryController());
+    Get.put(WinHestoryController());
 
     return Scaffold(
       appBar : CustomAppBar(title: "Wallet History"),
-      body: GetBuilder<AllHestoryController>(
+      body: GetBuilder<WinHestoryController>(
         init: controller,
-        builder: (controller) => AllHestoryView(
+        builder: (controller) => WinHestoryView(
           controller: controller,
         ),
       ),
@@ -33,27 +32,23 @@ class AllHestory extends GetView<AllHestoryController> {
 }
 
 
-class AllHestoryView extends StatelessWidget {
+// ignore: must_be_immutable
+class WinHestoryView extends StatelessWidget {
 
- AllHestoryController? controller;
-   AllHestoryView({super.key, this.controller});
+ WinHestoryController? controller;
+   WinHestoryView({super.key, this.controller});
 
    @override
   Widget build(BuildContext context) {
        
      if (controller!.isLoading.value) {
           return Center(child: CircularProgressIndicator());
-        } else if (controller!.withdrawData.value == null) {
+        } else if (controller!.wingames.isEmpty) {
           return Center(child: Text('Error fetching data'));
         } else {
   return   Column(
         children: [
-          Text('Available Points: ${controller!.withdrawData.value!.availablePoints ?? ""}'),
-                SizedBox(height: 10),
-                Text('Withdraw Open Time: ${controller!.withdrawData.value!.withdrawOpenTime ?? ""}'),
-                SizedBox(height: 10),
-                Text('Withdraw Close Time: ${controller!.withdrawData.value!.withdrawCloseTime ?? ""}'),
-                SizedBox(height: 20),
+       
           Container(
             height: Get.height* 0.8,
             margin: GlobleglobleMargin.Margin10H,
@@ -61,19 +56,19 @@ class AllHestoryView extends StatelessWidget {
             
                ListView.builder(
                       
-                         itemCount: controller!.withdrawData.value!.statement.length,
+                         itemCount: controller!.wingames.length,
                     itemBuilder: (context, index) {
                       
                       
                           
                       
-                              final item = controller!.withdrawData.value!.statement[index];
+                              final item = controller!.wingames[index];
                      
               return    
               
               
                Container(
-                              height: 100,
+                              height: 150,
                               margin: const EdgeInsets.all(9),
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
@@ -91,7 +86,7 @@ class AllHestoryView extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Text(
-                                  item.transStatus,
+                                  item.gameType,
                                     style: TextStyle(
                                         fontSize: 10, color: myColorGray),
                                   ),
@@ -107,13 +102,13 @@ class AllHestoryView extends StatelessWidget {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                    getStatusIcon(item.transStatus),
+                                  
                                             size10w,
                                             Column(
                                               children: [
                                                 //time
                                                 Text(
-                                                  item.transDet.toString(),
+                                                  item.gameType.toString(),
                                                   style:
                                                       CustomStyles.smallTextStyle,
                                                 ),
@@ -125,12 +120,16 @@ class AllHestoryView extends StatelessWidget {
                                       ),
                                       Column(
                                         children: [
-                                          Text(
-                                             item.transType.toString(),
+                                            Text(
+                                             item.closePanna.toString(),
                                             style: CustomStyles.textExternel,
                                           ),
                                           Text(
-                                            " ₹${ item.points.toString()}",
+                                             item.closeDigit.toString(),
+                                            style: CustomStyles.textExternel,
+                                          ),
+                                          Text(
+                                            " ₹${ item.bidPoints.toString()}",
                                             style: CustomStyles.textExternel,
                                           ),
                                         ],
@@ -138,7 +137,7 @@ class AllHestoryView extends StatelessWidget {
                                     ],
                                   ),
                                   Text(
-                               "payment_status".toString(),
+                            item.winPoints.toString(),
                                     style: TextStyle(color: myColorgreen),
                                   )
                                 ],

@@ -1,9 +1,12 @@
-
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:winner11/screen/component/darkmode.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:winner11/screen/component/custom_toaster.dart';
 import 'package:winner11/screen/header/headerTop.dart';
+import 'package:winner11/screen/tap1/controller/upcomming_controller.dart';
 import 'package:winner11/screen/tap2/myGame.dart';
 import 'package:winner11/service/authapi.dart';
 import 'package:winner11/utilis/AllColor.dart';
@@ -11,103 +14,26 @@ import 'package:winner11/utilis/boxSpace.dart';
 import 'package:winner11/utilis/fontstyle.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:winner11/screen/wallet/wallet.dart';
-
-import '../component/coundown.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class GameBid {
-  final String gameId;
-  final String gameType;
-  final String session;
-  final String bidPoints;
-  final String openDigit;
-  final String closeDigit;
-  final String openPanna;
-  final String closePanna;
+class UpComming extends GetView<GameBidController> {
+  const UpComming({Key? key}) : super(key: key);
 
-  GameBid({
-    required this.gameId,
-    required this.gameType,
-    required this.session,
-    required this.bidPoints,
-    required this.openDigit,
-    required this.closeDigit,
-    required this.openPanna,
-    required this.closePanna,
-  });
+  Widget build(BuildContext context) {
+    Get.put(GameBidController());
 
-  factory GameBid.fromJson(Map<String, dynamic> json) {
-    return GameBid(
-      gameId: json['game_id'],
-      gameType: json['game_type'],
-      session: json['session'],
-      bidPoints: json['bid_points'],
-      openDigit: json['open_digit'],
-      closeDigit: json['close_digit'],
-      openPanna: json['open_panna'],
-      closePanna: json['close_panna'],
+    return GetBuilder<GameBidController>(
+      init: controller,
+      builder: (controller) => UpCommingView(
+        controller: controller,
+      ),
     );
   }
 }
 
-class UpComming extends StatefulWidget {
-  const UpComming({super.key});
-
-  @override
-  State<UpComming> createState() => _UpCommingState();
-}
-
-class _UpCommingState extends State<UpComming> {
- final List<GameBid> bids = [
-    GameBid(
-      gameId: "3",
-      gameType: "single_digit",
-      session: "Open",
-      bidPoints: "10",
-      openDigit: "9",
-      closeDigit: "",
-      openPanna: "",
-      closePanna: "",
-    ),
-    GameBid(
-      gameId: "3",
-      gameType: "single_digit",
-      session: "Open",
-      bidPoints: "10",
-      openDigit: "8",
-      closeDigit: "",
-      openPanna: "",
-      closePanna: "",
-    ),
-    GameBid(
-      gameId: "3",
-      gameType: "single_digit",
-      session: "Open",
-      bidPoints: "40",
-      openDigit: "5",
-      closeDigit: "",
-      openPanna: "",
-      closePanna: "",
-    ),
-  ];
-
-
-  late SharedPreferences _prefs;
-  late String _lastPopupDate;
-  @override
-  void initState() {
-    super.initState();
-    _initPreferences();
-  }
-
-  Future<void> _initPreferences() async {
-    _prefs = await SharedPreferences.getInstance();
-    _lastPopupDate = _prefs.getString('lastPopupDate') ?? '';
-
-    if (_lastPopupDate != getCurrentDate()) {
-      showPopup(context);
-    }
-  }
+class UpCommingView extends StatelessWidget {
+  GameBidController? controller;
+  UpCommingView({super.key, this.controller});
 
   final ThemeController themeController = Get.put(ThemeController());
 
@@ -131,64 +57,75 @@ class _UpCommingState extends State<UpComming> {
                     ? BoxShadow(color: Colors.black26, blurRadius: 5)
                     : BoxShadow(color: Colors.black54, blurRadius: 5)
               ]),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+          child: Column(
             children: [
-              customImageContainer(
-                  context: context,
-                  imageUrl: 'assets/wh.jpg',
-                  onTap: openWhatsApp,
-                  name: "Whatsapp",
-                  imageSize:50
-                  ),
-           
-           
-           
-              customImageContainer(
-                 imageSize:50,
-                name: "waallet",
-                context: context,
-                imageUrl: Theme.of(context).brightness == Brightness.light
-                    ? "assets/icon/wallet.png"
-                    : "assets/icon/wallet2.png",
-                onTap: () {
-                  showModalBottomSheet<void>(
-                    showDragHandle: true,
-                    useSafeArea: true,
-                    isScrollControlled: true,
-                    elevation: 8,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  customImageContainer(
+                      context: context,
+                      imageUrl: 'assets/wh.jpg',
+                      onTap: openWhatsApp,
+                      name: "Whatsapp",
+                      imageSize: 50),
+                  customImageContainer(
+                    imageSize: 50,
+                    name: "waallet",
                     context: context,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(16.0),
-                        topRight: Radius.circular(16.0),
-                      ),
-                    ),
-                    builder: (BuildContext context) {
-                      return const FractionallySizedBox(
-                        heightFactor:
-                            0.5, // Adjust this value to control the height (0.0 to 1.0).
-                        child: MyWallet(),
+                    imageUrl: Theme.of(context).brightness == Brightness.light
+                        ? "assets/icon/wallet.png"
+                        : "assets/icon/wallet2.png",
+                    onTap: () {
+                      showModalBottomSheet<void>(
+                        showDragHandle: true,
+                        useSafeArea: true,
+                        isScrollControlled: true,
+                        elevation: 8,
+                        context: context,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(16.0),
+                            topRight: Radius.circular(16.0),
+                          ),
+                        ),
+                        builder: (BuildContext context) {
+                          return const FractionallySizedBox(
+                            heightFactor:
+                                0.5, // Adjust this value to control the height (0.0 to 1.0).
+                            child: MyWallet(),
+                          );
+                        },
                       );
                     },
-                  );
-                },
+                  ),
+                  customImageContainer(
+                    imageSize: 50,
+                    name: "Addmoney",
+                    context: context,
+                    imageUrl: 'assets/person.png',
+                    onTap: () {
+                      Get.toNamed("/addMoney");
+                    },
+                  ),
+                ],
               ),
-            
-            
-              customImageContainer(
-                 imageSize:50,
-                name: "Addmoney",
-                context: context,
-                imageUrl: 'assets/person.png',
-                onTap: () {
-                  Get.toNamed("/addMoney");
-                },
-              ),
-           
-           
-           
-           
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                GestureDetector(
+                  onTap: () {
+                    showbottombar(context);
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    decoration: BoxDecoration(color: myColorRed),
+                    child: const Text(
+                      "Bit History",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                )
+              ])
             ],
           ),
         ),
@@ -197,127 +134,127 @@ class _UpCommingState extends State<UpComming> {
 
         size10h,
         Simpletitlebtn(HeadName: "Curent Sata Game"),
+
 //Upcoming Match List
 
+        LayoutBuilder(
+          builder: (context, constraints) {
+            double width = constraints.maxWidth;
 
-       LayoutBuilder(
-      builder: (context, constraints) {
-        double width = constraints.maxWidth;
-        double padding = width * 0.03;
-        double imageSize = width * 0.1;
-        double containerHeight = width * 0.4;
-        
-        return Column(
-          children: [
-            
-      
-            for (var bid in bids)
-              GestureDetector(
-                onTap: () {
-                  Get.to(GridViewWidget());
-                },
-                child: Container(
-                  height: 200,
-                  margin: const EdgeInsets.only(top: 20),
-                  padding: const EdgeInsets.only(
-                      top: 10, bottom: 5, right: 10, left: 10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.white
-                        : Colors.grey[800],
-                    boxShadow: [
-                      Theme.of(context).brightness == Brightness.light
-                          ? BoxShadow(color: Colors.black26, blurRadius: 5)
-                          : BoxShadow(color: Colors.black54, blurRadius: 5),
-                    ],
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            height: 30,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  Theme.of(context).brightness == Brightness.light
-                                      ? "assets/banner.png"
-                                      : "assets/banner-dark.png",
+            return Column(
+              children: [
+                for (var bid in controller!.bids)
+                  Container(
+                    height: 200,
+                    margin: const EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.only(
+                        top: 10, bottom: 5, right: 10, left: 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? Colors.white
+                          : Colors.grey[800],
+                      boxShadow: [
+                        Theme.of(context).brightness == Brightness.light
+                            ? BoxShadow(color: Colors.black26, blurRadius: 5)
+                            : BoxShadow(color: Colors.black54, blurRadius: 5),
+                      ],
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              height: 30,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? "assets/banner.png"
+                                        : "assets/banner-dark.png",
+                                  ),
+                                  fit: BoxFit.fill,
+                                  alignment: Alignment.centerRight,
                                 ),
-                                fit: BoxFit.fill,
-                                alignment: Alignment.centerRight,
+                              ),
+                              child: Container(
+                                width: 260,
+                                child: Text(
+                                  bid.name,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ),
-                            child: Container(
-                              width: 260,
-                              child: const Text(
-                                "Star Morning",
-                                overflow: TextOverflow.ellipsis,
+                            GestureDetector(
+                              onTap: () {
+                                launch(bid.chartUrl);
+                              },
+                              child: Image.asset(
+                                "assets/network-removebg-preview.png",
+                                width: 30,
+                                height: 30,
+                                fit: BoxFit.cover,
                               ),
                             ),
-                          ),
-                          Image.asset(
-                            "assets/network-removebg-preview.png",
-                            width: 30,
-                            height: 30,
-                            fit: BoxFit.cover,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Divider(),
-                      Text(
-                        "232-233-3223",
-                        style: CustomStyles.headerTextStyle,
-                      ),
-                      Divider(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Open : 9:00 PM",
-                            style: CustomStyles.textExternel,
-                          ),
-                          TextButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(const Color.fromARGB(255, 26, 113, 29)),
-                              padding: MaterialStateProperty.all(
-                                EdgeInsets.symmetric(
-                                    horizontal: 35, vertical: 10),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Divider(),
+                        Text(
+                          bid.sortCol.toString(),
+                          style: CustomStyles.headerTextStyle,
+                        ),
+                        Divider(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Open : ${bid.openTime}",
+                              style: CustomStyles.textExternel,
+                            ),
+                            TextButton(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    bid.open
+                                        ? const Color.fromARGB(255, 26, 113, 29)
+                                        : Color.fromARGB(255, 199, 44, 44)),
+                                padding: MaterialStateProperty.all(
+                                  const EdgeInsets.symmetric(
+                                      horizontal: 35, vertical: 10),
+                                ),
+                              ),
+                              isSemanticButton: true,
+                              onPressed: () {
+                                bid.open ? Get.to(GridViewWidget()) : null;
+                              },
+                              child: Text(
+                                bid.open ? "Open" : "Close",
+                                style: CustomStyleswhite.header2TextStyle,
                               ),
                             ),
-                            isSemanticButton: true,
-                            onPressed: () {},
-                            child: Text(
-                              "Open",
-                              style: CustomStyleswhite.header2TextStyle,
+                            Text(
+                              "Close : ${bid.closeTime}",
+                              style: CustomStyles.textExternel,
                             ),
-                          ),
-                          Text(
-                            "Close : 9:00 PM",
-                            style: CustomStyles.textExternel,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        'Bid Points: ${bid.bidPoints}, Open Digit: ${bid.openDigit}',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ],
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Result: ${bid.result}',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ),
-          ],
-        );
-      },
-    )
+              ],
+            );
+          },
+        )
       ],
     );
   }
@@ -355,7 +292,7 @@ Widget customImageContainer(
               child: Image.asset(
                 imageUrl,
                 width: imageSize,
-               height: imageSize,
+                height: imageSize,
                 fit: BoxFit.cover,
               ),
             ),
@@ -376,4 +313,48 @@ Future<void> openWhatsApp() async {
   } else {
     throw 'Could not launch $whatsappUrl';
   }
+}
+
+showbottombar(context) {
+  showModalBottomSheet<void>(
+    showDragHandle: true,
+    useSafeArea: true,
+    isScrollControlled: true,
+    elevation: 8,
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(16.0),
+        topRight: Radius.circular(16.0),
+      ),
+    ),
+    builder: (BuildContext context) {
+      return FractionallySizedBox(
+        heightFactor:
+            0.5, // Adjust this value to control the height (0.0 to 1.0).
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                  radius: 80,
+                  backgroundColor: myColorRed,
+                  child: const Text("Gali disawar")),
+              GestureDetector(
+                onTap: (){
+                  Get.toNamed("/StarlineGame");
+                },
+                child: CircleAvatar(
+                    radius: 80,
+                    backgroundColor: myColorRed,
+                    child: const Text("Starline")),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }

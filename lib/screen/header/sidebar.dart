@@ -66,6 +66,28 @@ Drawer myDrawer(context) {
         Get.toNamed('/withdraw');
       },
     },
+     {
+      'iconData': Icons.transfer_within_a_station,
+      'title': 'Transfer',
+      'onTap': () async {
+        Get.toNamed('/transfer');
+      },
+    },
+     {
+      'iconData': Icons.biotech,
+      'title': 'Bit Hestory',
+      'onTap': () async {
+        Get.toNamed('/bitHestory');
+      },
+    },
+     {
+      'iconData': Icons.wind_power,
+      'title': 'win Hestory',
+      'onTap': () async {
+        Get.toNamed('/winHestory');
+      },
+    },
+    
     {
       'iconData': Icons.security,
       'title': 'Add bank Account',
@@ -133,10 +155,7 @@ Drawer myDrawer(context) {
     child: Obx(
       () => Column(
         children: [
-          Expanded(
-            child: Column(
-              children: [
-                profileInfo(),
+            profileInfo(),
                 Container(
                   margin: EdgeInsets.all(13),
                   decoration: BoxDecoration(
@@ -185,9 +204,6 @@ Drawer myDrawer(context) {
                     children: listData,
                   ),
                 ),
-              ],
-            ),
-          ),
           TextButton(
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(myColorRed),

@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utilis/app_constant.dart';
 
-class StorageRepository {
+  class StorageRepository {
   static Future<void> saveOffline(String key, dynamic value) async {
     final store = await SharedPreferences.getInstance();
     await store.setString(key, value);
