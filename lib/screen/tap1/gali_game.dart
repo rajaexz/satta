@@ -9,35 +9,36 @@ import '../../utilis/fontstyle.dart';
 import '../../utilis/globlemargin.dart';
 import '../header/appbar.dart';
 import '../wallet/wallet_controller.dart/bit_hestory_controller.dart';
+import 'controller/GaliGame_controller.dart';
 import 'controller/StarlineGame_controller.dart';
 
-class StarlineGamePage extends GetView<StarlineGameController> {
-  const StarlineGamePage({Key? key}) : super(key: key);
+class GaliGamePage extends GetView<GaliGameController> {
+  const GaliGamePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // Use Get.put here to ensure the controller is available for GetView
-    final controller = Get.put(StarlineGameController());
+    final controller = Get.put(GaliGameController());
 
     return Scaffold(
-      appBar: CustomAppBar(title: "Starline Game"),
-      body: GetBuilder<StarlineGameController>(
+      appBar: CustomAppBar(title: "Gali Game"),
+      body: GetBuilder<GaliGameController>(
         init: controller,
-        builder: (controller) => StarlineGameView(controller: controller),
+        builder: (controller) => GaliGameView(controller: controller),
       ),
     );
   }
 }
 
-class StarlineGameView extends StatelessWidget {
-  final StarlineGameController controller;
-  StarlineGameView({Key? key, required this.controller}) : super(key: key);
+class GaliGameView extends StatelessWidget {
+  final GaliGameController controller;
+  GaliGameView({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if (controller.isLoading.value) {
       return const Center(child: CircularProgressIndicator());
-    } else if (controller.starlineResponse.value.starlineGames.isEmpty) {
+    } else if (controller.starlineResponse.value.galiDisawarGames.isEmpty) {
       return const Center(child: Text('Error fetching data'));
     } else {
       return Column(
@@ -45,10 +46,11 @@ class StarlineGameView extends StatelessWidget {
           Container(
             height: Get.height * 0.2,
             child: ListView.builder(
-              itemCount: controller.starlineResponse.value.starlineRates.length,
+              itemCount:
+                  controller.starlineResponse.value.galiDisawarChart.length,
               itemBuilder: (context, index) {
                 final item =
-                    controller.starlineResponse.value.starlineRates[index];
+                    controller.starlineResponse.value.galiDisawarRates[index];
 
                 return Column(
                   children: [
@@ -64,10 +66,11 @@ class StarlineGameView extends StatelessWidget {
             height: Get.height * 0.6,
             margin: const EdgeInsets.symmetric(horizontal: 10),
             child: ListView.builder(
-              itemCount: controller.starlineResponse.value.starlineGames.length,
+              itemCount:
+                  controller.starlineResponse.value.galiDisawarGames.length,
               itemBuilder: (context, index) {
                 final item =
-                    controller.starlineResponse.value.starlineGames[index];
+                    controller.starlineResponse.value.galiDisawarGames[index];
 
                 return Container(
                   height: 150,

@@ -11,21 +11,17 @@ import '../../../model/winStatement.dart';
 import '../../../network/api_path.dart';
 import '../../../network/storage_repository.dart';
 
-class WinHestoryController extends con.GetxController{
+class WinHestoryController extends con.GetxController {
+  var isLoading = false.obs;
+  final Dio _dio = Dio();
 
-    var isLoading = false.obs;
-    final Dio _dio = Dio();
-     
-   List<GameWin> wingames = [];
+  List<GameWin> wingames = [];
 
   @override
   void onInit() {
-
     fetchWinStatement();
     super.onInit();
-  
   }
-
 
   Future<void> fetchWinStatement() async {
     isLoading(true);
@@ -35,27 +31,20 @@ class WinHestoryController extends con.GetxController{
 
       final response = await _dio.get(
         '${ApiPath.baseUrl}bid_history', // Replace with your actual API URL
-       
+
         options: Options(headers: {'Token': "JZzG5NPNnOCRS5lO"}),
       );
 
       print("${response.data} ===========================");
       var jsonResponse = jsonDecode(response.data); // Decode the JSON response
- if (response.statusCode == 200 && jsonResponse ['status'] == 'success') {
-
-
-       for (var item in jsonResponse['data']) {
-        wingames.add(GameWin.fromJson(item));
+      if (response.statusCode == 200 && jsonResponse['status'] == 'success') {
+        for (var item in jsonResponse['data']) {
+          wingames.add(GameWin.fromJson(item));
+        }
+        update();
+      } else {
+        Get.snackbar('Something went wrong', jsonResponse['message']);
       }
-  update();
-    } else {
-        Get.showSnackbar(const GetSnackBar(
-          title: "Something went wrong",
-          message: "incomplete",
-          backgroundColor: Colors.red,
-            animationDuration:Duration(seconds: 2),
-        ));
-    }
     } catch (e) {
       // Handle error
       print(e);
@@ -63,6 +52,4 @@ class WinHestoryController extends con.GetxController{
       isLoading(false);
     }
   }
-
-  
 }

@@ -116,11 +116,11 @@ class UpCommingView extends StatelessWidget {
                   },
                   child: Container(
                     margin: const EdgeInsets.only(top: 5),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 10),
                     decoration: BoxDecoration(color: myColorRed),
                     child: const Text(
-                      "Bit History",
+                      "Gali Disawar Game",
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -338,12 +338,17 @@ showbottombar(context) {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CircleAvatar(
-                  radius: 80,
-                  backgroundColor: myColorRed,
-                  child: const Text("Gali disawar")),
               GestureDetector(
-                onTap: (){
+                onTap: () {
+                  Get.toNamed("/GaliGame");
+                },
+                child: CircleAvatar(
+                    radius: 80,
+                    backgroundColor: myColorRed,
+                    child: const Text("Gali disawar")),
+              ),
+              GestureDetector(
+                onTap: () {
                   Get.toNamed("/StarlineGame");
                 },
                 child: CircleAvatar(

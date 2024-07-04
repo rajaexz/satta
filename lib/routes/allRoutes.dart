@@ -1,4 +1,7 @@
 import 'package:winner11/screen/auth/singup.dart';
+import 'package:winner11/screen/payment_set/gpay.dart';
+import 'package:winner11/screen/payment_set/paytm.dart';
+import 'package:winner11/screen/payment_set/paytm_sreen_upi_set.dart';
 
 import 'package:winner11/screen/profile/bankEdit.dart';
 
@@ -16,6 +19,7 @@ import 'package:winner11/screen/profile/editProfile.dart';
 import 'package:winner11/screen/profile/profile.dart';
 import 'package:winner11/screen/setting/Setting.dart';
 import 'package:winner11/screen/setting/more.dart';
+import 'package:winner11/screen/tap1/gali_game.dart';
 import 'package:winner11/screen/tap1/starline_game.dart';
 import 'package:winner11/screen/wallet/AllHestory.dart';
 import 'package:winner11/screen/wallet/transfer_point.dart';
@@ -25,16 +29,11 @@ import 'package:winner11/screen/wallet/withdraw.dart';
 import 'package:winner11/splash/intro.dart';
 import 'package:winner11/splash/splash.dart';
 
-
 import '../screen/aboutTerm&Condition/policy.dart';
 import '../screen/wallet/BitHestory.dart';
 import '../screen/wallet/addmoney.dart';
 
 var allRutes = [
-
-  
-
-
   GetPage(
       name: '/signup',
       page: () => SignupPage(),
@@ -66,7 +65,7 @@ var allRutes = [
 
   GetPage(
       name: '/myNoti',
-      page: () => NotificationItem(),
+      page: () => MyNoti(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
   GetPage(
@@ -78,10 +77,10 @@ var allRutes = [
       name: '/addMoney',
       page: () => Addmoney(),
       transition: Transition.leftToRightWithFade),
-      //   GetPage(
-      // name: '/QRcode',
-      // page: () => WebViewExample(),
-      // transition: Transition.leftToRightWithFade),
+  //   GetPage(
+  // name: '/QRcode',
+  // page: () => WebViewExample(),
+  // transition: Transition.leftToRightWithFade),
   GetPage(
       name: "/setting",
       page: () => const MySetting(),
@@ -92,19 +91,37 @@ var allRutes = [
       page: () => KYC(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
-GetPage(
+  GetPage(
       name: "/StarlineGame",
       page: () => StarlineGamePage(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
+  GetPage(
+      name: "/paymentScreen",
+      page: () => PaytmentSreen(),
+      transitionDuration: Duration(milliseconds: 500),
+      transition: Transition.leftToRightWithFade),
+  GetPage(
+      name: "/PaytmScreen",
+      page: () => UpdatePaytmPage(),
+      transitionDuration: Duration(milliseconds: 500),
+      transition: Transition.leftToRightWithFade),
+  GetPage(
+      name: "/GooglePayScreen",
+      page: () => UpdateGpayPage(),
+      transitionDuration: Duration(milliseconds: 500),
+      transition: Transition.leftToRightWithFade),
+  GetPage(
+      name: "/GaliGame",
+      page: () => GaliGamePage(),
+      transitionDuration: Duration(milliseconds: 500),
+      transition: Transition.leftToRightWithFade),
 
-      
   GetPage(
       name: "/bank",
       page: () => BankEdit(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
-
 
   GetPage(
       name: "/showProfile",
@@ -112,12 +129,12 @@ GetPage(
       transitionDuration: Duration(milliseconds: 200),
       transition: Transition.fadeIn),
 
-        GetPage(
+  GetPage(
       name: "/bitHestory",
       page: () => const BitHestory(),
       transitionDuration: Duration(milliseconds: 200),
       transition: Transition.fadeIn),
- GetPage(
+  GetPage(
       name: "/winHestory",
       page: () => const WinHestory(),
       transitionDuration: Duration(milliseconds: 200),
@@ -175,8 +192,4 @@ GetPage(
       page: () => AllHestory(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
-
-  
-
-
 ];

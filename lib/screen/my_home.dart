@@ -17,20 +17,45 @@ import 'package:winner11/screen/header/appbar.dart';
 import 'package:winner11/screen/header/sidebar.dart';
 
 import 'package:winner11/screen/tap1/upcomming.dart';
+import 'package:winner11/utilis/AllColor.dart';
 
 import 'package:winner11/utilis/globlemargin.dart';
 
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class MyHomePage extends StatefulWidget {
+import 'controller/MyHomePage_controller.dart';
+
+class MyHomePage extends GetView<MyHomePageController> {
   const MyHomePage({Key? key}) : super(key: key);
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  Widget build(BuildContext context) {
+    Get.put(MyHomePageController());
+
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: 'BILLO',
+      ),
+      body: GetBuilder<MyHomePageController>(
+        init: controller,
+        builder: (controller) => MyHomeVeiw(
+          controller: controller,
+        ),
+      ),
+      drawer: myDrawer(context),
+    );
+  }
 }
 
-class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+class MyHomeVeiw extends StatefulWidget {
+  MyHomePageController? controller;
+  MyHomeVeiw({super.key, this.controller});
+
+  @override
+  State<MyHomeVeiw> createState() => _MyHomeVeiwState();
+}
+
+class _MyHomeVeiwState extends State<MyHomeVeiw> with TickerProviderStateMixin {
   late StreamSubscription subscription;
   bool isDeviceConnected = false;
   bool isAlertSet = false;
@@ -79,42 +104,40 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     'assets/onboarding2.jpg',
     'assets/onboarding0.jpg',
   ];
-ScrollController _scrollController = ScrollController();
-bool _showButton = false; 
+  ScrollController _scrollController = ScrollController();
+  bool _showButton = false;
   @override
   Widget build(BuildContext context) {
     List<String> banners = imageUrls.map((url) => url).toList();
 
     return RefreshIndicator(
       onRefresh: _refreshProfile,
-      child: Scaffold(
-        appBar: CustomAppBar(
-          title: 'BILLO',
-        ),
-        drawer: myDrawer(context),
-        body: SingleChildScrollView(
-
-          controller: _scrollController,
-          child: Column(
-            children: [
-              //banner----------------------------------------------------
-_showButton
-                ? ElevatedButton(
-                    onPressed: () {
-                      // Handle button press
-                    },
-                    child: Text('Button'),
-                  )
-                : SizedBox.shrink(),
-              BannerAdd(banners: banners, currentSlide: banners.length),
-              Container(
-                margin: GlobleglobleMargin.globleMargin,
-                child: const UpComming(),
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        child: widget.controller!.isLoading.value
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: myColor,
+                ),
+              )
+            : Column(
+                children: [
+                  //banner----------------------------------------------------
+                  _showButton
+                      ? ElevatedButton(
+                          onPressed: () {
+                            // Handle button press
+                          },
+                          child: Text('Button'),
+                        )
+                      : SizedBox.shrink(),
+                  BannerAdd(banners: banners, currentSlide: banners.length),
+                  Container(
+                    margin: GlobleglobleMargin.globleMargin,
+                    child: const UpComming(),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        // bottomNavigationBar: const NavBarMusicWidget(),
       ),
     );
   }

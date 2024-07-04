@@ -1,16 +1,20 @@
-
 class StarlineRate {
   String name;
   String costAmount;
   String earningAmount;
 
-  StarlineRate({required this.name, required this.costAmount, required this.earningAmount});
+  StarlineRate(
+      {required this.name,
+      required this.costAmount,
+      required this.earningAmount});
 
   factory StarlineRate.fromJson(Map<String, dynamic> json) {
     return StarlineRate(
-      name: json['name'],
-      costAmount: json['cost_amount'],
-      earningAmount: json['earning_amount'],
+      name: json['name'] ?? '', // Provide default empty string if null
+      costAmount:
+          json['cost_amount'] ?? '', // Provide default empty string if null
+      earningAmount:
+          json['earning_amount'] ?? '', // Provide default empty string if null
     );
   }
 
@@ -29,14 +33,18 @@ class StarlineGame {
   String result;
   bool play;
 
-  StarlineGame({required this.name, required this.id, required this.result, required this.play});
+  StarlineGame(
+      {required this.name,
+      required this.id,
+      required this.result,
+      required this.play});
 
   factory StarlineGame.fromJson(Map<String, dynamic> json) {
     return StarlineGame(
-      name: json['name'],
-      id: json['id'],
-      result: json['result'],
-      play: json['play'],
+      name: json['name'] ?? '', // Provide default empty string if null
+      id: json['id'] ?? '', // Provide default empty string if null
+      result: json['result'] ?? '', // Provide default empty string if null
+      play: json['play'] ?? false, // Provide default false if null
     );
   }
 
@@ -68,17 +76,20 @@ class StarlineResponse {
   });
 
   factory StarlineResponse.fromJson(Map<String, dynamic> json) {
-    var ratesList = json['starline_rates'] as List;
-    List<StarlineRate> rates = ratesList.map((i) => StarlineRate.fromJson(i)).toList();
+    var ratesList = json['starline_rates'] as List? ?? [];
+    List<StarlineRate> rates =
+        ratesList.map((i) => StarlineRate.fromJson(i)).toList();
 
-    var gamesList = json['starline_game'] as List;
-    List<StarlineGame> games = gamesList.map((i) => StarlineGame.fromJson(i)).toList();
+    var gamesList = json['starline_game'] as List? ?? [];
+    List<StarlineGame> games =
+        gamesList.map((i) => StarlineGame.fromJson(i)).toList();
 
     return StarlineResponse(
-      message: json['message'],
-      code: json['code'],
-      status: json['status'],
-      starlineChart: json['starline_chart'],
+      message: json['message'] ?? '', // Provide default empty string if null
+      code: json['code'] ?? '', // Provide default empty string if null
+      status: json['status'] ?? '', // Provide default empty string if null
+      starlineChart:
+          json['starline_chart'] ?? '', // Provide default empty string if null
       starlineRates: rates,
       starlineGames: games,
     );

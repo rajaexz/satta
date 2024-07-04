@@ -1,22 +1,17 @@
-import 'package:winner11/screen/component/darkmode.dart';
-import 'package:winner11/screen/header/Userdata_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:winner11/screen/component/darkmode.dart';
 import 'package:winner11/screen/component/shimmer.dart';
 import 'package:winner11/utilis/AllColor.dart';
 import 'package:winner11/utilis/borderbox.dart';
 import 'package:winner11/utilis/boxSpace.dart';
-
 import 'package:winner11/utilis/fontstyle.dart';
-
 import '../../network/storage_repository.dart';
 import '../../service/authapi.dart';
 
 final ThemeController themeController = Get.put(ThemeController());
-Drawer myDrawer(context) {
-  List<Widget> listTiles = [];
-  List<Widget> listData = [];
-  List<Widget> impotent = [];
+
+Drawer myDrawer(BuildContext context) {
   List<Map<String, dynamic>> tileData = [
     {
       'iconData': Icons.settings,
@@ -66,31 +61,37 @@ Drawer myDrawer(context) {
         Get.toNamed('/withdraw');
       },
     },
-     {
+    {
       'iconData': Icons.transfer_within_a_station,
       'title': 'Transfer',
       'onTap': () async {
         Get.toNamed('/transfer');
       },
     },
-     {
+    {
       'iconData': Icons.biotech,
-      'title': 'Bit Hestory',
+      'title': 'Bit History',
       'onTap': () async {
-        Get.toNamed('/bitHestory');
+        Get.toNamed('/bitHistory');
       },
     },
-     {
+    {
+      'iconData': Icons.payment,
+      'title': 'Payment',
+      'onTap': () async {
+        Get.toNamed('/paymentScreen');
+      },
+    },
+    {
       'iconData': Icons.wind_power,
-      'title': 'win Hestory',
+      'title': 'Win History',
       'onTap': () async {
-        Get.toNamed('/winHestory');
+        Get.toNamed('/winHistory');
       },
     },
-    
     {
       'iconData': Icons.security,
-      'title': 'Add bank Account',
+      'title': 'Add Bank Account',
       'onTap': () async {
         Get.toNamed('/kyc');
       },
@@ -98,7 +99,6 @@ Drawer myDrawer(context) {
   ];
 
   Widget customListTile({
-    required int index,
     required IconData iconData,
     required String title,
     required VoidCallback onTap,
@@ -113,119 +113,87 @@ Drawer myDrawer(context) {
     );
   }
 
-//////////////////////////////////////////////////////////////
-  for (int index = 0; index < tileData.length; index++) {
-    var data = tileData[index];
-    listTiles.add(
-      customListTile(
-        index: index,
-        iconData: data['iconData'],
-        title: data['title'],
-        onTap: data['onTap'],
-      ),
-    );
-  }
-
-//////////////////////////////////////////////////////////////
-  for (int index = 0; index < moreData.length; index++) {
-    var data = moreData[index];
-    listData.add(
-      customListTile(
-        index: index,
-        iconData: data['iconData'],
-        title: data['title'],
-        onTap: data['onTap'],
-      ),
-    );
-  }
-//////////////////////////////////////////////////////////////
-  for (int index = 0; index < impotentData.length; index++) {
-    var data = impotentData[index];
-    impotent.add(
-      customListTile(
-        index: index,
-        iconData: data['iconData'],
-        title: data['title'],
-        onTap: data['onTap'],
-      ),
-    );
+  List<Widget> buildList(List<Map<String, dynamic>> data) {
+    return data
+        .map((item) => customListTile(
+              iconData: item['iconData'],
+              title: item['title'],
+              onTap: item['onTap'],
+            ))
+        .toList();
   }
 
   return Drawer(
     child: Obx(
-      () => Column(
+      () => ListView(
         children: [
-            profileInfo(),
-                Container(
-                  margin: EdgeInsets.all(13),
-                  decoration: BoxDecoration(
-                    border: border,
-                    borderRadius: boRadiusAll,
-                    color: themeController.isLightMode.value
-                        ? myColorWhite
-                        : myColor,
-                    boxShadow: [
-                      themeController.isLightMode.value ? boxdark : boxshadow2
-                    ],
-                  ),
-                  child: Column(
-                    children: listTiles,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(13),
-                  decoration: BoxDecoration(
-                    border: border,
-                    borderRadius: boRadiusAll,
-                    color: themeController.isLightMode.value
-                        ? myColorWhite
-                        : myColor,
-                    boxShadow: [
-                      themeController.isLightMode.value ? boxdark : boxshadow2
-                    ],
-                  ),
-                  child: Column(
-                    children: impotent,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(13),
-                  decoration: BoxDecoration(
-                    border: border,
-                    borderRadius: boRadiusAll,
-                    color: themeController.isLightMode.value
-                        ? myColorWhite
-                        : myColor,
-                    boxShadow: [
-                      themeController.isLightMode.value ? boxdark : boxshadow2
-                    ],
-                  ),
-                  child: Column(
-                    children: listData,
-                  ),
-                ),
+          profileInfo(),
+          Container(
+            margin: EdgeInsets.all(13),
+            decoration: BoxDecoration(
+              border: border,
+              borderRadius: boRadiusAll,
+              color: themeController.isLightMode.value ? myColorWhite : myColor,
+              boxShadow: [
+                themeController.isLightMode.value ? boxdark : boxshadow2
+              ],
+            ),
+            child: Column(
+              children: buildList(tileData),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.all(13),
+            decoration: BoxDecoration(
+              border: border,
+              borderRadius: boRadiusAll,
+              color: themeController.isLightMode.value ? myColorWhite : myColor,
+              boxShadow: [
+                themeController.isLightMode.value ? boxdark : boxshadow2
+              ],
+            ),
+            child: Column(
+              children: buildList(impotentData),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.all(13),
+            decoration: BoxDecoration(
+              border: border,
+              borderRadius: boRadiusAll,
+              color: themeController.isLightMode.value ? myColorWhite : myColor,
+              boxShadow: [
+                themeController.isLightMode.value ? boxdark : boxshadow2
+              ],
+            ),
+            child: Column(
+              children: buildList(moreData),
+            ),
+          ),
           TextButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(myColorRed),
-                  padding: MaterialStateProperty.all(
-                      EdgeInsets.symmetric(horizontal: 30, vertical: 10))),
-              isSemanticButton: true,
-              onPressed: () {
-                StorageRepository.destroyOfflineStorage();
-                Get.toNamed('/login');
-              },
-              child: Text(
-                "Logout",
-                style: CustomStyleswhite.header2TextStyle,
-              )),
-          size10h
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(myColorRed),
+              padding: MaterialStateProperty.all(
+                EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              ),
+            ),
+            onPressed: () {
+              StorageRepository.destroyOfflineStorage();
+              Get.toNamed('/login');
+            },
+            child: Text(
+              "Logout",
+              style: CustomStyleswhite.header2TextStyle,
+            ),
+          ),
+          size10h,
         ],
       ),
     ),
   );
 }
 
-profileInfo() {
+Widget profileInfo() {
   return Stack(
     alignment: Alignment.topCenter,
     children: [
@@ -236,26 +204,28 @@ profileInfo() {
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                  border: border,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(100),
-                  )),
-              margin: const EdgeInsets.only(bottom: 10, top: 100),
-              child: const CircleAvatar(
-                  radius: 50.0,
-                  backgroundImage: AssetImage("assets/logo.jpeg")),
+                border: border,
+                borderRadius: BorderRadius.all(Radius.circular(100)),
+              ),
+              margin: EdgeInsets.only(bottom: 10, top: 100),
+              child: CircleAvatar(
+                radius: 50.0,
+                backgroundImage: AssetImage("assets/logo.jpeg"),
+              ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("7011448878",
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                    style: CustomStyleswhite.headerTextStyle),
-                Text("raja " ?? "", style: CustomStyles.textExternelgray),
-                size20h
+                Text(
+                  "7011448878",
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
+                  style: CustomStyleswhite.headerTextStyle,
+                ),
+                Text("raja", style: CustomStyles.textExternelgray),
+                size20h,
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -263,23 +233,24 @@ profileInfo() {
         left: 20,
         top: 100,
         child: InkWell(
-            onTap: () {
-              Get.toNamed("/showProfile");
-            },
-            child: const Row(
-              children: [
-                Icon(
-                  Icons.list_alt,
-                  size: 40,
-                  color: Colors.white,
-                ),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 20,
-                  color: Colors.white,
-                ),
-              ],
-            )),
+          onTap: () {
+            Get.toNamed("/showProfile");
+          },
+          child: Row(
+            children: [
+              Icon(
+                Icons.list_alt,
+                size: 40,
+                color: Colors.white,
+              ),
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 20,
+                color: Colors.white,
+              ),
+            ],
+          ),
+        ),
       ),
     ],
   );
