@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../header/appbar.dart';
-import '../top3/SingleDigitPage.dart';
+import '../top3/MakeBit.dart';
 
 class GridViewWidget extends StatelessWidget {
    var playOrNot ;
