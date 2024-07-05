@@ -3,6 +3,34 @@
 import '../header/appbar.dart';
 
 class SingleDigitPage extends StatelessWidget {
+
+  final List<Map<String, String>> _bids = [];
+  final TextEditingController _openDigitController = TextEditingController();
+  final TextEditingController _pointPanaController = TextEditingController();
+  final TextEditingController _pointController = TextEditingController();
+
+  SingleDigitPage({super.key});
+    void _addBid() {
+    // setState(() {
+      _bids.add({
+        'digit': _openDigitController.text,
+        'pana': _pointPanaController.text,
+        'point': _pointController.text,
+      // });
+    });
+
+    _openDigitController.clear();
+    _pointPanaController.clear();
+    _pointController.clear();
+  }
+ void _deleteBid(int index) {
+    // setState(() {
+      _bids.removeAt(index);
+    // });
+  }
+ 
+ 
+ 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -53,19 +81,23 @@ class SingleDigitPage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              const Row(
+               Row(
                 children: [
                   Expanded(
                     child: TextField(
-                      decoration: InputDecoration(
+                      controller: _openDigitController,
+                      decoration: const InputDecoration(
                         hintText: 'Enter Digit',
                       ),
                     ),
                   ),
                   SizedBox(width: 16),
                   Expanded(
+
                     child: TextField(
-                      decoration: InputDecoration(
+                          
+                              controller: _pointPanaController,
+                      decoration: const InputDecoration(
                         hintText: 'Enter Point',
                       ),
                     ),
@@ -94,44 +126,31 @@ class SingleDigitPage extends StatelessWidget {
                   ],
                 ),
               ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: 0, // Update this with your item count
-                  itemBuilder: (context, index) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                      color: Colors.red[700],
-                      child: Row(
-                        children: [
-                          const Expanded(child: Text('Digit', style: TextStyle(color: Colors.black))),
-                          const Expanded(child: Text('Point', style: TextStyle(color: Colors.black))),
-                          const Expanded(child: Text('Type', style: TextStyle(color: Colors.black))),
-                          Expanded(
-                            child: IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.black),
-                              onPressed: () {},
-                            ),
-                          ),
-                        ],
+            Expanded(
+              child: ListView.builder(
+                itemCount: _bids.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ListTile(
+                      title: Text('Digit: ${_bids[index]['digit']} | Pana: ${_bids[index]['pana']} | Point: ${_bids[index]['point']}'),
+                      trailing: IconButton(
+                        icon: Icon(Icons.delete, color: Colors.red),
+                        onPressed: () => _deleteBid(index),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
-              const SizedBox(height: 16),
-              const Row(
+            ),     const SizedBox(height: 16),
+               Row(
                 children: [
                   Expanded(
-                    child: Text(
-                      'Total Bids : 0',
-                      style: TextStyle(color: Colors.black),
+                    child:  Text('Total Bids: ${_bids.length}'),
                     ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Total Point : 0',
-                      style: TextStyle(color: Colors.black),
-                    ),
+                   Expanded(
+                  child: Text('Total Point: ${_bids.fold<int>(0, (sum, bid) => sum + int.parse(bid['point'] ?? '0'))}'),
+
+          
                   ),
                 ],
               ),
