@@ -1,5 +1,6 @@
 import 'package:winner11/screen/component/profileContainer.dart';
 import 'package:winner11/screen/wallet/Upi_payment.dart';
+import 'package:winner11/screen/wallet/paymantMathord/paymentMathord.dart';
 
 import 'package:winner11/utilis/globlemargin.dart';
 
@@ -145,7 +146,7 @@ class _AddmoneyViewState extends State<AddmoneyView> {
       builder: (BuildContext context) {
         return const FractionallySizedBox(
           heightFactor: 0.8,
-          child: MyUpi(),
+          child:Allpayment(),
         );
       },
     );

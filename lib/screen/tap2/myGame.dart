@@ -7,6 +7,9 @@ import '../header/appbar.dart';
 import '../top3/SingleDigitPage.dart';
 
 class GridViewWidget extends StatelessWidget {
+   var playOrNot ;
+
+   GridViewWidget({this.playOrNot});
     final List<String> imageUrls = [
     'https://th.bing.com/th/id/OIP.y0OiNv_Nn1a5Zn9kZYWDVQHaHd?rs=1&pid=ImgDetMain ',
     'https://clipart-library.com/new_gallery/dice-clipart-1.jpeg',
@@ -35,7 +38,7 @@ class GridViewWidget extends StatelessWidget {
       backgroundColor: Colors.white,
       body: GridView.count(
         crossAxisCount: 2,
-        children: List.generate(4, (index) {
+        children: List.generate(playOrNot ? 3 : 7, (index) {
           return GestureDetector(
             onTap: () {
           
@@ -72,7 +75,7 @@ class GridViewWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       color:  Color.fromARGB(255, 185, 23, 11),),
-                     width: 80,
+                     width: 100,
                      height: 40,
                      alignment:Alignment.center,
                      child: Text(gametype[index], style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold,),),

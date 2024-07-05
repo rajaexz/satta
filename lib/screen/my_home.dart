@@ -73,16 +73,7 @@ class _MyHomeVeiwState extends State<MyHomeVeiw> with TickerProviderStateMixin {
     store.setString('KYCstatus', kyc);
   }
 
-  // notificatio dotte
-  // fetchDataAndStore() async {
-  //       WidgetsBinding.instance?.addPostFrameCallback((_) async {
-  //     await contractionDeviceInfo(context);
-  //   });
-  //   // Initialize noti_number with a default value (e.g., 0)
-  //       final store = await SharedPreferences.getInstance();
 
-  //      store.setString('checkWelcome',"1");
-  // }
 
   getConnectivity() =>
       subscription = Connectivity().onConnectivityChanged.listen(
@@ -115,11 +106,15 @@ class _MyHomeVeiwState extends State<MyHomeVeiw> with TickerProviderStateMixin {
       child: SingleChildScrollView(
         controller: _scrollController,
         child: widget.controller!.isLoading.value
-            ? Center(
-                child: CircularProgressIndicator(
-                  color: myColor,
-                ),
-              )
+            ? Column(
+              children: [
+                Center(
+                    child: CircularProgressIndicator(
+                      color: myColor,
+                    ),
+                  ),
+              ],
+            )
             : Column(
                 children: [
                   //banner----------------------------------------------------

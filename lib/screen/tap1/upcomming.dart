@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:vibration/vibration.dart';
 import 'package:winner11/screen/component/darkmode.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -230,7 +231,11 @@ class UpCommingView extends StatelessWidget {
                               ),
                               isSemanticButton: true,
                               onPressed: () {
-                                bid.open ? Get.to(GridViewWidget()) : null;
+                                !bid.open ? Get.to(GridViewWidget(playOrNot:bid.play)) : null;
+
+                                  if ( !bid.open ) {
+              Vibration.vibrate();
+            }
                               },
                               child: Text(
                                 bid.open ? "Open" : "Close",

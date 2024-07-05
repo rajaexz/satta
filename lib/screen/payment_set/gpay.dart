@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
+import 'package:winner11/screen/header/appbar.dart';
 
 import 'controller/PaytmentSreencontroller.dart';
 
-class UpdateGpayPage extends StatelessWidget {
-  @override
+class UpdateGpayPage extends GetView<PaytmentSreenController> {
+  const UpdateGpayPage({Key? key});
+
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Update Google Pay'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: UpdateGpayForm(),
-      ),
+    Get.put(PaytmentSreenController());
+
+    return  Scaffold(
+      appBar:  CustomAppBar(title: "Google Pay"), 
+      body: GetBuilder<PaytmentSreenController>(
+          init: controller,
+          builder: (controller) => UpdateGpayForm(
+            controller: controller,
+          ),
+        ),
     );
   }
 }
 
 class UpdateGpayForm extends StatelessWidget {
+
+ PaytmentSreenController?  controller;
+
+ UpdateGpayForm({super.key, this.controller});
   final phoneController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 

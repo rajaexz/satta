@@ -130,12 +130,12 @@ var allRutes = [
       transition: Transition.fadeIn),
 
   GetPage(
-      name: "/bitHestory",
+      name: "/bitHistory",
       page: () => const BitHestory(),
       transitionDuration: Duration(milliseconds: 200),
       transition: Transition.fadeIn),
   GetPage(
-      name: "/winHestory",
+      name: "/winHistory",
       page: () => const WinHestory(),
       transitionDuration: Duration(milliseconds: 200),
       transition: Transition.fadeIn),
