@@ -28,7 +28,7 @@ class  WithdrowController extends  con.GetxController{
       final response = await _dio.post(
         '${ApiPath.baseUrl}withdraw', // Replace with your actual API URL
         data: FormData.fromMap(data),
-        options: Options(headers: {'Token': "JZzG5NPNnOCRS5lO"}),
+        options: Options(headers: {'Token': token}),
       );
 
       print("${response.data} ===========================");

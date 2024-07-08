@@ -2,8 +2,6 @@
 
 import 'package:winner11/screen/auth/controller/authController.dart';
 
-
-
 import 'package:get/get.dart';
 
 import 'package:winner11/routes/Api.dart';
@@ -14,25 +12,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter/material.dart';
 
-
 class OtpPage extends StatefulWidget {
-  int? mobile ;
-   OtpPage({super.key,   this.mobile});
+  int? mobile;
+  OtpPage({super.key, this.mobile});
 
   @override
   State<OtpPage> createState() => _OtpPageState();
 }
 
 class _OtpPageState extends State<OtpPage> {
-
-
-    final SignupController authController = Get.put(SignupController());
+  final SignupController authController = Get.put(SignupController());
 
   var _isLoading = true;
   var code = "";
   final themeSMS = Get.put(SmsController());
   //api
-  
+
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((_) async {
       // await contractionDeviceInfo(context);
@@ -113,7 +108,7 @@ class _OtpPageState extends State<OtpPage> {
                   height: 45,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                           backgroundColor: myColorRed,
+                          backgroundColor: myColorRed,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       onPressed: () async {
@@ -121,22 +116,21 @@ class _OtpPageState extends State<OtpPage> {
                         WidgetsBinding.instance
                             ?.addPostFrameCallback((_) async {
                           // if (_isLoading)
-                            // showProgressDialog(context, 'Process Bar...');
+                          // showProgressDialog(context, 'Process Bar...');
                         });
                         final store = await SharedPreferences.getInstance();
                         try {
                           //Api Function
 
-  var phoneNumber = data["phone"];
+                          var phoneNumber = data["phone"];
 
- var loginResponse  =  authController.verifyUser(phoneNumber!, code);      
- 
- 
+                          var loginResponse =
+                              authController.verifyUser(phoneNumber!, code);
 
 //                           var otp = data["otp"];
 //                           if (code == code) {
 //                             // Get FCM Token
-                      
+
 // final fcmToken = await FirebaseMessaging.instance.getToken();
 
 //                             // ctreate user with login
@@ -167,7 +161,7 @@ class _OtpPageState extends State<OtpPage> {
 //                               store.setString(
 //                                   'token', loginResponse["data"]["token"]);
 //                               _isLoading = false;
-                              
+
 //                               Get.offAllNamed("/home",
 //                                   arguments: store.getString("userId"));
 //                             } else {
@@ -189,8 +183,6 @@ class _OtpPageState extends State<OtpPage> {
                         "Verify Your Phone OTP",
                         style: TextStyle(color: myColorWhite),
                       ))),
-            
-            
               Row(
                 children: [
                   TextButton(
@@ -203,10 +195,9 @@ class _OtpPageState extends State<OtpPage> {
                           "Edit Phone Number ?",
                         ),
                       )),
-
-                          TextButton(
+                  TextButton(
                       onPressed: () {
-                    authController.resendotp();
+                        authController.resendotp();
                       },
                       child: DefaultTextStyle(
                         style: TextStyle(color: myColor),

@@ -1,21 +1,17 @@
-import 'package:winner11/banner/banner_Model.dart';
-import 'package:winner11/screen/component/darkmode.dart';
+
+import 'package:winner11/model/AppDataModel.dart';
 import 'package:winner11/utilis/AllColor.dart';
 import 'package:winner11/utilis/borderbox.dart';
-import 'package:winner11/utilis/boxSpace.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../service/authapi.dart';
 
-
 class BannerAdd extends StatefulWidget {
-  final List  banners;
-  late  int? currentSlide;
+  final List<Bannered> banners;
+  late int? currentSlide;
 
   BannerAdd({required this.banners, this.currentSlide});
 
@@ -27,7 +23,9 @@ class _BannerAddState extends State<BannerAdd> {
   @override
   Widget build(BuildContext context) {
     List<Widget> bannerWidgets = widget.banners.map<Widget>((banner) {
-      return BannerWidget(imageUrl: banner, uri: banner);
+      return BannerWidget(
+        imageUrl: banner,
+      );
     }).toList();
 
     return Column(
@@ -56,7 +54,7 @@ class _BannerAddState extends State<BannerAdd> {
           ),
           items: bannerWidgets,
         ),
-      SizedBox(height: 10), // Use SizedBox for spacing
+        SizedBox(height: 10), // Use SizedBox for spacing
         bannerWidgets.length != 1
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -79,32 +77,29 @@ class _BannerAddState extends State<BannerAdd> {
                 ),
               )
             : SizedBox(), // Use SizedBox for spacing
-    
       ],
     );
   }
 }
 
 class BannerWidget extends StatelessWidget {
-  final String? imageUrl;
-  final String? uri;
+  final Bannered? imageUrl;
 
-  BannerWidget({required this.imageUrl, required this.uri});
+  BannerWidget({required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-                launchUrl(Uri.parse(this.uri!));
+      onTap: () {
+        launchUrl(Uri.parse(imageUrl!.image));
       },
       child: Container(
         width: double.infinity,
         margin: EdgeInsets.symmetric(horizontal: 7, vertical: 7),
-       
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
-          child: Image.asset(
-            "$imageUrl",
+          child: Image.network(
+            "${imageUrl!.image}",
             fit: BoxFit.fill,
           ),
         ),

@@ -34,11 +34,9 @@ dependencies:
   connectivity: ^3.0.6
   internet_connection_checker: ^1.0.0+1
   quickalert: ^1.0.2
-  shimmer: ^3.0.0
   carousel_slider: ^4.2.1
   device_info: ^2.0.3
   uuid: ^4.2.2
-  lottie: ^2.7.0
   url_launcher: ^6.2.2
   cupertino_icons: ^1.0.2
   firebase_core: ^2.24.0

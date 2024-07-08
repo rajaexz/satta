@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:winner11/screen/component/darkmode.dart';
-import 'package:winner11/screen/component/shimmer.dart';
+import 'package:winner11/screen/profile/controller/profile_controller.dart';
+
 import 'package:winner11/utilis/AllColor.dart';
 import 'package:winner11/utilis/borderbox.dart';
 import 'package:winner11/utilis/boxSpace.dart';
@@ -75,6 +76,8 @@ Drawer myDrawer(BuildContext context) {
         Get.toNamed('/bitHistory');
       },
     },
+
+    
     {
       'iconData': Icons.payment,
       'title': 'Payment',
@@ -194,6 +197,8 @@ Drawer myDrawer(BuildContext context) {
 }
 
 Widget profileInfo() {
+      UserDetailsController? controller  = Get.put(UserDetailsController());
+
   return Stack(
     alignment: Alignment.topCenter,
     children: [
@@ -217,12 +222,12 @@ Widget profileInfo() {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "7011448878",
+                  controller!.userDetails.value.data!.username ,
                   softWrap: true,
                   overflow: TextOverflow.ellipsis,
                   style: CustomStyleswhite.headerTextStyle,
                 ),
-                Text("raja", style: CustomStyles.textExternelgray),
+                Text(  controller!.userDetails.value.data!.mobile, style: CustomStyles.textExternelgray),
                 size20h,
               ],
             ),

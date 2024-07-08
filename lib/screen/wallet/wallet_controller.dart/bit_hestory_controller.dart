@@ -36,10 +36,10 @@ class BitHestoryController extends con.GetxController{
       final response = await _dio.get(
         '${ApiPath.baseUrl}bid_history', // Replace with your actual API URL
        
-        options: Options(headers: {'Token': "JZzG5NPNnOCRS5lO"}),
+        options: Options(headers: {'Token':token}),
       );
 
-      print("${response.data} ===========================");
+   
       var jsonResponse = jsonDecode(response.data); // Decode the JSON response
  if (response.statusCode == 200 && jsonResponse ['status'] == 'success') {
 

@@ -8,10 +8,12 @@ import 'package:winner11/utilis/app_constant.dart';
 
 import '../../../model/usedetail.dart';
 import '../../../network/api_path.dart';
-import '../../../network/network_config.dart';
 import '../../../network/storage_repository.dart';
 
 class UserDetailsController extends GetxController {
+
+
+
   var userDetails = UserDetails(
     message: '',
     code: '',
@@ -33,7 +35,6 @@ class UserDetailsController extends GetxController {
   ).obs;
 
   var isLoading = false.obs;
-  final NetworkProvider _networkProvider = NetworkProvider();
   final Dio _dio = Dio();
 
   void fetchUserDetails() async {
@@ -45,7 +46,7 @@ class UserDetailsController extends GetxController {
      print(token);
       final response = await _dio.get(
         '${ApiPath.baseUrl}get_user_details', // Replace with your actual API URL
-        options: Options(headers: {'Token': "JZzG5NPNnOCRS5lO"}),
+        options: Options(headers: {'Token': token}),
       );
       print(response.data);
       if (response.statusCode == 200) {

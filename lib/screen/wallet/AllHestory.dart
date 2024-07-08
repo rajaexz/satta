@@ -12,8 +12,6 @@ import 'package:winner11/screen/wallet/walletHestory.dart';
 
 import 'wallet_controller.dart/all_hestory_controller.dart';
 
-
-
 class AllHestory extends GetView<AllHestoryController> {
   const AllHestory({Key? key}) : super(key: key);
 
@@ -21,7 +19,7 @@ class AllHestory extends GetView<AllHestoryController> {
     Get.put(AllHestoryController());
 
     return Scaffold(
-      appBar : CustomAppBar(title: "Wallet History"),
+      appBar: CustomAppBar(title: "Wallet History"),
       body: GetBuilder<AllHestoryController>(
         init: controller,
         builder: (controller) => AllHestoryView(
@@ -32,129 +30,94 @@ class AllHestory extends GetView<AllHestoryController> {
   }
 }
 
-
 class AllHestoryView extends StatelessWidget {
+  AllHestoryController? controller;
+  AllHestoryView({super.key, this.controller});
 
- AllHestoryController? controller;
-   AllHestoryView({super.key, this.controller});
-
-   @override
+  @override
   Widget build(BuildContext context) {
-       
-     if (controller!.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
-        } else if (controller!.withdrawData.value == null) {
-          return Center(child: Text('Error fetching data'));
-        } else {
-  return   Column(
+    if (controller!.isLoading.value) {
+      return Center(child: CircularProgressIndicator());
+    } else if (controller!.withdrawData.value == null) {
+      return Center(child: Text('Error fetching data'));
+    } else {
+      return Column(
         children: [
-          Text('Available Points: ${controller!.withdrawData.value!.availablePoints ?? ""}'),
-                SizedBox(height: 10),
-                Text('Withdraw Open Time: ${controller!.withdrawData.value!.withdrawOpenTime ?? ""}'),
-                SizedBox(height: 10),
-                Text('Withdraw Close Time: ${controller!.withdrawData.value!.withdrawCloseTime ?? ""}'),
-                SizedBox(height: 20),
+          Text(
+              'Available Points: ${controller!.withdrawData.value!.availablePoints ?? ""}'),
+          const SizedBox(height: 10),
+          Text(
+              'Withdraw Open Time: ${controller!.withdrawData.value!.withdrawOpenTime ?? ""}'),
+          const SizedBox(height: 10),
+          Text(
+              'Withdraw Close Time: ${controller!.withdrawData.value!.withdrawCloseTime ?? ""}'),
+          const SizedBox(height: 20),
           Container(
-            height: Get.height* 0.8,
-            margin: GlobleglobleMargin.Margin10H,
-            child:
-            
-               ListView.builder(
-                      
-                         itemCount: controller!.withdrawData.value!.statement.length,
-                    itemBuilder: (context, index) {
-                      
-                      
-                          
-                      
-                              final item = controller!.withdrawData.value!.statement[index];
-                     
-              return    
-              
-              
-               Container(
-                              height: 100,
-                              margin: const EdgeInsets.all(9),
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                border: border,
-                                borderRadius: boRadiusAll,
-                                color: themeController.isLightMode.value
-                                    ? myColorWhite
-                                    : myColor,
-                                boxShadow: [
-                                  themeController.isLightMode.value
-                                      ? boxdark
-                                      : boxshadow2
-                                ],
+              height: Get.height * 0.8,
+              margin: GlobleglobleMargin.Margin10H,
+              child: ListView.builder(
+                itemCount: controller!.withdrawData.value!.statement.length,
+                itemBuilder: (context, index) {
+                  final item = controller!.withdrawData.value!.statement[index];
+
+                    return Container(
+                      margin: const EdgeInsets.all(9),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: border,
+                        borderRadius: boRadiusAll,
+                        color: themeController.isLightMode.value
+                            ? myColorWhite
+                            : myColor,
+                        boxShadow: [
+                          themeController.isLightMode.value ? boxdark : boxshadow2
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            item.createdAt,
+                            style: TextStyle(fontSize: 10, color: myColorGray),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    getStatusIcon(item.transStatus),
+                                  ],
+                                ),
                               ),
-                              child: Column(
+                              Column(
                                 children: [
                                   Text(
-                                  item.transStatus,
-                                    style: TextStyle(
-                                        fontSize: 10, color: myColorGray),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                    getStatusIcon(item.transStatus),
-                                            size10w,
-                                            Column(
-                                              children: [
-                                                //time
-                                                Text(
-                                                  item.transDet.toString(),
-                                                  style:
-                                                      CustomStyles.smallTextStyle,
-                                                ),
-                                              
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Column(
-                                        children: [
-                                          Text(
-                                             item.transType.toString(),
-                                            style: CustomStyles.textExternel,
-                                          ),
-                                          Text(
-                                            " ₹${ item.points.toString()}",
-                                            style: CustomStyles.textExternel,
-                                          ),
-                                        ],
-                                      )
-                                    ],
+                                    item.transType.toString(),
+                                    style: CustomStyles.textExternel,
                                   ),
                                   Text(
-                               "payment_status".toString(),
-                                    style: TextStyle(color: myColorgreen),
-                                  )
+                                    " ₹${item.points.toString()}",
+                                    style: CustomStyles.textExternel,
+                                  ),
                                 ],
-                              ),
-                            );
-             
-        
-                        },
-                      )
-                   ),
+                              )
+                            ],
+                          ),
+                          Text(
+                            "${item.transStatus}".toString(),
+                            style: TextStyle(color: myColorgreen),
+                          ),
+                        
+                        ],
+                      ),
+                    );
+                },
+              )),
         ],
       );
-        }
+    }
   }
-
-  
-
 }
-

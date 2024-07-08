@@ -4,28 +4,36 @@ import 'package:dio/dio.dart';
 
 import 'controller/PaytmentSreencontroller.dart';
 
-class UpdatePaytmPage extends StatelessWidget {
+class UpdatePaytmPage extends  GetView<PaytmentSreenController> {
+  
   @override
   Widget build(BuildContext context) {
+        Get.put(PaytmentSreenController());
     return Scaffold(
       appBar: AppBar(
         title: Text('Update Paytm'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: UpdatePaytmForm(),
-      ),
+      body:  GetBuilder<PaytmentSreenController>(
+          init: controller,
+          builder: (controller) => UpdatePaytmForm(
+            controller: controller,
+          ),
+        ),
+   
     );
   }
 }
 
 class UpdatePaytmForm extends StatelessWidget {
-  final phoneController = TextEditingController();
+  PaytmentSreenController?  controller;
+  UpdatePaytmForm({super.key, required this.controller});
+
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+   final phoneController = TextEditingController(text: controller!.userDetails.value.data!.paytmMobileNo.toString());   
+ return Form(
       key: _formKey,
       child: Column(
         children: [

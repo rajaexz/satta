@@ -31,14 +31,16 @@ class StarlineGameController extends con.GetxController {
   }
 
   Future<void> fetchBitStatement() async {
+    
+      final token = await StorageRepository.getToken();
     isLoading(true);
     try {
-      final token = await StorageRepository.getToken();
+     
       print("Token: $token");
 
       final response = await _dio.get(
         '${ApiPath.baseUrl}starline_game', // Replace with your actual API URL
-        options: Options(headers: {'Token': "JZzG5NPNnOCRS5lO"}),
+        options: Options(headers: {'Token':token}),
       );
       print("Response Data: ${response.data}");
 

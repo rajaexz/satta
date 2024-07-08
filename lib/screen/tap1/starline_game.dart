@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vibration/vibration.dart';
+import 'package:winner11/screen/tap1/hisrotry/starlinebithestory.dart';
 
 import '../../main.dart';
 import '../../utilis/AllColor.dart';
@@ -12,6 +13,7 @@ import '../header/appbar.dart';
 import '../tap2/myGame.dart';
 import '../wallet/wallet_controller.dart/bit_hestory_controller.dart';
 import 'controller/StarlineGame_controller.dart';
+import 'hisrotry/winStarlinehistory.dart';
 
 class StarlineGamePage extends GetView<StarlineGameController> {
   const StarlineGamePage({Key? key}) : super(key: key);
@@ -44,6 +46,42 @@ class StarlineGameView extends StatelessWidget {
     } else {
       return Column(
         children: [
+             Row(children: [
+                GestureDetector(
+                      onTap: () {
+                      Get.to(BidHistoryPage());
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 10),
+                        decoration: BoxDecoration(color: myColorRed),
+                        child: const Text(
+                          "Star Line History",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(width: 20,),
+
+                      GestureDetector(
+                      onTap: () {
+                      Get.to(WinHistoryPage());
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 10),
+                        decoration: BoxDecoration(color: myColorRed),
+                        child: const Text(
+                          "Star Line Win History",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+             ],),
+        
           Container(
             height: Get.height * 0.2,
             child: ListView.builder(
@@ -52,13 +90,63 @@ class StarlineGameView extends StatelessWidget {
                 final item =
                     controller.starlineResponse.value.starlineRates[index];
 
-                return Column(
-                  children: [
-                    Text(item.costAmount),
-                    Text(item.name),
-                    Text(item.earningAmount),
-                  ],
-                );
+                return     Card(
+  elevation: 4.0, // Adjust the elevation as needed
+  margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0), // Adjust the margin as needed
+  child: Padding(
+    padding: EdgeInsets.all(16.0), // Adjust the padding as needed
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start, // Align items to the start
+      children: [
+        Row(
+          children: [
+            Icon(Icons.attach_money, color: Colors.black), // Icon for cost amount
+            SizedBox(width: 8.0), // Add spacing between the icon and text
+            Text(
+              item.costAmount,
+              style: TextStyle(
+                fontSize: 18.0, // Adjust the font size
+                fontWeight: FontWeight.bold, // Make the text bold
+                color: Colors.black, // Set the text color
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 8.0), // Add spacing between the rows
+        Row(
+          children: [
+            Icon(Icons.person, color: Colors.grey[700]), // Icon for name
+            SizedBox(width: 8.0), // Add spacing between the icon and text
+            Text(
+              item.name,
+              style: TextStyle(
+                fontSize: 16.0, // Adjust the font size
+                fontWeight: FontWeight.normal, // Set the text weight
+                color: Colors.grey[700], // Set the text color
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8.0), // Add spacing between the rows
+        Row(
+          children: [
+            Icon(Icons.money_off, color: Colors.green), // Icon for earning amount
+            const SizedBox(width: 8.0), // Add spacing between the icon and text
+            Text(
+              item.earningAmount,
+              style: const TextStyle(
+                fontSize: 16.0, // Adjust the font size
+                fontWeight: FontWeight.normal, // Set the text weight
+                color: Colors.green, // Set the text color
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  ),
+);
+
               },
             ),
           ),
@@ -74,7 +162,7 @@ class StarlineGameView extends StatelessWidget {
                 return
                 
                     Container(
-                    height: 200,
+                    
                     margin: const EdgeInsets.only(top: 20),
                     padding: const EdgeInsets.only(
                         top: 10, bottom: 5, right: 10, left: 10),
@@ -128,7 +216,7 @@ class StarlineGameView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Open : ${item.play}",
+                                item.play ?"Market Open " : "Market Colse ",
                               style: CustomStyles.textExternel,
                             ),
                             TextButton(
@@ -144,10 +232,12 @@ class StarlineGameView extends StatelessWidget {
                               ),
                               isSemanticButton: true,
                               onPressed: () {
-                                !item.play? Get.to(GridViewWidget(playOrNot:item.play)) : null;
+                                item.play? Get.to(GridViewWidget(gameData:item, whicGameName:"star_line")) : null;
 
                                   if ( !item.play ) {
               Vibration.vibrate();
+              
+                       Get.snackbar('Market is Close ', "");
             }
                               },
                               child: Text(

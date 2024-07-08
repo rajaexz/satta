@@ -1,22 +1,10 @@
-import 'dart:io';
 
-import 'package:winner11/screen/component/custom_toaster.dart';
-import 'package:winner11/screen/component/darkmode.dart';
 import 'package:winner11/screen/profile/controller/profile_controller.dart';
 
-import 'package:winner11/screen/profile/profile_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winner11/screen/component/imageComponet.dart';
 import 'package:winner11/screen/header/appbar.dart';
 import 'package:winner11/utilis/AllColor.dart';
-import 'package:winner11/utilis/borderbox.dart';
-import 'package:winner11/utilis/boxSpace.dart';
-
-import 'package:winner11/utilis/fontstyle.dart';
-import 'package:winner11/utilis/globlemargin.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 
 //   final ThemeController themeController = Get.put(ThemeController());
@@ -566,36 +554,137 @@ class UserDetailsScreen extends StatelessWidget {
 UserDetailsScreen({this.controller});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('User Details'),
-      ),
-      body: Obx(() {
+    return 
+       Obx(() {
         if (controller!.isLoading.value) {
           return Center(child: CircularProgressIndicator());
         } else {
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Username: ${controller!.userDetails.value.data!.username}'),
-                Text('Mobile: ${controller!.userDetails.value.data!.mobile}'),
-                Text('Email: ${controller!.userDetails.value.data!.email}'),
-                Text('Bank Name: ${controller!.userDetails.value.data!.bankName}'),
-                Text('Account Holder Name: ${controller!.userDetails.value.data!.accountHolderName}'),
-                Text('IFSC Code: ${controller!.userDetails.value.data!.ifscCode}'),
-                Text('Branch Address: ${controller!.userDetails.value.data!.branchAddress}'),
-                Text('Bank Account No: ${controller!.userDetails.value.data!.bankAccountNo}'),
-                Text('Paytm Mobile No: ${controller!.userDetails.value.data!.paytmMobileNo}'),
-                Text('PhonePe Mobile No: ${controller!.userDetails.value.data!.phonepeMobileNo}'),
-                Text('GPay Mobile No: ${controller!.userDetails.value.data!.gpayMobileNo}'),
-                Text('Pending Notification: ${controller!.userDetails.value.data!.pendingNoti}'),
-              ],
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                 _buildProfileItem(
+                icon: Icons.person,
+                label: 'Username',
+                value: controller!.userDetails.value.data!.username,
+              ),
+              _buildProfileItem(
+                icon: Icons.phone,
+                label: 'Mobile',
+                value: controller!.userDetails.value.data!.mobile,
+              ),
+              _buildProfileItem(
+                icon: Icons.email,
+                label: 'Email',
+                value: controller!.userDetails.value.data!.email.toString(),
+              ),
+              _buildProfileItem(
+                icon: Icons.account_balance,
+                label: 'Bank Name',
+                value: controller!.userDetails.value.data!.bankName.toString(),
+              ),
+              _buildProfileItem(
+                icon: Icons.account_circle,
+                label: 'Account Holder Name',
+                value: controller!.userDetails.value.data!.accountHolderName.toString(),
+              ),
+              _buildProfileItem(
+                icon: Icons.account_balance_wallet,
+                label: 'IFSC Code',
+                value: controller!.userDetails.value.data!.ifscCode.toString(),
+              ),
+              _buildProfileItem(
+                icon: Icons.location_city,
+                label: 'Branch Address',
+                value: controller!.userDetails.value.data!.branchAddress.toString(),
+              ),
+              _buildProfileItem(
+                icon: Icons.account_balance_wallet,
+                label: 'Bank Account No',
+                value: controller!.userDetails.value.data!.bankAccountNo.toString(),
+              ),
+              _buildProfileItem(
+                icon: Icons.payment,
+                label: 'Paytm Mobile No',
+                value: controller!.userDetails.value.data!.paytmMobileNo.toString(),
+              ),
+              _buildProfileItem(
+                icon: Icons.phone_android,
+                label: 'PhonePe Mobile No',
+                value: controller!.userDetails.value.data!.phonepeMobileNo.toString(),
+              ),
+              _buildProfileItem(
+                icon: Icons.phone_android,
+                label: 'GPay Mobile No',
+                value: controller!.userDetails.value.data!.gpayMobileNo.toString(),
+              ),
+              _buildProfileItem(
+                icon: Icons.notifications,
+                label: 'Pending Notification',
+                value: controller!.userDetails.value.data!.pendingNoti.toString(),
+              ),
+            
+                ]
+              ),
+            
+            
             ),
           );
         }
-      }),
-    );
+      });
+   
   }
 }
+
+
+
+
+  Widget _buildProfileItem({required IconData icon, required String label, required String value}) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 8.0),
+      padding: EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: myColor),
+          SizedBox(width: 16.0),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey[700],
+                  ),
+                ),
+                SizedBox(height: 4.0),
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }

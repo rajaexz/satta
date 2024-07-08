@@ -1,46 +1,80 @@
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:winner11/screen/header/appbar.dart';
+import 'package:winner11/screen/top3/controller/MakeBit_controller.dart';
+class MakeBitPage extends StatelessWidget {
+  final String? title;
+  final dynamic allData;
 
-import '../header/appbar.dart';
+  MakeBitPage({Key? key, this.title, required this.allData}) : super(key: key);
 
-class SingleDigitPage extends StatelessWidget {
-
-  final List<Map<String, String>> _bids = [];
-  final TextEditingController _openDigitController = TextEditingController();
-  final TextEditingController _pointPanaController = TextEditingController();
-  final TextEditingController _pointController = TextEditingController();
-
-  SingleDigitPage({super.key});
-    void _addBid() {
-    // setState(() {
-      _bids.add({
-        'digit': _openDigitController.text,
-        'pana': _pointPanaController.text,
-        'point': _pointController.text,
-      // });
-    });
-
-    _openDigitController.clear();
-    _pointPanaController.clear();
-    _pointController.clear();
-  }
- void _deleteBid(int index) {
-    // setState(() {
-      _bids.removeAt(index);
-    // });
-  }
- 
- 
- 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    final MakeBiteController controller = Get.put(MakeBiteController(allData));
 
     return Scaffold(
-      appBar: CustomAppBar(
-          title: "SINGLE DIGIT",
+      appBar: CustomAppBar(title: title?.replaceAll('_', ' ').toUpperCase() ?? ''),
+      body: GetBuilder<MakeBiteController>(
+        builder: (controller) => MakeBitPageScreen(
+          controller: controller,
+          gameType: title,
+          allData: allData,
         ),
-      body: SizedBox(
-       height: 900,
+      ),
+    );
+  }
+}
+class MakeBitPageScreen extends StatelessWidget {
+
+  final TextEditingController _pointController = TextEditingController();
+  final String? gameType;
+  final dynamic allData;
+  final MakeBiteController controller;
+
+  final List<String> digitOptions = List<String>.generate(10, (i) => i.toString());
+
+  String? _selectedDigit;
+
+  MakeBitPageScreen({Key? key, required this.allData, this.gameType, required this.controller}) : super(key: key);
+
+  void _addBid() {
+    // Check if the required fields are not empty
+    if (_pointController.text.isEmpty) {
+      Get.snackbar('Error', 'Please enter the points.');
+      return;
+    }
+
+    if (_selectedDigit == null || _selectedDigit!.isEmpty) {
+      Get.snackbar('Error', 'Please select a digit.');
+      return;
+    }
+
+    // If validation passes, add the bid
+  controller. bids.add({
+      "game_id": allData.id,
+      "game_type": gameType ?? '',
+      "session": controller.selectedValue.value == 0 ? "Open" : "Close",
+      "bid_points": _pointController.text,
+      "open_digit": controller.selectedValue.value == 0 ? _selectedDigit! : "",
+      "close_digit": controller.selectedValue.value == 1 ? _selectedDigit! : "",
+      "open_panna": "",
+      "close_panna": ""
+    });
+
+    // Clear the input fields after adding the bid
+    _selectedDigit = null;
+    _pointController.clear();
+  }
+
+  void _deleteBid(int index) {
+     controller. bids.removeAt(index);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => SizedBox(
+        height: 900,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -51,10 +85,9 @@ class SingleDigitPage extends StatelessWidget {
                 style: TextStyle(color: Colors.black, fontSize: 18),
               ),
               const SizedBox(height: 4),
-              const Text(
-                '23-6-2024',
-                style: TextStyle(
-                    color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+              Text(
+                DateTime.now().toString().split(' ')[0],
+                style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               const Text(
@@ -66,37 +99,46 @@ class SingleDigitPage extends StatelessWidget {
                 children: [
                   Radio(
                     value: 0,
-                    groupValue: 1,
-                    onChanged: (value) {},
+                    groupValue: controller.selectedValue.value,
+                    onChanged: (value) {
+                      controller.selectedValue.value = value!;
+                    },
                     activeColor: Colors.black,
                   ),
                   const Text('Open', style: TextStyle(color: Colors.black)),
                   Radio(
                     value: 1,
-                    groupValue: 1,
-                    onChanged: (value) {},
+                    groupValue: controller.selectedValue.value,
+                    onChanged: (value) {
+                      controller.selectedValue.value = value!;
+                    },
                     activeColor: Colors.black,
                   ),
                   const Text('Close', style: TextStyle(color: Colors.black)),
                 ],
               ),
               const SizedBox(height: 16),
-               Row(
+              Row(
                 children: [
                   Expanded(
-                    child: TextField(
-                      controller: _openDigitController,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter Digit',
-                      ),
+                    child: DropdownButton<String>(
+                      value: _selectedDigit,
+                      hint: const Text('Select Digit'),
+                      items: digitOptions.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (newValue) {
+                        _selectedDigit = newValue!;
+                      },
                     ),
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                   Expanded(
-
                     child: TextField(
-                          
-                              controller: _pointPanaController,
+                      controller: _pointController,
                       decoration: const InputDecoration(
                         hintText: 'Enter Point',
                       ),
@@ -106,12 +148,12 @@ class SingleDigitPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: _addBid,
                 style: ElevatedButton.styleFrom(
-                shadowColor: Colors.black,
+                  shadowColor: Colors.black,
                   backgroundColor: Colors.red[900],
                 ),
-                child: const Text('Add'),
+                child: const Text('Add', style: TextStyle(color: Colors.white)),
               ),
               const SizedBox(height: 16),
               Container(
@@ -119,49 +161,52 @@ class SingleDigitPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: const Row(
                   children: [
-                    Expanded(child: Text('Digit', style: TextStyle(color: Colors.black))),
-                    Expanded(child: Text('Point', style: TextStyle(color: Colors.black))),
-                    Expanded(child: Text('Type', style: TextStyle(color: Colors.black))),
-                    Expanded(child: Text('Delete', style: TextStyle(color: Colors.black))),
+                    Expanded(child: Text('Digit', style: TextStyle(color: Colors.white))),
+                    Expanded(child: Text('Point', style: TextStyle(color: Colors.white))),
+                    Expanded(child: Text('Type', style: TextStyle(color: Colors.white))),
+                    Expanded(child: Text('Delete', style: TextStyle(color: Colors.white))),
                   ],
                 ),
               ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _bids.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      title: Text('Digit: ${_bids[index]['digit']} | Pana: ${_bids[index]['pana']} | Point: ${_bids[index]['point']}'),
-                      trailing: IconButton(
-                        icon: Icon(Icons.delete, color: Colors.red),
-                        onPressed: () => _deleteBid(index),
+              Expanded(
+                child: ListView.builder(
+                  itemCount:  controller. bids.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: ListTile(
+                        title: Text(
+                            'Digit: ${ controller. bids[index]['open_digit']} | Point: ${ controller. bids[index]['bid_points']}'),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete, color: Colors.red),
+                          onPressed: () => _deleteBid(index),
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),     const SizedBox(height: 16),
-               Row(
+              const SizedBox(height: 16),
+              Row(
                 children: [
                   Expanded(
-                    child:  Text('Total Bids: ${_bids.length}'),
-                    ),
-                   Expanded(
-                  child: Text('Total Point: ${_bids.fold<int>(0, (sum, bid) => sum + int.parse(bid['point'] ?? '0'))}'),
-
-          
+                    child: Text('Total Bids: ${ controller. bids.length}'),
+                  ),
+                  Expanded(
+                    child: Text('Total Point: ${ controller. bids.fold<int>(0, (sum, bid) => sum + int.parse(bid['bid_points'] ?? '0'))}'),
                   ),
                 ],
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  controller.fetchWinStatement( 
+                  );
+                },
                 style: ElevatedButton.styleFrom(
-             shadowColor: Colors.black,
+                  shadowColor: Colors.black,
                   backgroundColor: Colors.red[900],
                 ),
-                child: const Text('Submit',style: TextStyle(color: Colors.white),),
+                child: const Text('Submit', style: TextStyle(color: Colors.white)),
               ),
             ],
           ),

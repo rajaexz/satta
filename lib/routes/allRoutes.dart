@@ -1,7 +1,9 @@
+import 'package:winner11/screen/auth/create_pinset.dart';
 import 'package:winner11/screen/auth/singup.dart';
 import 'package:winner11/screen/payment_set/gpay.dart';
 import 'package:winner11/screen/payment_set/paytm.dart';
 import 'package:winner11/screen/payment_set/paytm_sreen_upi_set.dart';
+import 'package:winner11/screen/payment_set/phonepay.dart';
 
 import 'package:winner11/screen/profile/bankEdit.dart';
 
@@ -23,13 +25,14 @@ import 'package:winner11/screen/tap1/gali_game.dart';
 import 'package:winner11/screen/tap1/starline_game.dart';
 import 'package:winner11/screen/wallet/AllHestory.dart';
 import 'package:winner11/screen/wallet/transfer_point.dart';
-import 'package:winner11/screen/wallet/wallet.dart';
 import 'package:winner11/screen/wallet/winHestory.dart';
 import 'package:winner11/screen/wallet/withdraw.dart';
 import 'package:winner11/splash/intro.dart';
 import 'package:winner11/splash/splash.dart';
 
 import '../screen/aboutTerm&Condition/policy.dart';
+import '../screen/auth/pinset.dart';
+import '../screen/tap1/hisrotry/starlinebithestory.dart';
 import '../screen/wallet/BitHestory.dart';
 import '../screen/wallet/addmoney.dart';
 
@@ -54,6 +57,14 @@ var allRutes = [
       page: () => MyHomePage(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
+       GetPage(
+      name: '/setpin',
+      page: () => PinPage(),
+      transition: Transition.leftToRightWithFade),
+       GetPage(
+      name: '/Createsetpin',
+      page: () => CreatePinPage(),
+      transition: Transition.leftToRightWithFade),
   GetPage(
       name: '/login',
       page: () => Loginpage(),
@@ -68,11 +79,11 @@ var allRutes = [
       page: () => MyNoti(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
-  GetPage(
-      name: '/wallet',
-      page: () => MyWallet(),
-      transitionDuration: Duration(milliseconds: 500),
-      transition: Transition.leftToRightWithFade),
+  // GetPage(
+  //     name: '/wallet',
+  //     page: () => MyWallet(),
+  //     transitionDuration: Duration(milliseconds: 500),
+  //     transition: Transition.leftToRightWithFade),
   GetPage(
       name: '/addMoney',
       page: () => Addmoney(),
@@ -96,6 +107,11 @@ var allRutes = [
       page: () => StarlineGamePage(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
+        GetPage(
+      name: "/Starlinehisory",
+      page: () => BidHistoryPage(),
+      transitionDuration: Duration(milliseconds: 500),
+      transition: Transition.leftToRightWithFade),
   GetPage(
       name: "/paymentScreen",
       page: () => PaytmentSreen(),
@@ -112,13 +128,20 @@ var allRutes = [
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
   GetPage(
+      name: "/PhonePayScreen",
+      page: () => PhonepayPage(),
+      transitionDuration: Duration(milliseconds: 500),
+      transition: Transition.leftToRightWithFade),
+
+      
+  GetPage(
       name: "/GaliGame",
       page: () => GaliGamePage(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
 
   GetPage(
-      name: "/bank",
+      name: "/BankScreen",
       page: () => BankEdit(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),

@@ -37,9 +37,10 @@ class GaliGameController extends con.GetxController {
       final token = await StorageRepository.getToken();
       print("Token: $token");
 
+
       final response = await _dio.get(
         '${ApiPath.baseUrl}gali_disawar_game', // Replace with your actual API URL
-        options: Options(headers: {'Token': "JZzG5NPNnOCRS5lO"}),
+        options: Options(headers: {'Token': token}),
       );
       print("Response Data: ${response.data}");
 

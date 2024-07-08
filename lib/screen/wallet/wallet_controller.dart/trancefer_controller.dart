@@ -25,6 +25,8 @@ class  TransferController extends  con.GetxController{
   }
 
 
+var verifyName;
+
   Future<void> transferVerify(Map<String, dynamic> data) async {
     isLoading(true);
     try {
@@ -34,20 +36,16 @@ class  TransferController extends  con.GetxController{
       final response = await _dio.post(
         '${ApiPath.baseUrl}transfer_verify', // Replace with your actual API URL
         data: FormData.fromMap(data),
-        options: Options(headers: {'Token': "JZzG5NPNnOCRS5lO"}),
+        options: Options(headers: {'Token': token}),
       );
 
       print("${response.data} ===========================");
       var jsonResponse = jsonDecode(response.data); // Decode the JSON response
 
       if (response.statusCode == 200 && jsonResponse['status'] == 'success') {
-        Get.showSnackbar(const GetSnackBar(
-          title: "Successful",
-          message: "Your Transfer is Verify",
-          backgroundColor: Colors.green,
-          animationDuration:Duration(seconds: 2),
-        ));
-
+          Get.snackbar('Your Transfer is Verify', jsonResponse['message']);
+          
+         userName.value =jsonResponse["data"]["name"];
           update();
      
       } else {
@@ -75,7 +73,7 @@ class  TransferController extends  con.GetxController{
       final response = await _dio.post(
         '${ApiPath.baseUrl}transfer_points', // Replace with your actual API URL
         data: FormData.fromMap(data),
-        options: Options(headers: {'Token': "JZzG5NPNnOCRS5lO"}),
+        options: Options(headers: {'Token': token}),
       );
 
       print("${response.data} ===========================");

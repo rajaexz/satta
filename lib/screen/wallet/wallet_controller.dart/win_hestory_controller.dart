@@ -25,6 +25,8 @@ class WinHestoryController extends con.GetxController {
 
   Future<void> fetchWinStatement() async {
     isLoading(true);
+          final token = await StorageRepository.getToken();
+  
     try {
       final token = await StorageRepository.getToken();
       print(token);
@@ -32,7 +34,7 @@ class WinHestoryController extends con.GetxController {
       final response = await _dio.get(
         '${ApiPath.baseUrl}bid_history', // Replace with your actual API URL
 
-        options: Options(headers: {'Token': "JZzG5NPNnOCRS5lO"}),
+        options: Options(headers: {'Token': token}),
       );
 
       print("${response.data} ===========================");

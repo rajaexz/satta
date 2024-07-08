@@ -33,6 +33,8 @@ class UpdateGpayForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+     final phoneController = TextEditingController(text: controller!.userDetails.value.data!.gpayMobileNo.toString());   
     return Form(
       key: _formKey,
       child: Column(

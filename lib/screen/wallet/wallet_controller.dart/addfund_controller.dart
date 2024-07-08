@@ -24,13 +24,13 @@ class AddfundController extends con.GetxController {
   Future<void> addFund(Map<String, dynamic> data) async {
     isLoading(true);
     try {
-      final token = await StorageRepository.getToken();
-      print(token);
-
+     
+    final token = await StorageRepository.getToken();
+ 
       final response = await _dio.post(
         '${ApiPath.baseUrl}add_fund', // Replace with your actual API URL
         data: FormData.fromMap(data),
-        options: Options(headers: {'Token': "JZzG5NPNnOCRS5lO"}),
+        options: Options(headers: {'Token': token}),
       );
 
       print("${response.data} ===========================");

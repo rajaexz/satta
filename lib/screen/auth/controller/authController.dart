@@ -71,7 +71,7 @@ class SignupController extends GetxController {
       if (response.data['status'] == 'success') {
         Get.snackbar('Success', response.data['message']);
         // Navigate to verify OTP screen
-        Get.to(() => OtpPage(mobile: int.parse(mobile)));
+        Get.toNamed('/otp');
       } else {
         Get.snackbar('Error', response.data['message']);
       }
@@ -137,6 +137,38 @@ class SignupController extends GetxController {
     }
   }
 
+  Future<void> resendotpPIn(num) async {
+    isLoading.value = true;
+    final dio = Dio();
+    var pin = _generatePin();
+    final formData = alfrom.FormData.fromMap({
+      'mobile': mobileController.text.toString(),
+    });
+
+    try {
+      final response = await dio.post(
+        'https://development.smapidev.co.in/api/Api/resend_otp',
+        data: formData,
+      );
+
+      isLoading.value = false;
+      if (response.statusCode == 200) {
+        print('Signup successful: ${response.data}');
+
+        Get.snackbar('Success', 'Successful send opt',
+            snackPosition: SnackPosition.BOTTOM);
+      } else {
+        Get.snackbar('Error', 'Signup failed: ${response.statusMessage}',
+            snackPosition: SnackPosition.BOTTOM);
+      }
+    } catch (e) {
+      isLoading.value = false;
+      print('Signup failed: $e');
+      Get.snackbar('Error', 'Signup failed: $e',
+          snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
   Future<void> login({required String mobile, required String password}) async {
     isLoading.value = true;
     final dio = Dio();
@@ -158,10 +190,11 @@ class SignupController extends GetxController {
         // Ensure the comparison is made with the correct string
         var token = badydecode["data"]["token"];
 
-        StorageRepository.saveOffline(AppConstant.tokenKey, token);
+        StorageRepository.saveOffline(AppConstant.phone, mobile);
+        StorageRepository.saveOffline(AppConstant.tokenKeypin, token);
         Get.snackbar('Success', 'Login successful',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed("/home");
+        Get.toNamed("/Createsetpin",arguments: mobile.toString());
       } else {
         Get.snackbar('Error', 'Login failed: ${badydecode["message"]}',
             snackPosition: SnackPosition.BOTTOM);

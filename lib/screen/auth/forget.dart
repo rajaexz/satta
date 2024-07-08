@@ -6,6 +6,8 @@ class ForgotPasswordScreen extends StatelessWidget {
   final SignupController controller = Get.put(SignupController());
   final TextEditingController mobileController = TextEditingController();
 
+  ForgotPasswordScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +20,7 @@ class ForgotPasswordScreen extends StatelessWidget {
           children: [
             TextField(
               controller: mobileController,
-              decoration: InputDecoration(labelText: 'Mobile'),
+              decoration: const InputDecoration(labelText: 'Mobile'),
               keyboardType: TextInputType.phone,
             ),
             SizedBox(height: 20),

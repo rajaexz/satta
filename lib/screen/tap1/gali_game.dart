@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vibration/vibration.dart';
 
 import '../../main.dart';
+import '../../model/GaliGame.dart';
 import '../../utilis/AllColor.dart';
 import '../../utilis/borderbox.dart';
 import '../../utilis/boxSpace.dart';
 import '../../utilis/fontstyle.dart';
 import '../../utilis/globlemargin.dart';
 import '../header/appbar.dart';
+import '../tap2/myGame.dart';
 import '../wallet/wallet_controller.dart/bit_hestory_controller.dart';
 import 'controller/GaliGame_controller.dart';
 import 'controller/StarlineGame_controller.dart';
@@ -47,18 +50,72 @@ class GaliGameView extends StatelessWidget {
             height: Get.height * 0.2,
             child: ListView.builder(
               itemCount:
-                  controller.starlineResponse.value.galiDisawarChart.length,
+                  controller.starlineResponse.value.galiDisawarRates.length,
               itemBuilder: (context, index) {
                 final item =
                     controller.starlineResponse.value.galiDisawarRates[index];
 
-                return Column(
-                  children: [
-                    Text(item.costAmount),
-                    Text(item.name),
-                    Text(item.earningAmount),
-                  ],
-                );
+                return
+                
+                 Card(
+  elevation: 4.0, // Adjust the elevation as needed
+  margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0), // Adjust the margin as needed
+  child: Padding(
+    padding: EdgeInsets.all(16.0), // Adjust the padding as needed
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start, // Align items to the start
+      children: [
+        Row(
+          children: [
+            Icon(Icons.attach_money, color: Colors.black), // Icon for cost amount
+            SizedBox(width: 8.0), // Add spacing between the icon and text
+            Text(
+              item.costAmount,
+              style: TextStyle(
+                fontSize: 18.0, // Adjust the font size
+                fontWeight: FontWeight.bold, // Make the text bold
+                color: Colors.black, // Set the text color
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 8.0), // Add spacing between the rows
+
+        Row(
+          children: [
+            Icon(Icons.person, color: Colors.grey[700]), // Icon for name
+            SizedBox(width: 8.0), // Add spacing between the icon and text
+            Text(
+              item.name,
+              style: TextStyle(
+                fontSize: 16.0, // Adjust the font size
+                fontWeight: FontWeight.normal, // Set the text weight
+                color: Colors.grey[700], // Set the text color
+              ),
+            ),
+          ],
+        ),
+
+         SizedBox(height: 8.0), // Add spacing between the rows
+        Row(
+          children: [
+            Icon(Icons.money_off, color: Colors.green), // Icon for earning amount
+            SizedBox(width: 8.0), // Add spacing between the icon and text
+            Text(
+              item.earningAmount,
+              style: TextStyle(
+                fontSize: 16.0, // Adjust the font size
+                fontWeight: FontWeight.normal, // Set the text weight
+                color: Colors.green, // Set the text color
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  ),
+);
+
               },
             ),
           ),
@@ -69,11 +126,11 @@ class GaliGameView extends StatelessWidget {
               itemCount:
                   controller.starlineResponse.value.galiDisawarGames.length,
               itemBuilder: (context, index) {
-                final item =
+                GaliDisawarGame item =
                     controller.starlineResponse.value.galiDisawarGames[index];
 
                 return Container(
-                  height: 150,
+            
                   margin: const EdgeInsets.all(9),
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -119,6 +176,38 @@ class GaliGameView extends StatelessWidget {
                               ),
                             ],
                           ),
+
+
+                                            TextButton(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    item.play
+                                        ? const Color.fromARGB(255, 26, 113, 29)
+                                        : Color.fromARGB(255, 199, 44, 44)),
+                                padding: MaterialStateProperty.all(
+                                  const EdgeInsets.symmetric(
+                                      horizontal: 35, vertical: 10),
+                                ),
+                              ),
+                              isSemanticButton: true,
+                              onPressed: () {
+                                item.play ? Get.to(GridViewWidget(gameData:item,whicGameName: 'gali_disawar',)) : null;
+
+                                  if (!item.play) {
+              Vibration.vibrate();
+
+                       Get.snackbar('Market is Close ', "");
+       
+    
+            }
+                              },
+                              child: Text(
+                                item.play ? "Open" : "Close",
+                                style: CustomStyleswhite.header2TextStyle,
+                              ),
+                            ),
+          
+       
                         ],
                       ),
                     ],

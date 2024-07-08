@@ -15,8 +15,8 @@ class NetworkProvider extends GetConnect {
     httpClient.maxAuthRetries = 3;
 
     httpClient.addRequestModifier<void>((request) async {
-      final token = await StorageRepository.getToken();
-      print("----------$token");
+      final token = await StorageRepository.getTokenpin();
+    
       request.headers['Token'] = token;
       return request;
     });

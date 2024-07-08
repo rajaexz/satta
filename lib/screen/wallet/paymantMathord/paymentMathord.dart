@@ -63,8 +63,8 @@ class _AllpaymentScreenState extends State<AllpaymentScreen> {
   Future<UpiResponse> initiateTransaction(UpiApp app) async {
     return _upiIndia.startTransaction(
       app: app,
-      receiverUpiId: "9078600498@ybl",
-      receiverName: 'Md Azharuddin',
+      receiverUpiId: "7011448878@au",
+      receiverName: 'Billa',
       transactionRefId: 'TestingUpiIndiaPlugin',
       transactionNote: 'Not actual. Just an example.',
       amount:double.parse(widget.controller!.moneyController.text,),
@@ -72,9 +72,9 @@ class _AllpaymentScreenState extends State<AllpaymentScreen> {
   }
 
   Widget displayUpiApps() {
-    if (apps == null)
-      return Center(child: CircularProgressIndicator());
-    else if (apps!.length == 0)
+    if (apps == null) {
+      return const Center(child: CircularProgressIndicator());
+    } else if (apps!.isEmpty)
       return   MyUpi();
     else
       return Align(

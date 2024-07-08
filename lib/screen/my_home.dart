@@ -90,16 +90,11 @@ class _MyHomeVeiwState extends State<MyHomeVeiw> with TickerProviderStateMixin {
     setState(() {/* update state */});
   }
 
-  final List<String> imageUrls = [
-    'assets/onboarding1.png',
-    'assets/onboarding2.jpg',
-    'assets/onboarding0.jpg',
-  ];
+
   ScrollController _scrollController = ScrollController();
   bool _showButton = false;
   @override
   Widget build(BuildContext context) {
-    List<String> banners = imageUrls.map((url) => url).toList();
 
     return RefreshIndicator(
       onRefresh: _refreshProfile,
@@ -126,7 +121,7 @@ class _MyHomeVeiwState extends State<MyHomeVeiw> with TickerProviderStateMixin {
                           child: Text('Button'),
                         )
                       : SizedBox.shrink(),
-                  BannerAdd(banners: banners, currentSlide: banners.length),
+                  BannerAdd(banners: widget.controller!.dataModel!.banner),
                   Container(
                     margin: GlobleglobleMargin.globleMargin,
                     child: const UpComming(),

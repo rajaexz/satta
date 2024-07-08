@@ -1,5 +1,4 @@
 import 'package:winner11/screen/component/coundown.dart';
-import 'package:winner11/screen/component/shimmer.dart';
 import 'package:winner11/utilis/AllColor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

@@ -14,8 +14,9 @@ import 'package:winner11/utilis/AllColor.dart';
 import 'package:winner11/utilis/boxSpace.dart';
 import 'package:winner11/utilis/fontstyle.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:winner11/screen/wallet/wallet.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../wallet/walletHestory.dart';
 
 class UpComming extends GetView<GameBidController> {
   const UpComming({Key? key}) : super(key: key);
@@ -93,7 +94,7 @@ class UpCommingView extends StatelessWidget {
                           return const FractionallySizedBox(
                             heightFactor:
                                 0.5, // Adjust this value to control the height (0.0 to 1.0).
-                            child: MyWallet(),
+                            child: Myhestory(),
                           );
                         },
                       );
@@ -221,7 +222,7 @@ class UpCommingView extends StatelessWidget {
                             TextButton(
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
-                                    bid.open
+                                    bid.play
                                         ? const Color.fromARGB(255, 26, 113, 29)
                                         : Color.fromARGB(255, 199, 44, 44)),
                                 padding: MaterialStateProperty.all(
@@ -231,14 +232,18 @@ class UpCommingView extends StatelessWidget {
                               ),
                               isSemanticButton: true,
                               onPressed: () {
-                                !bid.open ? Get.to(GridViewWidget(playOrNot:bid.play)) : null;
+                                bid.play ? Get.to(GridViewWidget(gameData:bid,whicGameName: "main_game",)) : null;
 
-                                  if ( !bid.open ) {
+                                  if (!bid.play) {
               Vibration.vibrate();
+
+                       Get.snackbar('Market is Close ', "");
+       
+    
             }
                               },
                               child: Text(
-                                bid.open ? "Open" : "Close",
+                                bid.play ? "Open" : "Close",
                                 style: CustomStyleswhite.header2TextStyle,
                               ),
                             ),

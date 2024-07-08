@@ -11,7 +11,7 @@ class DataModel {
   final String shareMessage;
   final ContactDetails contactDetails;
   final BannerImage bannerImage;
-  final List<Banner> banner;
+  final List<Bannered> banner;
   final ProjectStatus projectStatus;
 
   DataModel({
@@ -45,7 +45,7 @@ class DataModel {
       shareMessage: json['share_message'],
       contactDetails: ContactDetails.fromJson(json['contact_details']),
       bannerImage: BannerImage.fromJson(json['banner_image']),
-      banner: (json['banner'] as List).map((i) => Banner.fromJson(i)).toList(),
+      banner: (json['banner'] as List).map((i) => Bannered.fromJson(i)).toList(),
       projectStatus: ProjectStatus.fromJson(json['project_status']),
     );
   }
@@ -100,13 +100,13 @@ class BannerImage {
   }
 }
 
-class Banner {
+class Bannered {
   final String image;
 
-  Banner({required this.image});
+  Bannered({required this.image});
 
-  factory Banner.fromJson(Map<String, dynamic> json) {
-    return Banner(
+  factory Bannered.fromJson(Map<String, dynamic> json) {
+    return Bannered(
       image: json['image'],
     );
   }

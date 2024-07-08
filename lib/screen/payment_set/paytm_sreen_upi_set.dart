@@ -36,11 +36,11 @@ class PaytmSreenView extends StatefulWidget {
 class _PaytmSreenViewState extends State<PaytmSreenView> {
   @override
   Widget build(BuildContext context) {
-    List PaymentMethord = ["Paytm", "GooglePay", "PhonePay"];
+    List PaymentMethord = ["Paytm", "GooglePay", "PhonePay","Bank"];
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GridView.builder(
-        itemCount: 3, // Number of items in the grid
+        itemCount: PaymentMethord.length, // Number of items in the grid
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, // Number of columns in the grid
           crossAxisSpacing: 8.0,

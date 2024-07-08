@@ -1,14 +1,10 @@
-import 'package:winner11/screen/component/custom_toaster.dart';
+
 import 'package:winner11/screen/component/profileContainer.dart';
 import 'package:winner11/screen/wallet/wallet_controller.dart/withdrow_controller.dart';
-
-import 'package:winner11/service/authapi.dart';
 
 import 'package:flutter/material.dart';
 import 'package:winner11/screen/header/appbar.dart';
 import 'package:get/get.dart';
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:winner11/utilis/AllColor.dart';
 import 'package:winner11/utilis/fontstyle.dart';

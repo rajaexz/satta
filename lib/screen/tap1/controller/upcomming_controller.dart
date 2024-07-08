@@ -30,10 +30,8 @@ class GameBidController extends GetxController {
       final response = await _dio.get(
         '${ApiPath.baseUrl}main_game_list', // Replace with your actual API URL
 
-        options: Options(headers: {'Token': "JZzG5NPNnOCRS5lO"}),
+        options: Options(headers: {'Token': token}),
       );
-
-      print("${response.data} ===========================");
       var jsonResponse = jsonDecode(response.data); // Decode the JSON response
       if (response.statusCode == 200 && jsonResponse['status'] == 'success') {
         for (var item in jsonResponse['data']) {
@@ -41,18 +39,9 @@ class GameBidController extends GetxController {
         }
         update();
       } else {
-        Get.snackbar(
-          "Something went wrong", // Title
-          "Incomplete", // Message
-          backgroundColor: Colors.red,
-          duration: Duration(seconds: 2),
-          snackPosition: SnackPosition.BOTTOM, // Position of the Snackbar
-          borderRadius: 10, // BorderRadius.circular(10)
-          margin: EdgeInsets.all(10), // Margin around the Snackbar
-          animationDuration:
-              Duration(milliseconds: 200), // Duration of animation
-          // You can customize further properties as needed
-        );
+           Get.snackbar('Something went wrong ', "Incomplete");
+       
+    
       }
     } catch (e) {
       // Handle error

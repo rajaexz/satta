@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 
 import 'package:winner11/screen/component/darkmode.dart';
 import 'package:winner11/screen/component/imageComponet.dart';
-import 'package:winner11/screen/wallet/wallet.dart';
 import 'package:winner11/service/authapi.dart';
 import 'package:winner11/utilis/borderbox.dart';
 import 'package:winner11/utilis/boxSpace.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utilis/AllColor.dart';
+import '../wallet/walletHestory.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget> actions;
@@ -87,7 +87,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 return  const FractionallySizedBox(
                   heightFactor:
                       0.5, // Adjust this value to control the height (0.0 to 1.0).
-                  child: MyWallet(),
+                  child: Myhestory(
+                 
+                ),
                 );
               },
             );

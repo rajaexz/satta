@@ -31,6 +31,13 @@ import '../utilis/app_constant.dart';
     return await store.get(AppConstant.tokenKey);
   }
 
+    static Future<dynamic> getTokenpin() async {
+    final store = await SharedPreferences.getInstance();
+    // store.setString('KYCstatus', kyc);
+
+    return await store.get(AppConstant.tokenKeypin);
+  }
+
 // static Future<String?> getFirebaseToken() async{
 //   FirebaseMessaging messaging = FirebaseMessaging.instance;
 //   return await messaging.getToken();
