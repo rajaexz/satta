@@ -8,7 +8,6 @@ import 'package:winner11/screen/payment_set/phonepay.dart';
 import 'package:winner11/screen/profile/bankEdit.dart';
 
 import 'package:get/get.dart';
-import 'package:winner11/screen/KYC/kyc.dart';
 import 'package:winner11/screen/aboutTerm&Condition/Tream&con.dart';
 import 'package:winner11/screen/aboutTerm&Condition/aboutus.dart';
 import 'package:winner11/screen/aboutTerm&Condition/faq.dart';
@@ -57,11 +56,11 @@ var allRutes = [
       page: () => MyHomePage(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
-       GetPage(
+  GetPage(
       name: '/setpin',
       page: () => PinPage(),
       transition: Transition.leftToRightWithFade),
-       GetPage(
+  GetPage(
       name: '/Createsetpin',
       page: () => CreatePinPage(),
       transition: Transition.leftToRightWithFade),
@@ -97,17 +96,13 @@ var allRutes = [
       page: () => const MySetting(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
-  GetPage(
-      name: "/kyc",
-      page: () => KYC(),
-      transitionDuration: Duration(milliseconds: 500),
-      transition: Transition.leftToRightWithFade),
+
   GetPage(
       name: "/StarlineGame",
       page: () => StarlineGamePage(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
-        GetPage(
+  GetPage(
       name: "/Starlinehisory",
       page: () => BidHistoryPage(),
       transitionDuration: Duration(milliseconds: 500),
@@ -133,7 +128,6 @@ var allRutes = [
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
 
-      
   GetPage(
       name: "/GaliGame",
       page: () => GaliGamePage(),

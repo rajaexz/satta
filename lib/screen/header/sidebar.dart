@@ -76,8 +76,6 @@ Drawer myDrawer(BuildContext context) {
         Get.toNamed('/bitHistory');
       },
     },
-
-    
     {
       'iconData': Icons.payment,
       'title': 'Payment',
@@ -90,13 +88,6 @@ Drawer myDrawer(BuildContext context) {
       'title': 'Win History',
       'onTap': () async {
         Get.toNamed('/winHistory');
-      },
-    },
-    {
-      'iconData': Icons.security,
-      'title': 'Add Bank Account',
-      'onTap': () async {
-        Get.toNamed('/kyc');
       },
     },
   ];
@@ -197,7 +188,7 @@ Drawer myDrawer(BuildContext context) {
 }
 
 Widget profileInfo() {
-      UserDetailsController? controller  = Get.put(UserDetailsController());
+  UserDetailsController? controller = Get.put(UserDetailsController());
 
   return Stack(
     alignment: Alignment.topCenter,
@@ -222,12 +213,13 @@ Widget profileInfo() {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  controller!.userDetails.value.data!.username ,
+                  controller!.userDetails.value.data!.username,
                   softWrap: true,
                   overflow: TextOverflow.ellipsis,
                   style: CustomStyleswhite.headerTextStyle,
                 ),
-                Text(  controller!.userDetails.value.data!.mobile, style: CustomStyles.textExternelgray),
+                Text(controller!.userDetails.value.data!.mobile,
+                    style: CustomStyles.textExternelgray),
                 size20h,
               ],
             ),

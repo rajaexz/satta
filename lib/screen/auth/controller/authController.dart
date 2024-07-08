@@ -41,7 +41,8 @@ class SignupController extends GetxController {
       );
 
       isLoading.value = false;
-      print('Signup successful: ${response.data}');
+      var jsonResponse = jsonDecode(response.data!);
+      print('Signup successful: ${jsonResponse}');
 
       if (response.statusCode == 200) {
         Get.toNamed("/otp",
@@ -49,8 +50,8 @@ class SignupController extends GetxController {
         Get.snackbar('Success', 'Signup successful',
             snackPosition: SnackPosition.BOTTOM);
       } else {
-        print('Signup failed: ${response.data["message"]}');
-        Get.snackbar('Error', 'Signup failed: ${response.data["message"]}',
+        print('Signup failed: ${jsonResponse["message"]}');
+        Get.snackbar('Error', 'Signup failed: $jsonResponse["message"]}',
             snackPosition: SnackPosition.BOTTOM);
       }
     } catch (e) {
@@ -67,13 +68,15 @@ class SignupController extends GetxController {
       final response = await apiService.post('/forgot_password', data: {
         'mobile': mobile,
       });
+
+      var jsonResponse = jsonDecode(response.data!);
       // Handle response
-      if (response.data['status'] == 'success') {
-        Get.snackbar('Success', response.data['message']);
+      if (jsonResponse['status'] == 'success') {
+        Get.snackbar('Success', jsonResponse['message']);
         // Navigate to verify OTP screen
         Get.toNamed('/otp');
       } else {
-        Get.snackbar('Error', response.data['message']);
+        Get.snackbar('Error', jsonResponse['message']);
       }
     } catch (e) {
       Get.snackbar('Error', e.toString());
@@ -90,13 +93,15 @@ class SignupController extends GetxController {
         'otp': otp,
         'password': newPassword,
       });
+
+      var jsonResponse = jsonDecode(response.data!);
       // Handle response
-      if (response.data['status'] == 'success') {
-        Get.snackbar('Success', response.data['message']);
+      if (jsonResponse['status'] == 'success') {
+        Get.snackbar('Success', jsonResponse['message']);
         // Navigate to login screen
         Get.to(() => Loginpage());
       } else {
-        Get.snackbar('Error', response.data['message']);
+        Get.snackbar('Error', jsonResponse['message']);
       }
     } catch (e) {
       Get.snackbar('Error', e.toString());
@@ -120,13 +125,15 @@ class SignupController extends GetxController {
       );
 
       isLoading.value = false;
+
+      var jsonResponse = jsonDecode(response.data!);
       if (response.statusCode == 200) {
-        print('Signup successful: ${response.data}');
+        print('Signup successful: ${jsonResponse['message']}');
 
         Get.snackbar('Success', 'Successful send opt',
             snackPosition: SnackPosition.BOTTOM);
       } else {
-        Get.snackbar('Error', 'Signup failed: ${response.statusMessage}',
+        Get.snackbar('Error', 'Signup failed: ${jsonResponse['message']}',
             snackPosition: SnackPosition.BOTTOM);
       }
     } catch (e) {
@@ -152,13 +159,15 @@ class SignupController extends GetxController {
       );
 
       isLoading.value = false;
+
+      var jsonResponse = jsonDecode(response.data!);
       if (response.statusCode == 200) {
-        print('Signup successful: ${response.data}');
+        print('Signup successful: ${jsonResponse['message']}');
 
         Get.snackbar('Success', 'Successful send opt',
             snackPosition: SnackPosition.BOTTOM);
       } else {
-        Get.snackbar('Error', 'Signup failed: ${response.statusMessage}',
+        Get.snackbar('Error', 'Signup failed: ${jsonResponse['message']}',
             snackPosition: SnackPosition.BOTTOM);
       }
     } catch (e) {
@@ -194,7 +203,7 @@ class SignupController extends GetxController {
         StorageRepository.saveOffline(AppConstant.tokenKeypin, token);
         Get.snackbar('Success', 'Login successful',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed("/Createsetpin",arguments: mobile.toString());
+        Get.toNamed("/Createsetpin", arguments: mobile.toString());
       } else {
         Get.snackbar('Error', 'Login failed: ${badydecode["message"]}',
             snackPosition: SnackPosition.BOTTOM);
@@ -225,7 +234,8 @@ class SignupController extends GetxController {
 
       isLoading.value = false;
       if (response.statusCode == 200) {
-        final responseData = response.data;
+        final responseData = jsonDecode(response.data);
+
         if (responseData['status'] == 'success') {
           final token = responseData['data']['token'];
           print("-------------${token}");

@@ -18,13 +18,11 @@ class MyHomePageController extends GetxController {
   }
 
   void fetchData() async {
-    
     final tokenpin = await StorageRepository.getTokenpin();
     try {
       isLoading(true);
       var response = await Dio().get('${ApiPath.baseUrl}app_details',
-          options: Options(headers: {'Token':tokenpin}));
-  
+          options: Options(headers: {'Token': tokenpin}));
 
       if (response.statusCode == 200) {
         var badydecode = jsonDecode(response.data);
@@ -35,7 +33,7 @@ class MyHomePageController extends GetxController {
         } else {
           Get.snackbar('Api has erorr ', badydecode['message']);
           isLoading(false);
-              Get.offAllNamed("/login");
+          Get.offAllNamed("/login");
           update();
         }
       } else {

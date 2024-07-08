@@ -5,20 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 
-
 import '../../../network/api_path.dart';
 import '../../../network/storage_repository.dart';
 import 'package:get/get.dart' as con;
-class  WithdrowController extends  con.GetxController{
-  
+
+class WithdrowController extends con.GetxController {
   TextEditingController amountController = TextEditingController();
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
   }
+
   var isLoading = false.obs;
-    final Dio _dio = Dio();
+  final Dio _dio = Dio();
   Future<void> withdrawFund(Map<String, dynamic> data) async {
     isLoading(true);
     try {
@@ -35,23 +35,12 @@ class  WithdrowController extends  con.GetxController{
       var jsonResponse = jsonDecode(response.data); // Decode the JSON response
 
       if (response.statusCode == 200 && jsonResponse['status'] == 'success') {
-        Get.showSnackbar(const GetSnackBar(
-          title: "Successful",
-          message: "Your transaction is complete",
-          backgroundColor: Colors.green,
-          animationDuration:Duration(seconds: 2),
-        ));
+        Get.snackbar('Successful', "Your transaction is complete");
 
-          update();
+        update();
         Get.toNamed("/home", arguments: "id");
       } else {
-        // Handle error
-        Get.showSnackbar(const GetSnackBar(
-          title: "Something went wrong",
-          message: "Your transaction is incomplete",
-          backgroundColor: Colors.red,
-            animationDuration:Duration(seconds: 2),
-        ));
+        Get.snackbar('Something went wrong', "Your transaction is incomplete");
       }
     } catch (e) {
       // Handle error
@@ -60,5 +49,4 @@ class  WithdrowController extends  con.GetxController{
       isLoading(false);
     }
   }
-
 }

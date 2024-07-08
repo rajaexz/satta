@@ -2,22 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:winner11/network/network_config.dart';
 import 'package:winner11/screen/tap1/hisrotry/controller/SartlineBidHistoryController.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:winner11/screen/tap1/hisrotry/widget/bitcart.dart';
 
 class BidHistoryPage extends StatelessWidget {
-  final BidHistoryController controller = Get.put(BidHistoryController(NetworkProvider()));
+  final BidHistoryController controller =
+      Get.put(BidHistoryController(NetworkProvider()));
+
+  BidHistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bid History'),
+        title: const Text('Bid History'),
         actions: [
           IconButton(
-            icon: Icon(Icons.date_range),
+            icon: const Icon(Icons.date_range),
             onPressed: () async {
               DateTimeRange? picked = await showDateRangePicker(
                 context: context,
@@ -52,7 +53,7 @@ class BidHistoryPage extends StatelessWidget {
                   itemCount: controller.bidHistoryList.length,
                   itemBuilder: (context, index) {
                     final bid = controller.bidHistoryList[index];
-                      return BidHistoryCard(bid: bid);
+                    return BidHistoryCard(bid: bid);
                   },
                 ),
               ),

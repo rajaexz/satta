@@ -8,8 +8,7 @@ import '../../../network/api_path.dart';
 import '../../../network/storage_repository.dart';
 
 class NotificationController extends GetxController {
-
-    DataModel? dataModel;
+  var dataModel = Rxn<DataModel>();
   void onInit() {
     readNotification();
     fetchData();
@@ -17,7 +16,7 @@ class NotificationController extends GetxController {
   }
 
   Future<void> readNotification() async {
-       final token = await StorageRepository.getTokenpin();
+    final token = await StorageRepository.getTokenpin();
     final response = await GetConnect().post(
       '${ApiPath.baseUrl}read_notification',
       {"readnoti": true},
@@ -37,27 +36,24 @@ class NotificationController extends GetxController {
     // }
   }
 
-
-    var isLoading = true.obs;
+  var isLoading = true.obs;
   void fetchData() async {
-    
     final tokenpin = await StorageRepository.getTokenpin();
     try {
       isLoading(true);
       var response = await Dio().get('${ApiPath.baseUrl}app_details',
-          options: Options(headers: {'Token':tokenpin}));
-  
+          options: Options(headers: {'Token': tokenpin}));
 
       if (response.statusCode == 200) {
         var badydecode = jsonDecode(response.data);
         if (badydecode["code"] == "100" && tokenpin != null) {
-          dataModel = DataModel.fromJson(badydecode["data"]);
+          dataModel.value = DataModel.fromJson(badydecode["data"]);
           isLoading(false);
           update();
         } else {
           Get.snackbar('Api has erorr ', badydecode['message']);
           isLoading(false);
-              Get.offAllNamed("/login");
+          Get.offAllNamed("/login");
           update();
         }
       } else {
@@ -71,7 +67,6 @@ class NotificationController extends GetxController {
       update();
     }
   }
-
 }
 
 // Model class for Notification

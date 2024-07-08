@@ -33,20 +33,21 @@ class DataModel {
 
   factory DataModel.fromJson(Map<String, dynamic> json) {
     return DataModel(
-      bannerMarquee: json['banner_marquee'],
-      withdrawOpenTime: json['withdraw_open_time'],
-      withdrawCloseTime: json['withdraw_close_time'],
-      addFundNotice: json['add_fund_notice'],
-      withdrawNotice: json['withdraw_notice'],
-      appNotice: json['app_notice'],
-      appLink: json['app_link'],
+      bannerMarquee: json['banner_marquee'] ?? "",
+      withdrawOpenTime: json['withdraw_open_time'] ?? "",
+      withdrawCloseTime: json['withdraw_close_time'] ?? "",
+      addFundNotice: json['add_fund_notice'] ?? "",
+      withdrawNotice: json['withdraw_notice'] ?? "",
+      appNotice: json['app_notice'] ?? "",
+      appLink: json['app_link'] ?? "",
       appStatus: json['app_status'],
-      adminMessage: json['admin_message'],
-      shareMessage: json['share_message'],
-      contactDetails: ContactDetails.fromJson(json['contact_details']),
-      bannerImage: BannerImage.fromJson(json['banner_image']),
-      banner: (json['banner'] as List).map((i) => Bannered.fromJson(i)).toList(),
-      projectStatus: ProjectStatus.fromJson(json['project_status']),
+      adminMessage: json['admin_message'] ?? "",
+      shareMessage: json['share_message'] ?? "",
+      contactDetails: ContactDetails.fromJson(json['contact_details'] ?? ""),
+      bannerImage: BannerImage.fromJson(json['banner_image'] ?? ""),
+      banner:
+          (json['banner'] as List).map((i) => Bannered.fromJson(i)).toList(),
+      projectStatus: ProjectStatus.fromJson(json['project_status'] ?? ""),
     );
   }
 }
@@ -70,12 +71,12 @@ class ContactDetails {
 
   factory ContactDetails.fromJson(Map<String, dynamic> json) {
     return ContactDetails(
-      whatsappNo: json['whatsapp_no'],
-      mobileNo1: json['mobile_no_1'],
-      mobileNo2: json['mobile_no_2'],
-      email1: json['email_1'],
-      telegramNo: json['telegram_no'],
-      withdrawProof: json['withdraw_proof'],
+      whatsappNo: json['whatsapp_no'] ?? "",
+      mobileNo1: json['mobile_no_1'] ?? "",
+      mobileNo2: json['mobile_no_2'] ?? "",
+      email1: json['email_1'] ?? "",
+      telegramNo: json['telegram_no'] ?? "",
+      withdrawProof: json['withdraw_proof'] ?? "",
     );
   }
 }
@@ -93,9 +94,9 @@ class BannerImage {
 
   factory BannerImage.fromJson(Map<String, dynamic> json) {
     return BannerImage(
-      bannerImg1: json['banner_img_1'],
-      bannerImg2: json['banner_img_2'],
-      bannerImg3: json['banner_img_3'],
+      bannerImg1: json['banner_img_1'] ?? "",
+      bannerImg2: json['banner_img_2'] ?? "",
+      bannerImg3: json['banner_img_3'] ?? "",
     );
   }
 }
@@ -107,7 +108,7 @@ class Bannered {
 
   factory Bannered.fromJson(Map<String, dynamic> json) {
     return Bannered(
-      image: json['image'],
+      image: json['image'] ?? "",
     );
   }
 }
@@ -129,11 +130,11 @@ class ProjectStatus {
 
   factory ProjectStatus.fromJson(Map<String, dynamic> json) {
     return ProjectStatus(
-      mainMarket: json['main_market'],
-      starlineMarket: json['starline_market'],
-      galidesawarMarket: json['galidesawar_market'],
-      bannerStatus: json['banner_status'],
-      marqueeStatus: json['marquee_status'],
+      mainMarket: json['main_market'] ?? "",
+      starlineMarket: json['starline_market'] ?? "",
+      galidesawarMarket: json['galidesawar_market'] ?? "",
+      bannerStatus: json['banner_status'] ?? "",
+      marqueeStatus: json['marquee_status'] ?? "",
     );
   }
 }

@@ -11,7 +11,7 @@ class TransferPage extends GetView<TransferController> {
     Get.put(TransferController());
 
     return Scaffold(
-      appBar : CustomAppBar(title: "Wallet History"),
+      appBar: CustomAppBar(title: "Wallet History"),
       body: GetBuilder<TransferController>(
         init: controller,
         builder: (controller) => TransferView(
@@ -22,69 +22,69 @@ class TransferPage extends GetView<TransferController> {
   }
 }
 
-
 class TransferView extends StatelessWidget {
-TransferController? controller;  
-TransferView({super.key,this.controller});
+  TransferController? controller;
+  TransferView({super.key, this.controller});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Transfer Points'),
-      ),
-      body:     controller!.isLoading.value
-            ? Center(child: CircularProgressIndicator())
-            : Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                       MyFunctionInput(
-                controller: controller!.userNumberController,
-                fieldName: "Enter Your User Number",
-                hintText: " User Number",
-                inputType: TextInputType.number,
-                errorMessage: "Please enter  User Number",
-                usernameRegex:
-                    r'^\d{10}$', // Adjust the regex for name validation
-              ),
-                  
-                    SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed:(){
-                        
-var transferVerifyData =  {'user_number': controller!.userNumberController.text};
-                         controller!.transferVerify(transferVerifyData);
-                      },
-                      child: Text('Verify User'),
-                    ),
-                    SizedBox(height: 16),
-                    if (controller!.userName.value.isNotEmpty)
-                      Text('User Name: ${controller!.userName.value}'),
-                    SizedBox(height: 16),
-                    TextField(
-                      controller: controller!.pointsController,
-                      decoration: const InputDecoration(
-                        labelText: 'Points',
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.number,
-                    ),
-                    SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: (){
-                                              
-var transferPointsData =  {'user_number': controller!.userNumberController.text, "points" : controller!.pointsController.text};
-   
-                        controller!.transferPoints(transferPointsData);
-                      },
-                      child: Text('Transfer Points'),
-                    ),
-                  ],
+    return controller!.isLoading.value
+        ? Center(child: CircularProgressIndicator())
+        : Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MyFunctionInput(
+                  controller: controller!.userNumberController,
+                  fieldName: "Enter Your User Number",
+                  hintText: " User Number",
+                  inputType: TextInputType.number,
+                  errorMessage: "Please enter  User Number",
+                  usernameRegex:
+                      r'^\d{10}$', // Adjust the regex for name validation
                 ),
-              )
-   
-    );
+                SizedBox(height: 16),
+                Center(
+                    child: Text(
+                  controller!.userName.value,
+                  style: TextStyle(color: Colors.green),
+                )),
+                ElevatedButton(
+                  onPressed: () {
+                    var transferVerifyData = {
+                      'user_number': controller!.userNumberController.text
+                    };
+                    controller!.transferVerify(transferVerifyData);
+                  },
+                  child: Text('Verify User'),
+                ),
+                SizedBox(height: 16),
+                if (controller!.userName.value.isNotEmpty)
+                  Text('User Name: ${controller!.userName.value}'),
+                SizedBox(height: 16),
+                TextField(
+                  controller: controller!.pointsController,
+                  decoration: const InputDecoration(
+                    labelText: 'Points',
+                    border: OutlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+                SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    var transferPointsData = {
+                      'user_number': controller!.userNumberController.text,
+                      "points": controller!.pointsController.text
+                    };
+
+                    controller!.transferPoints(transferPointsData);
+                  },
+                  child: Text('Transfer Points'),
+                ),
+              ],
+            ),
+          );
   }
 }

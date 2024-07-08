@@ -11,22 +11,17 @@ import '../../../model/winStatement.dart';
 import '../../../network/api_path.dart';
 import '../../../network/storage_repository.dart';
 
-class BitHestoryController extends con.GetxController{
-
-    var isLoading = false.obs;
-    final Dio _dio = Dio();
-     List<Game> games = [];
-
+class BitHestoryController extends con.GetxController {
+  var isLoading = false.obs;
+  final Dio _dio = Dio();
+  List<Game> games = [];
 
   @override
   void onInit() {
-   fetchBitStatement();
+    fetchBitStatement();
     super.onInit();
-  
   }
 
-
-  
   Future<void> fetchBitStatement() async {
     isLoading(true);
     try {
@@ -35,27 +30,24 @@ class BitHestoryController extends con.GetxController{
 
       final response = await _dio.get(
         '${ApiPath.baseUrl}bid_history', // Replace with your actual API URL
-       
-        options: Options(headers: {'Token':token}),
+
+        options: Options(headers: {'Token': token}),
       );
 
-   
       var jsonResponse = jsonDecode(response.data); // Decode the JSON response
- if (response.statusCode == 200 && jsonResponse ['status'] == 'success') {
-
-
-       for (var item in jsonResponse['data']) {
-        games.add(Game.fromJson(item));
-      }
-  update();
-    } else {
+      if (response.statusCode == 200 && jsonResponse['status'] == 'success') {
+        for (var item in jsonResponse['data']) {
+          games.add(Game.fromJson(item));
+        }
+        update();
+      } else {
         Get.showSnackbar(const GetSnackBar(
           title: "Something went wrong",
           message: "incomplete",
           backgroundColor: Colors.red,
-            animationDuration:Duration(seconds: 2),
+          animationDuration: Duration(seconds: 2),
         ));
-    }
+      }
     } catch (e) {
       // Handle error
       print(e);
@@ -63,5 +55,4 @@ class BitHestoryController extends con.GetxController{
       isLoading(false);
     }
   }
-
 }

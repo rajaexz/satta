@@ -86,11 +86,16 @@ class _BankEditState extends State<BankEdit> {
             key: formKey2,
             child: Obx(
               () {
-                bankNameController.text = userDetails.value.data!.bankName ?? '';
-                bankAccountController.text = userDetails.value.data!.bankAccountNo ?? '';
-                ifscCodeController.text = userDetails.value.data!.ifscCode ?? '';
-                accountHolderNameController.text = userDetails.value.data!.accountHolderName ?? '';
-                branchAddressController.text = userDetails.value.data!.branchAddress ?? '';
+                bankNameController.text =
+                    userDetails.value.data!.bankName ?? '';
+                bankAccountController.text =
+                    userDetails.value.data!.bankAccountNo ?? '';
+                ifscCodeController.text =
+                    userDetails.value.data!.ifscCode ?? '';
+                accountHolderNameController.text =
+                    userDetails.value.data!.accountHolderName ?? '';
+                branchAddressController.text =
+                    userDetails.value.data!.branchAddress ?? '';
 
                 return Column(
                   children: [
@@ -155,7 +160,8 @@ class _BankEditState extends State<BankEdit> {
                             bankNameController: bankNameController,
                             bankAccountController: bankAccountController,
                             ifscCodeController: ifscCodeController,
-                            accountHolderNameController: accountHolderNameController,
+                            accountHolderNameController:
+                                accountHolderNameController,
                             branchAddressController: branchAddressController,
                           );
                         }
@@ -228,7 +234,7 @@ class _BankEditState extends State<BankEdit> {
       "branch_address": branchAddressController.text,
     };
 
-     final token = await StorageRepository.getToken();
+    final token = await StorageRepository.getToken();
     try {
       final dio = Dio();
       final response = await dio.post(
@@ -240,8 +246,8 @@ class _BankEditState extends State<BankEdit> {
           },
         ),
       );
-
-      if (response.statusCode == 200 && response.data['status'] == 'success') {
+      var jsonResponse = jsonDecode(response.data);
+      if (response.statusCode == 200 && jsonResponse['status'] == 'success') {
         CustomToaster.showSuccess(context, "Bank details updated successfully");
       } else {
         CustomToaster.showWarning(context, "Something went wrong");
@@ -251,4 +257,3 @@ class _BankEditState extends State<BankEdit> {
     }
   }
 }
-

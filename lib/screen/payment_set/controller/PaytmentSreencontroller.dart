@@ -9,32 +9,29 @@ import '../../../network/api_path.dart';
 import '../../../network/storage_repository.dart';
 
 class PaytmentSreenController extends GetxController {
-    var isLoading = false.obs;
-      Dio? _dio ;
-  var token ;
+  var isLoading = false.obs;
+  Dio? _dio;
+  var token;
   @override
   Future<void> onInit() async {
+    token = await StorageRepository.getTokenpin();
 
-        token = await StorageRepository.getTokenpin();
-
-       _dio = Dio(BaseOptions(
-    baseUrl:
-        '${ApiPath.baseUrl}starline_game', // Replace with your API base URL
-    headers: {
-      'Token': token,
-    },
-  ));
+    _dio = Dio(BaseOptions(
+      baseUrl:
+          '${ApiPath.baseUrl}starline_game', // Replace with your API base URL
+      headers: {
+        'Token': token,
+      },
+    ));
     // TODO: implement onInit
-fetchUserDetails();
+    fetchUserDetails();
     super.onInit();
   }
 
- 
   //////////////////////////////////
   ///
   ///
   ///
-
 
   var userDetails = UserDetails(
     message: '',
@@ -56,27 +53,21 @@ fetchUserDetails();
     ),
   ).obs;
 
-
-
   void fetchUserDetails() async {
-   
     isLoading(true);
     try {
-     final token = await StorageRepository.getToken();
+      final token = await StorageRepository.getToken();
 
-     print(token);
+      print(token);
       final response = await _dio!.get(
         '${ApiPath.baseUrl}get_user_details', // Replace with your actual API URL
         options: Options(headers: {'Token': token}),
       );
       print(response.data);
       if (response.statusCode == 200) {
-       var jsonResponse = jsonDecode(response.data!); // Decode the JSON response
+        var jsonResponse =
+            jsonDecode(response.data!); // Decode the JSON response
         userDetails(UserDetails.fromJson(jsonResponse));
-      
-
-
-     
       } else {
         // Handle error
       }
@@ -97,13 +88,15 @@ fetchUserDetails();
       final response = await _dio!.post(
         '${ApiPath.baseUrl}/update_paytm',
         data: {
-          'paytm': phone,
+          'phonepe': phone,
         },
       );
-      if (response.data['status'] == 'success') {
+
+      var jsonResponse = jsonDecode(response.data!);
+      if (jsonResponse['status'] == 'success') {
         Get.showSnackbar(GetBar(
-          message: response.data['message'],
-          duration: Duration(seconds: 2),
+          message: jsonResponse['message'],
+          duration: const Duration(seconds: 2),
         ));
       } else {
         Get.showSnackbar(GetBar(
@@ -118,6 +111,7 @@ fetchUserDetails();
       ));
     }
   }
+
   void updatePhown(String phone) async {
     try {
       final response = await _dio!.post(
@@ -126,9 +120,10 @@ fetchUserDetails();
           'paytm': phone,
         },
       );
-      if (response.data['status'] == 'success') {
+      var jsonResponse = jsonDecode(response.data!);
+      if (jsonResponse['status'] == 'success') {
         Get.showSnackbar(GetBar(
-          message: response.data['message'],
+          message: jsonResponse['message'],
           duration: Duration(seconds: 2),
         ));
       } else {
@@ -150,12 +145,14 @@ fetchUserDetails();
       final response = await _dio!.post(
         '${ApiPath.baseUrl}/update_gpay',
         data: {
-          'paytm': phone,
+          'gpay': phone,
         },
       );
-      if (response.data['status'] == 'success') {
+
+      var jsonResponse = jsonDecode(response.data!);
+      if (jsonResponse['status'] == 'success') {
         Get.showSnackbar(GetBar(
-          message: response.data['message'],
+          message: jsonResponse['message'],
           duration: Duration(seconds: 2),
         ));
       } else {
