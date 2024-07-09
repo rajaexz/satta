@@ -7,11 +7,11 @@ import 'package:winner11/screen/payment_set/controller/PaytmentSreencontroller.d
 
 import '../controller/MyHomePage_controller.dart';
 
-class PaytmentSreen extends GetView<PaytmentSreenController> {
+class PaytmentSreen extends GetView<PaymentScreenController> {
   const PaytmentSreen({Key? key}) : super(key: key);
 
   Widget build(BuildContext context) {
-    Get.put(PaytmentSreenController());
+    Get.put(PaymentScreenController());
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -26,7 +26,7 @@ class PaytmentSreen extends GetView<PaytmentSreenController> {
 }
 
 class PaytmSreenView extends StatefulWidget {
-  final PaytmentSreenController? controller;
+  final PaymentScreenController? controller;
   PaytmSreenView({Key? key, this.controller}) : super(key: key);
 
   @override
@@ -36,7 +36,7 @@ class PaytmSreenView extends StatefulWidget {
 class _PaytmSreenViewState extends State<PaytmSreenView> {
   @override
   Widget build(BuildContext context) {
-    List PaymentMethord = ["Paytm", "GooglePay", "PhonePay","Bank"];
+    List PaymentMethord = ["Paytm", "GooglePay", "PhonePay", "Bank"];
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GridView.builder(

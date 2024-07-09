@@ -19,7 +19,7 @@ class WinHestory extends GetView<WinHestoryController> {
     Get.put(WinHestoryController());
 
     return Scaffold(
-      appBar: CustomAppBar(title: "Wallet History"),
+      appBar: CustomAppBar(title: "Win History"),
       body: GetBuilder<WinHestoryController>(
         init: controller,
         builder: (controller) => WinHestoryView(
@@ -30,97 +30,88 @@ class WinHestory extends GetView<WinHestoryController> {
   }
 }
 
-// ignore: must_be_immutable
 class WinHestoryView extends StatelessWidget {
-  WinHestoryController? controller;
-  WinHestoryView({super.key, this.controller});
+  final WinHestoryController controller;
+
+  WinHestoryView({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (controller!.isLoading.value) {
+    if (controller.isLoading.value) {
       return const Center(child: CircularProgressIndicator());
-    } else if (controller!.wingames.isEmpty) {
+    } else if (controller.wingames.isEmpty) {
       return Center(child: Text('Error fetching data'));
     } else {
       return Column(
         children: [
-          Container(
-              height: Get.height * 0.8,
-              margin: GlobleglobleMargin.Margin10H,
-              child: ListView.builder(
-                itemCount: controller!.wingames.length,
-                itemBuilder: (context, index) {
-                  final item = controller!.wingames[index];
+          Expanded(
+            child: ListView.builder(
+              itemCount: controller.wingames.length,
+              itemBuilder: (context, index) {
+                final item = controller.wingames[index];
 
-                  return Container(
-                    height: 150,
-                    margin: const EdgeInsets.all(9),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      border: border,
-                      borderRadius: boRadiusAll,
-                      color: themeController.isLightMode.value
-                          ? myColorWhite
-                          : myColor,
-                      boxShadow: [
-                        themeController.isLightMode.value ? boxdark : boxshadow2
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          item.gameType,
-                          style: TextStyle(fontSize: 10, color: myColorGray),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  size10w,
-                                  Column(
-                                    children: [
-                                      //time
-                                      Text(
-                                        item.gameType.toString(),
-                                        style: CustomStyles.smallTextStyle,
-                                      ),
-                                    ],
-                                  )
-                                ],
+                return Container(
+                  height: 150,
+                  margin: const EdgeInsets.all(9),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white, // Adjust colors based on your theme
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 7,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item.gameType,
+                        style: TextStyle(fontSize: 14, color: Colors.grey),
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.gameType,
+                                style: CustomStyles.smallTextStyle,
                               ),
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                  item.closePanna.toString(),
-                                  style: CustomStyles.textExternel,
-                                ),
-                                Text(
-                                  item.closeDigit.toString(),
-                                  style: CustomStyles.textExternel,
-                                ),
-                                Text(
-                                  " ₹${item.bidPoints.toString()}",
-                                  style: CustomStyles.textExternel,
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                        Text(
-                          item.winPoints.toString(),
-                          style: TextStyle(color: myColorgreen),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              )),
+                              const SizedBox(height: 5),
+                              Text(
+                                "Close Panna: ${item.closePanna}",
+                                style: CustomStyles.textExternel,
+                              ),
+                              Text(
+                                "Close Digit: ${item.closeDigit}",
+                                style: CustomStyles.textExternel,
+                              ),
+                              Text(
+                                "₹${item.bidPoints}",
+                                style: CustomStyles.textExternel,
+                              ),
+                            ],
+                          ),
+                          Text(
+                            "Win Points: ${item.winPoints}",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       );
     }

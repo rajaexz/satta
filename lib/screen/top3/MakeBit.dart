@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:winner11/model/StarlineGame.dart';
+import 'package:winner11/model/mainGame.dart';
 import 'package:winner11/screen/header/appbar.dart';
 import 'package:winner11/screen/top3/controller/MakeBit_controller.dart';
+
+import '../../model/GaliGame.dart';
+
 class MakeBitPage extends StatelessWidget {
   final String? title;
   final dynamic allData;
@@ -13,7 +18,8 @@ class MakeBitPage extends StatelessWidget {
     final MakeBiteController controller = Get.put(MakeBiteController(allData));
 
     return Scaffold(
-      appBar: CustomAppBar(title: title?.replaceAll('_', ' ').toUpperCase() ?? ''),
+      appBar:
+          CustomAppBar(title: title?.replaceAll('_', ' ').toUpperCase() ?? ''),
       body: GetBuilder<MakeBiteController>(
         builder: (controller) => MakeBitPageScreen(
           controller: controller,
@@ -23,28 +29,115 @@ class MakeBitPage extends StatelessWidget {
       ),
     );
   }
-}class MakeBitPageScreen extends StatelessWidget {
+}
+
+class MakeBitPageScreen extends StatelessWidget {
   final TextEditingController _pointController = TextEditingController();
   final String? gameType;
   final dynamic allData;
   final MakeBiteController controller;
 
-  MakeBitPageScreen({Key? key, required this.allData, this.gameType, required this.controller}) : super(key: key);
+  MakeBitPageScreen(
+      {Key? key,
+      required this.allData,
+      this.gameType,
+      required this.controller})
+      : super(key: key);
 
-  final List<String> singleDigit = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  final List<String> singleDigit = [
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9'
+  ];
   final List<String> jodiDigit = [
-    '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14',
-    '95', '96', '97', '98', '99'
+    '00',
+    '01',
+    '02',
+    '03',
+    '04',
+    '05',
+    '06',
+    '07',
+    '08',
+    '09',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '95',
+    '96',
+    '97',
+    '98',
+    '99'
   ];
   final List<String> singlePanna = [
-    '120', '123', '124', '125', '126', '127', '128', '129', '130', '134', '135', '136', '137', '138',
+    '120',
+    '123',
+    '124',
+    '125',
+    '126',
+    '127',
+    '128',
+    '129',
+    '130',
+    '134',
+    '135',
+    '136',
+    '137',
+    '138',
   ];
   final List<String> doublePanna = [
-    '100', '110', '112', '113', '114', '115', '116', '117', '118', '119', '122', '133', '144', '155',
+    '100',
+    '110',
+    '112',
+    '113',
+    '114',
+    '115',
+    '116',
+    '117',
+    '118',
+    '119',
+    '122',
+    '133',
+    '144',
+    '155',
   ];
-  final List<String> triplePanna = ['000', '111', '222', '333', '444', '555', '666', '777', '888', '999'];
+  final List<String> triplePanna = [
+    '000',
+    '111',
+    '222',
+    '333',
+    '444',
+    '555',
+    '666',
+    '777',
+    '888',
+    '999'
+  ];
   final List<String> panna = [
-    '000', '100', '110', '111', '112', '113', '114', '115', '116', '117', '118', '119', '120', '122', '123',
+    '000',
+    '100',
+    '110',
+    '111',
+    '112',
+    '113',
+    '114',
+    '115',
+    '116',
+    '117',
+    '118',
+    '119',
+    '120',
+    '122',
+    '123',
   ];
 
   List<String> _getDropdownList(String gameType) {
@@ -66,6 +159,90 @@ class MakeBitPage extends StatelessWidget {
     }
   }
 
+  Widget getOpenredio(dynamic gameData) {
+    print(" ==============${gameData}");
+
+    if (gameData is GaliDisawarGame) {
+      // Handle GaliDisawarGame type
+      return Row(
+        children: [
+          Radio(
+            value: 0,
+            groupValue: controller.selectedValue.value,
+            onChanged: (value) {
+              controller.selectedValue.value = value!;
+            },
+            activeColor: Colors.black,
+          ),
+          const Text('Open', style: TextStyle(color: Colors.black)),
+          Radio(
+            value: 1,
+            groupValue: controller.selectedValue.value,
+            onChanged: (value) {
+              controller.selectedValue.value = value!;
+            },
+            activeColor: Colors.black,
+          ),
+          const Text('Close', style: TextStyle(color: Colors.black)),
+        ],
+      );
+    } else if (gameData is StarlineGame) {
+      // Handle StarlineGame type
+      // Assuming StarlineGame has a property 'open', adjust the condition accordingly
+      return Row(
+        children: [
+          Radio(
+            value: 0,
+            groupValue: controller.selectedValue.value,
+            onChanged: (value) {
+              controller.selectedValue.value = value!;
+            },
+            activeColor: Colors.black,
+          ),
+          const Text('Open', style: TextStyle(color: Colors.black)),
+          Radio(
+            value: 1,
+            groupValue: controller.selectedValue.value,
+            onChanged: (value) {
+              controller.selectedValue.value = value!;
+            },
+            activeColor: Colors.black,
+          ),
+          const Text('Close', style: TextStyle(color: Colors.black)),
+        ],
+      );
+    } else if (gameData is GameList) {
+      // Handle 'single_digit' case
+      return gameData.open
+          ? Row(
+              children: [
+                Radio(
+                  value: 0,
+                  groupValue: controller.selectedValue.value,
+                  onChanged: (value) {
+                    controller.selectedValue.value = value!;
+                  },
+                  activeColor: Colors.black,
+                ),
+                const Text('Open', style: TextStyle(color: Colors.black)),
+                Radio(
+                  value: 1,
+                  groupValue: controller.selectedValue.value,
+                  onChanged: (value) {
+                    controller.selectedValue.value = value!;
+                  },
+                  activeColor: Colors.black,
+                ),
+                const Text('Close', style: TextStyle(color: Colors.black)),
+              ],
+            )
+          : Container();
+    } else {
+      // Handle default case
+      return Container(); // or some default widget if needed
+    }
+  }
+
   void _addBid() {
     // Check if the required fields are not empty
     if (_pointController.text.isEmpty) {
@@ -84,8 +261,12 @@ class MakeBitPage extends StatelessWidget {
       "game_type": gameType ?? '',
       "session": controller.selectedValue.value == 0 ? "Open" : "Close",
       "bid_points": _pointController.text,
-      "open_digit": controller.selectedValue.value == 0 ? controller.selectedDigit!.value : "",
-      "close_digit": controller.selectedValue.value == 1 ? controller.selectedDigit!.value : "",
+      "open_digit": controller.selectedValue.value == 0
+          ? controller.selectedDigit!.value
+          : "",
+      "close_digit": controller.selectedValue.value == 1
+          ? controller.selectedDigit!.value
+          : "",
       "open_panna": "",
       "close_panna": ""
     });
@@ -116,7 +297,10 @@ class MakeBitPage extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 DateTime.now().toString().split(' ')[0],
-                style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               const Text(
@@ -124,34 +308,17 @@ class MakeBitPage extends StatelessWidget {
                 style: TextStyle(color: Colors.black, fontSize: 18),
               ),
               const SizedBox(height: 8),
-              Row(
-                children: [
-                  Radio(
-                    value: 0,
-                    groupValue: controller.selectedValue.value,
-                    onChanged: (value) {
-                      controller.selectedValue.value = value!;
-                    },
-                    activeColor: Colors.black,
-                  ),
-                  const Text('Open', style: TextStyle(color: Colors.black)),
-                  Radio(
-                    value: 1,
-                    groupValue: controller.selectedValue.value,
-                    onChanged: (value) {
-                      controller.selectedValue.value = value!;
-                    },
-                    activeColor: Colors.black,
-                  ),
-                  const Text('Close', style: TextStyle(color: Colors.black)),
-                ],
-              ),
               const SizedBox(height: 16),
+              //===============//
+              getOpenredio(allData),
+
               Row(
                 children: [
                   Expanded(
                     child: DropdownButton<String>(
-                      value: controller.selectedDigit!.value.isEmpty ? null : controller.selectedDigit!.value,
+                      value: controller.selectedDigit!.value.isEmpty
+                          ? null
+                          : controller.selectedDigit!.value,
                       hint: const Text('Select Digit'),
                       items: _getDropdownList(gameType!).map((String value) {
                         return DropdownMenuItem<String>(
@@ -187,13 +354,22 @@ class MakeBitPage extends StatelessWidget {
               const SizedBox(height: 16),
               Container(
                 color: Colors.red[800],
-                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: const Row(
                   children: [
-                    Expanded(child: Text('Digit', style: TextStyle(color: Colors.white))),
-                    Expanded(child: Text('Point', style: TextStyle(color: Colors.white))),
-                    Expanded(child: Text('Type', style: TextStyle(color: Colors.white))),
-                    Expanded(child: Text('Delete', style: TextStyle(color: Colors.white))),
+                    Expanded(
+                        child: Text('Digit',
+                            style: TextStyle(color: Colors.white))),
+                    Expanded(
+                        child: Text('Point',
+                            style: TextStyle(color: Colors.white))),
+                    Expanded(
+                        child: Text('Type',
+                            style: TextStyle(color: Colors.white))),
+                    Expanded(
+                        child: Text('Delete',
+                            style: TextStyle(color: Colors.white))),
                   ],
                 ),
               ),
@@ -221,7 +397,8 @@ class MakeBitPage extends StatelessWidget {
                     child: Text('Total Bids: ${controller.bids.length}'),
                   ),
                   Expanded(
-                    child: Text('Total Point: ${controller.bids.fold<int>(0, (sum, bid) => sum + int.parse(bid['bid_points'] ?? '0'))}'),
+                    child: Text(
+                        'Total Point: ${controller.bids.fold<int>(0, (sum, bid) => sum + int.parse(bid['bid_points'] ?? '0'))}'),
                   ),
                 ],
               ),
@@ -234,7 +411,8 @@ class MakeBitPage extends StatelessWidget {
                   shadowColor: Colors.black,
                   backgroundColor: Colors.red[900],
                 ),
-                child: const Text('Submit', style: TextStyle(color: Colors.white)),
+                child:
+                    const Text('Submit', style: TextStyle(color: Colors.white)),
               ),
             ],
           ),

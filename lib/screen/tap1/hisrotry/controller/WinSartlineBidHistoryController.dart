@@ -1,4 +1,6 @@
 // network/network_provider.dart
+import 'dart:convert';
+
 import 'package:get/get.dart';
 
 // controllers/win_history_controller.dart
@@ -6,7 +8,6 @@ import 'package:intl/intl.dart';
 
 import '../../../../network/api_path.dart';
 import '../../../../network/network_config.dart';
-
 
 class WinHistoryController extends GetxController {
   var winHistoryList = <WinHistory>[].obs;
@@ -19,15 +20,21 @@ class WinHistoryController extends GetxController {
 
   WinHistoryController(this.networkProvider);
 
-  String get formattedFromDate => DateFormat('yyyy-MM-dd HH:mm:ss').format(fromDate.value);
-  String get formattedToDate => DateFormat('yyyy-MM-dd HH:mm:ss').format(toDate.value);
+  String get formattedFromDate =>
+      DateFormat('yyyy-MM-dd HH:mm:ss').format(fromDate.value);
+  String get formattedToDate =>
+      DateFormat('yyyy-MM-dd HH:mm:ss').format(toDate.value);
 
   void fetchWinHistory() async {
     try {
       isLoading(true);
-       var response = await networkProvider.postCommonCallForm(' ${ApiPath.baseUrl}starline_win_history', {"from_date":fromDate ,"to_date":toDate} );
-   if (response.status == 'success') {
-        winHistoryList.value = response.body;
+      var response = await networkProvider.postCommonCallForm(
+          ' ${ApiPath.baseUrl}starline_win_history',
+          {"from_date": fromDate, "to_date": toDate});
+
+      var jsonResponse = jsonDecode(response.body); // Decode the JSON response
+      if (response.status == 'success') {
+        winHistoryList.value = jsonResponse;
       } else {
         Get.showSnackbar(GetSnackBar(
           message: response.bodyString,
@@ -50,9 +57,6 @@ class WinHistoryController extends GetxController {
     fetchWinHistory();
   }
 }
-
-
-
 
 // models/win_history.dart
 class WinHistory {
@@ -102,7 +106,8 @@ class WinHistoryResponse {
 
   factory WinHistoryResponse.fromJson(Map<String, dynamic> json) {
     var list = json['data'] as List;
-    List<WinHistory> dataList = list.map((i) => WinHistory.fromJson(i)).toList();
+    List<WinHistory> dataList =
+        list.map((i) => WinHistory.fromJson(i)).toList();
     return WinHistoryResponse(
       message: json['message'],
       code: json['code'],

@@ -7,7 +7,8 @@ import 'package:winner11/screen/tap1/hisrotry/widget/WinHistoryCard.dart';
 import '../../../network/network_config.dart';
 
 class WinHistoryPage extends StatelessWidget {
-  final WinHistoryController controller = Get.put(WinHistoryController(NetworkProvider()));
+  final WinHistoryController controller =
+      Get.put(WinHistoryController(NetworkProvider()));
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +24,8 @@ class WinHistoryPage extends StatelessWidget {
             onPressed: () async {
               DateTimeRange? picked = await showDateRangePicker(
                 context: context,
-                firstDate: DateTime(2011),
-                lastDate: DateTime(2024),
+                firstDate: DateTime.now(),
+                lastDate: DateTime.now(),
                 initialDateRange: DateTimeRange(
                   start: controller.fromDate.value,
                   end: controller.toDate.value,
@@ -40,6 +41,9 @@ class WinHistoryPage extends StatelessWidget {
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
+        } else if (controller.winHistoryList == null ||
+            controller.winHistoryList.isEmpty) {
+          return const Center(child: Text('No Data Available'));
         } else {
           return Column(
             children: [

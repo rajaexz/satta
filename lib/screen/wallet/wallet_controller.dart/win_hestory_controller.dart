@@ -1,21 +1,19 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart' as con;
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import '../../../model/BitStatement.dart';
+
 import '../../../model/winStatement.dart';
 import '../../../network/api_path.dart';
 import '../../../network/storage_repository.dart';
 
-class WinHestoryController extends con.GetxController {
-  var isLoading = false.obs;
+class WinHestoryController extends GetxController {
+  final RxBool isLoading = false.obs;
   final Dio _dio = Dio();
-
-  List<GameWin> wingames = [];
+  final RxList<GameWin> wingames = <GameWin>[].obs;
 
   @override
   void onInit() {
@@ -24,34 +22,34 @@ class WinHestoryController extends con.GetxController {
   }
 
   Future<void> fetchWinStatement() async {
-    isLoading(true);
-          final token = await StorageRepository.getToken();
-  
     try {
+      isLoading.value = true;
       final token = await StorageRepository.getToken();
-      print(token);
 
       final response = await _dio.get(
-        '${ApiPath.baseUrl}bid_history', // Replace with your actual API URL
-
-        options: Options(headers: {'Token': token}),
+        '${ApiPath.baseUrl}/win_history',
+        options: Options(headers: {'Token': "${token}"}),
       );
+      print("=================${response.data}");
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.data);
 
-      print("${response.data} ===========================");
-      var jsonResponse = jsonDecode(response.data); // Decode the JSON response
-      if (response.statusCode == 200 && jsonResponse['status'] == 'success') {
-        for (var item in jsonResponse['data']) {
-          wingames.add(GameWin.fromJson(item));
+        if (jsonResponse['status'] == 'success') {
+          final List<dynamic> dataList = jsonResponse['data'];
+          wingames.assignAll(
+              dataList.map((data) => GameWin.fromJson(data)).toList());
+
+          update();
+        } else {
+          Get.snackbar('Error', jsonResponse['message']);
         }
-        update();
       } else {
-        Get.snackbar('Something went wrong', jsonResponse['message']);
+        Get.snackbar('Error', 'Failed to fetch data');
       }
     } catch (e) {
-      // Handle error
-      print(e);
+      Get.snackbar('Error', 'An error occurred: $e');
     } finally {
-      isLoading(false);
+      isLoading.value = false;
     }
   }
 }

@@ -5,15 +5,15 @@ import 'package:winner11/screen/component/profileContainer.dart';
 
 import 'controller/PaytmentSreencontroller.dart';
 
-class UpdatePaytmPage extends GetView<PaytmentSreenController> {
+class UpdatePaytmPage extends GetView<PaymentScreenController> {
   @override
   Widget build(BuildContext context) {
-    Get.put(PaytmentSreenController());
+    Get.put(PaymentScreenController());
     return Scaffold(
       appBar: AppBar(
         title: Text('Update Paytm'),
       ),
-      body: GetBuilder<PaytmentSreenController>(
+      body: GetBuilder<PaymentScreenController>(
         init: controller,
         builder: (controller) => UpdatePaytmForm(
           controller: controller,
@@ -24,7 +24,7 @@ class UpdatePaytmPage extends GetView<PaytmentSreenController> {
 }
 
 class UpdatePaytmForm extends StatelessWidget {
-  PaytmentSreenController? controller;
+  PaymentScreenController? controller;
   UpdatePaytmForm({super.key, required this.controller});
 
   final _formKey = GlobalKey<FormState>();
@@ -49,8 +49,7 @@ class UpdatePaytmForm extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               if (_formKey.currentState?.validate() ?? false) {
-                Get.find<PaytmentSreenController>()
-                    .updatePaytm(phoneController.text);
+                controller!.updatePaytm(phoneController.text);
               }
             },
             child: Text('Submit'),

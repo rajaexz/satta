@@ -41,9 +41,7 @@ class BitHestoryController extends con.GetxController {
         }
         update();
       } else {
-           Get.snackbar('Something went wrong', jsonResponse['message']);
-    
-      
+        Get.snackbar('Something went wrong', jsonResponse['message']);
       }
     } catch (e) {
       // Handle error

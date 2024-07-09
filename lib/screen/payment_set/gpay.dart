@@ -6,15 +6,15 @@ import 'package:winner11/screen/header/appbar.dart';
 
 import 'controller/PaytmentSreencontroller.dart';
 
-class UpdateGpayPage extends GetView<PaytmentSreenController> {
+class UpdateGpayPage extends GetView<PaymentScreenController> {
   const UpdateGpayPage({Key? key});
 
   Widget build(BuildContext context) {
-    Get.put(PaytmentSreenController());
+    Get.put(PaymentScreenController());
 
     return Scaffold(
       appBar: CustomAppBar(title: "Google Pay"),
-      body: GetBuilder<PaytmentSreenController>(
+      body: GetBuilder<PaymentScreenController>(
         init: controller,
         builder: (controller) => UpdateGpayForm(
           controller: controller,
@@ -25,7 +25,7 @@ class UpdateGpayPage extends GetView<PaytmentSreenController> {
 }
 
 class UpdateGpayForm extends StatelessWidget {
-  PaytmentSreenController? controller;
+  PaymentScreenController? controller;
 
   UpdateGpayForm({super.key, this.controller});
   final phoneController = TextEditingController();
@@ -51,8 +51,7 @@ class UpdateGpayForm extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               if (_formKey.currentState?.validate() ?? false) {
-             
-                   controller! .updategPay(phoneController.text);
+                controller!.updategPay(phoneController.text);
               }
             },
             child: Text('Submit'),
