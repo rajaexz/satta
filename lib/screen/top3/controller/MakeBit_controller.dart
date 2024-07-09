@@ -15,6 +15,7 @@ class MakeBiteController extends GetxController {
   var isLoading = false.obs;
   final Dio _dio = Dio();
 
+ RxString? selectedDigit = ''.obs; // Initialize selectedDigit
   MakeBiteController(this.allData);
 
   @override
@@ -27,6 +28,7 @@ class MakeBiteController extends GetxController {
     bids.add(bid);
     update();
   }
+
 
   void deleteBid(int index) {
     bids.removeAt(index);
@@ -53,10 +55,13 @@ class MakeBiteController extends GetxController {
       var jsonResponse = jsonDecode(response.data); // Decode the JSON response
 
       if (response.statusCode == 200 && jsonResponse['status'] == 'success') {
+    Get.snackbar( jsonResponse['message'], "");
+      
+        Get.offAll('/home');
         update();
       } else {
         if (jsonResponse["code"] == "400") {
-          Get.snackbar('Insufficient Points', "Insufficient Points");
+          Get.snackbar( jsonResponse['message'], "Some Thing Went Wrong");
         }
       }
     } catch (e) {

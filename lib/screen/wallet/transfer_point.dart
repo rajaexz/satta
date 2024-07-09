@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:winner11/screen/component/profileContainer.dart';
 import 'package:winner11/screen/header/appbar.dart';
@@ -11,7 +12,7 @@ class TransferPage extends GetView<TransferController> {
     Get.put(TransferController());
 
     return Scaffold(
-      appBar: CustomAppBar(title: "Wallet History"),
+      appBar: CustomAppBar(title: "Transfer Point "),
       body: GetBuilder<TransferController>(
         init: controller,
         builder: (controller) => TransferView(
@@ -20,6 +21,11 @@ class TransferPage extends GetView<TransferController> {
       ),
     );
   }
+}
+bool containsAlphabet(String value) {
+  // Regular expression to check if the string contains any alphabetic character
+  final alphabetRegex = RegExp(r'[a-zA-Z]');
+  return alphabetRegex.hasMatch(value);
 }
 
 class TransferView extends StatelessWidget {
@@ -47,7 +53,7 @@ class TransferView extends StatelessWidget {
                 SizedBox(height: 16),
                 Center(
                     child: Text(
-                  controller!.userName.value,
+                 "User Name :${ controller!.userName.value}",
                   style: TextStyle(color: Colors.green),
                 )),
                 ElevatedButton(
@@ -63,26 +69,33 @@ class TransferView extends StatelessWidget {
                 if (controller!.userName.value.isNotEmpty)
                   Text('User Name: ${controller!.userName.value}'),
                 SizedBox(height: 16),
-                TextField(
-                  controller: controller!.pointsController,
-                  decoration: const InputDecoration(
-                    labelText: 'Points',
-                    border: OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.number,
-                ),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    var transferPointsData = {
-                      'user_number': controller!.userNumberController.text,
-                      "points": controller!.pointsController.text
-                    };
 
-                    controller!.transferPoints(transferPointsData);
-                  },
-                  child: Text('Transfer Points'),
+                if (containsAlphabet(controller!.userName.value)) 
+                Column(
+                  children: [
+                    TextField(
+                      controller: controller!.pointsController,
+                      decoration: const InputDecoration(
+                        labelText: 'Points',
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.number,
+                    ),
+                        SizedBox(height: 16),
+                                ElevatedButton(
+                onPressed: () {
+                  var transferPointsData = {
+                    'user_number': controller!.userNumberController.text,
+                    "points": controller!.pointsController.text
+                  };
+                
+                  controller!.transferPoints(transferPointsData);
+                },
+                child: Text('Transfer Points'),
+                                ),
+                  ],
                 ),
+            
               ],
             ),
           );

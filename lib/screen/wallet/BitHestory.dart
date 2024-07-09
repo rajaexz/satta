@@ -19,7 +19,7 @@ class BitHestory extends GetView<BitHestoryController> {
     Get.put(BitHestoryController());
 
     return Scaffold(
-      appBar: CustomAppBar(title: "Wallet History"),
+      appBar: CustomAppBar(title: " Bit Hestory"),
       body: GetBuilder<BitHestoryController>(
         init: controller,
         builder: (controller) => BitHestoryView(

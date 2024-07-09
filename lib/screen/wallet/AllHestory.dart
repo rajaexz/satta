@@ -19,7 +19,7 @@ class AllHestory extends GetView<AllHestoryController> {
     Get.put(AllHestoryController());
 
     return Scaffold(
-      appBar: CustomAppBar(title: "Wallet History"),
+      appBar: CustomAppBar(title: "All Bit Hestory"),
       body: GetBuilder<AllHestoryController>(
         init: controller,
         builder: (controller) => AllHestoryView(

@@ -41,12 +41,9 @@ class BitHestoryController extends con.GetxController {
         }
         update();
       } else {
-        Get.showSnackbar(const GetSnackBar(
-          title: "Something went wrong",
-          message: "incomplete",
-          backgroundColor: Colors.red,
-          animationDuration: Duration(seconds: 2),
-        ));
+           Get.snackbar('Something went wrong', jsonResponse['message']);
+    
+      
       }
     } catch (e) {
       // Handle error

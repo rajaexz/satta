@@ -39,12 +39,9 @@ class AllHestoryController extends GetxController {
         withdrawData.value = WithdrawData.fromJson(jsonResponse['data']);
         update();
       } else {
-        Get.showSnackbar(const GetSnackBar(
-          title: "Something went wrong",
-          message: "incomplete",
-          backgroundColor: Colors.red,
-          animationDuration: Duration(seconds: 2),
-        ));
+          Get.snackbar( jsonResponse['message'], "Some Thing Went Wrong");
+      
+     
       }
     } catch (e) {
       // Handle error

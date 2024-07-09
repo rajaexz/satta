@@ -51,8 +51,8 @@ class UpdateGpayForm extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               if (_formKey.currentState?.validate() ?? false) {
-                Get.find<PaytmentSreenController>()
-                    .updategPay(phoneController.text);
+             
+                   controller! .updategPay(phoneController.text);
               }
             },
             child: Text('Submit'),

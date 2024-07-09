@@ -23,19 +23,48 @@ class MakeBitPage extends StatelessWidget {
       ),
     );
   }
-}
-class MakeBitPageScreen extends StatelessWidget {
-
+}class MakeBitPageScreen extends StatelessWidget {
   final TextEditingController _pointController = TextEditingController();
   final String? gameType;
   final dynamic allData;
   final MakeBiteController controller;
 
-  final List<String> digitOptions = List<String>.generate(10, (i) => i.toString());
-
-  String? _selectedDigit;
-
   MakeBitPageScreen({Key? key, required this.allData, this.gameType, required this.controller}) : super(key: key);
+
+  final List<String> singleDigit = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  final List<String> jodiDigit = [
+    '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14',
+    '95', '96', '97', '98', '99'
+  ];
+  final List<String> singlePanna = [
+    '120', '123', '124', '125', '126', '127', '128', '129', '130', '134', '135', '136', '137', '138',
+  ];
+  final List<String> doublePanna = [
+    '100', '110', '112', '113', '114', '115', '116', '117', '118', '119', '122', '133', '144', '155',
+  ];
+  final List<String> triplePanna = ['000', '111', '222', '333', '444', '555', '666', '777', '888', '999'];
+  final List<String> panna = [
+    '000', '100', '110', '111', '112', '113', '114', '115', '116', '117', '118', '119', '120', '122', '123',
+  ];
+
+  List<String> _getDropdownList(String gameType) {
+    switch (gameType) {
+      case 'single_digit':
+        return singleDigit;
+      case 'jodi_digit':
+        return jodiDigit;
+      case 'singl_panna':
+        return singlePanna;
+      case 'double_panna':
+        return doublePanna;
+      case 'ttiplepanna':
+        return triplePanna;
+      case 'panna':
+        return panna;
+      default:
+        return List<String>.generate(10, (i) => i.toString());
+    }
+  }
 
   void _addBid() {
     // Check if the required fields are not empty
@@ -44,30 +73,30 @@ class MakeBitPageScreen extends StatelessWidget {
       return;
     }
 
-    if (_selectedDigit == null || _selectedDigit!.isEmpty) {
+    if (controller.selectedDigit!.value.isEmpty) {
       Get.snackbar('Error', 'Please select a digit.');
       return;
     }
 
     // If validation passes, add the bid
-  controller. bids.add({
+    controller.bids.add({
       "game_id": allData.id,
       "game_type": gameType ?? '',
       "session": controller.selectedValue.value == 0 ? "Open" : "Close",
       "bid_points": _pointController.text,
-      "open_digit": controller.selectedValue.value == 0 ? _selectedDigit! : "",
-      "close_digit": controller.selectedValue.value == 1 ? _selectedDigit! : "",
+      "open_digit": controller.selectedValue.value == 0 ? controller.selectedDigit!.value : "",
+      "close_digit": controller.selectedValue.value == 1 ? controller.selectedDigit!.value : "",
       "open_panna": "",
       "close_panna": ""
     });
 
     // Clear the input fields after adding the bid
-    _selectedDigit = null;
+    controller.selectedDigit!.value = "";
     _pointController.clear();
   }
 
   void _deleteBid(int index) {
-     controller. bids.removeAt(index);
+    controller.bids.removeAt(index);
   }
 
   @override
@@ -122,16 +151,16 @@ class MakeBitPageScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: DropdownButton<String>(
-                      value: _selectedDigit,
+                      value: controller.selectedDigit!.value.isEmpty ? null : controller.selectedDigit!.value,
                       hint: const Text('Select Digit'),
-                      items: digitOptions.map((String value) {
+                      items: _getDropdownList(gameType!).map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
                         );
                       }).toList(),
                       onChanged: (newValue) {
-                        _selectedDigit = newValue!;
+                        controller.selectedDigit!.value = newValue!;
                       },
                     ),
                   ),
@@ -170,12 +199,12 @@ class MakeBitPageScreen extends StatelessWidget {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount:  controller. bids.length,
+                  itemCount: controller.bids.length,
                   itemBuilder: (context, index) {
                     return Card(
                       child: ListTile(
                         title: Text(
-                            'Digit: ${ controller. bids[index]['open_digit']} | Point: ${ controller. bids[index]['bid_points']}'),
+                            'Digit: ${controller.bids[index]['open_digit']} | Point: ${controller.bids[index]['bid_points']}'),
                         trailing: IconButton(
                           icon: const Icon(Icons.delete, color: Colors.red),
                           onPressed: () => _deleteBid(index),
@@ -189,18 +218,17 @@ class MakeBitPageScreen extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: Text('Total Bids: ${ controller. bids.length}'),
+                    child: Text('Total Bids: ${controller.bids.length}'),
                   ),
                   Expanded(
-                    child: Text('Total Point: ${ controller. bids.fold<int>(0, (sum, bid) => sum + int.parse(bid['bid_points'] ?? '0'))}'),
+                    child: Text('Total Point: ${controller.bids.fold<int>(0, (sum, bid) => sum + int.parse(bid['bid_points'] ?? '0'))}'),
                   ),
                 ],
               ),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  controller.fetchWinStatement( 
-                  );
+                  controller.fetchWinStatement();
                 },
                 style: ElevatedButton.styleFrom(
                   shadowColor: Colors.black,

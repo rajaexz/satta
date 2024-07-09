@@ -31,10 +31,10 @@ class Galidisawarcontroller extends GetxController {
         ' ${ApiPath.baseUrl}gali_disawar_bid_history',
         options: Options(headers: {'Token': "JZzG5NPNnOCRS5lO"}),
         data: {
-          'from_date':
-              '${fromDate.value.toIso8601String().split('T').first} 00:00:00',
-          'to_date':
-              '${toDate.value.toIso8601String().split('T').first} 23:59:59',
+          // 'from_date':
+          //     '${fromDate.value.toIso8601String().split('T').first} 00:00:00',
+          // 'to_date':
+          //     '${toDate.value.toIso8601String().split('T').first} 23:59:59',
         },
       );
 

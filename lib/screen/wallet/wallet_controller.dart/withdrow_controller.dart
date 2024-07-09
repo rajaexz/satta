@@ -40,8 +40,8 @@ class WithdrowController extends con.GetxController {
         update();
         Get.toNamed("/home", arguments: "id");
       } else {
-        Get.snackbar('Something went wrong', "Your transaction is incomplete");
-      }
+         Get.snackbar( jsonResponse['message'], "Some Thing Went Wrong");
+       }
     } catch (e) {
       // Handle error
       print(e);

@@ -142,7 +142,7 @@ class UpCommingView extends StatelessWidget {
         LayoutBuilder(
           builder: (context, constraints) {
             double width = constraints.maxWidth;
-
+;
             return Column(
               children: [
                 for (var bid in controller!.bids)

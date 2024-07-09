@@ -148,7 +148,7 @@ class PaytmentSreenController extends GetxController {
           'gpay': phone,
         },
       );
-
+print(response.data);
       var jsonResponse = jsonDecode(response.data!);
       if (jsonResponse['status'] == 'success') {
         Get.showSnackbar(GetBar(
