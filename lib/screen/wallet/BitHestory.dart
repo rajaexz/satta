@@ -108,7 +108,7 @@ class BitHestoryView extends StatelessWidget {
                                     style: CustomStyles.textExternel,
                                   ),
                                   Text(
-                                    " ₹${item.bidPoints.toString()}",
+                                    "Poin :${item.bidPoints.toString()}",
                                     style: CustomStyles.textExternel,
                                   ),
                                 ],
