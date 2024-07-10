@@ -1,18 +1,11 @@
 import 'dart:async';
 
-import 'package:winner11/screen/component/deviceInfo.dart';
-import 'package:winner11/screen/tap2/myGame.dart';
-
-import 'package:winner11/utilis/boxSpace.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:winner11/utilis/borderbox.dart';
-import 'package:winner11/utilis/globlemargin.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../network/storage_repository.dart';
 import '../utilis/AllColor.dart';
 import '../utilis/app_constant.dart';
 
@@ -30,8 +23,8 @@ class _SplashScreenState extends State<SplashScreen>
   late AnimationController _animationController;
 
   String? tokenpin;
-    String? token;
-  
+  String? token;
+
   String? phone;
   String? Intro;
   @override
@@ -47,8 +40,8 @@ class _SplashScreenState extends State<SplashScreen>
   _loadWidget() async {
     final store = await SharedPreferences.getInstance();
     tokenpin = store.getString(AppConstant.tokenKeypin);
-        token= store.getString(AppConstant.tokenKey);
-     phone = store.getString(AppConstant.phone);
+    token = store.getString(AppConstant.tokenKey);
+    phone = store.getString(AppConstant.phone);
     Intro = store.getString(AppConstant.isinto);
     var duration = Duration(milliseconds: _splashDelay);
 
@@ -59,16 +52,13 @@ class _SplashScreenState extends State<SplashScreen>
     if (Intro == "0" || Intro == null) {
       Get.offNamed("/intro");
     } else {
-
-  if(   tokenpin != null  ){
-
-    
-         Get.offNamed("/setpin");
-  }else{
-    tokenpin != null && phone != null  ?     Get.offNamed("/Createsetpin") : Get.offNamed("/login");
-
-  }
-
+      if (tokenpin != null) {
+        Get.offNamed("/setpin");
+      } else {
+        tokenpin != null && phone != null
+            ? Get.offNamed("/Createsetpin")
+            : Get.offNamed("/login");
+      }
     }
   }
 

@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 import '../../../../network/api_path.dart';
@@ -5,10 +8,18 @@ import '../../../../network/network_config.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../network/storage_repository.dart';
+
 class BidHistoryController extends GetxController {
-  var bidHistoryList = <BidHistory>[].obs;
+  var bidHistoryList = BidHistoryResponse(
+    message: '',
+    code: '',
+    status: '',
+    data: [],
+  ).obs;
   var isLoading = false.obs;
 
+  final Dio _dio = Dio();
   var fromDate = DateTime.now().obs;
   var toDate = DateTime.now().obs;
 
@@ -16,26 +27,46 @@ class BidHistoryController extends GetxController {
 
   BidHistoryController(this.networkProvider);
 
-  String get formattedFromDate => DateFormat('yyyy-MM-dd HH:mm:ss').format(fromDate.value);
-  String get formattedToDate => DateFormat('yyyy-MM-dd HH:mm:ss').format(toDate.value);
+  String get formattedFromDate =>
+      DateFormat('yyyy-MM-dd HH:mm:ss').format(fromDate.value);
+  String get formattedToDate =>
+      DateFormat('yyyy-MM-dd HH:mm:ss').format(toDate.value);
+  @override
+  void onInit() {
+    fetchBitStatement();
+    super.onInit();
+  }
 
-  void fetchBidHistory() async {
+  Future<void> fetchBitStatement() async {
+    // final formDData =
+    //     alfrom.FormData.fromMap({"from_date": fromDate, "to_date": toDate});
+
+    isLoading(true);
     try {
-      isLoading(true);
-    var response = await networkProvider.postCommonCallForm(' ${ApiPath.baseUrl}starline_bid_history', {"from_date":fromDate ,"to_date":toDate} );
-       if (response.status == 'success') {
-        bidHistoryList.value = response.body;
+      final token = await StorageRepository.getToken();
+      print("Token: $token");
+
+      final response = await _dio.get(
+        '${ApiPath.baseUrl}starline_bid_history',
+        options: Options(
+          headers: {'Token': "$token"},
+        ),
+      );
+      var jsonResponse = jsonDecode(response.data); // Decode the JSON response
+
+      if (response.statusCode == 200) {
+        if (jsonResponse['status'] == 'success') {
+          bidHistoryList.value = BidHistoryResponse.fromJson(jsonResponse);
+        } else {
+          Get.snackbar('Failed to fetch data', jsonResponse['message']);
+        }
       } else {
-        Get.showSnackbar(GetSnackBar(
-          message: response.bodyString,
-          duration: Duration(seconds: 2),
-        ));
+        Get.snackbar('Failed to fetch data', 'Server error');
       }
     } catch (e) {
-      Get.showSnackbar(GetSnackBar(
-        message: 'Error fetching data',
-        duration: Duration(seconds: 2),
-      ));
+      // Handle error
+      print("Error: $e");
+      Get.snackbar('Failed to fetch data', e.toString());
     } finally {
       isLoading(false);
     }
@@ -44,7 +75,7 @@ class BidHistoryController extends GetxController {
   void updateDateRange(DateTime newFromDate, DateTime newToDate) {
     fromDate.value = newFromDate;
     toDate.value = newToDate;
-    fetchBidHistory();
+    fetchBitStatement();
   }
 }
 
@@ -69,13 +100,13 @@ class BidHistory {
 
   factory BidHistory.fromJson(Map<String, dynamic> json) {
     return BidHistory(
-      gameId: json['game_id'],
-      gameType: json['game_type'],
-      leftDigit: json['left_digit'],
-      rightDigit: json['right_digit'],
+      gameId: json['game_id'] ?? "",
+      gameType: json['game_type'] ?? "",
+      leftDigit: json['left_digit'] ?? "",
+      rightDigit: json['right_digit'] ?? "",
       bidPoints: json['bid_points'],
-      biddedAt: json['bidded_at'],
-      gameName: json['game_name'],
+      biddedAt: json['bidded_at'] ?? "",
+      gameName: json['game_name'] ?? "",
     );
   }
 }
@@ -95,7 +126,8 @@ class BidHistoryResponse {
 
   factory BidHistoryResponse.fromJson(Map<String, dynamic> json) {
     var list = json['data'] as List;
-    List<BidHistory> dataList = list.map((i) => BidHistory.fromJson(i)).toList();
+    List<BidHistory> dataList =
+        list.map((i) => BidHistory.fromJson(i)).toList();
     return BidHistoryResponse(
       message: json['message'],
       code: json['code'],

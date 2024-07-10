@@ -10,22 +10,24 @@ import '../../model/GaliGame.dart';
 class MakeBitPage extends StatelessWidget {
   final String? title;
   final dynamic allData;
-
-  MakeBitPage({Key? key, this.title, required this.allData}) : super(key: key);
+  final dynamic whicGameName;
+  MakeBitPage({Key? key, this.title, required this.allData, this.whicGameName})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final MakeBiteController controller = Get.put(MakeBiteController(allData));
+    final MakeBiteController controller =
+        Get.put(MakeBiteController(allData, this.whicGameName));
 
     return Scaffold(
       appBar:
           CustomAppBar(title: title?.replaceAll('_', ' ').toUpperCase() ?? ''),
       body: GetBuilder<MakeBiteController>(
         builder: (controller) => MakeBitPageScreen(
-          controller: controller,
-          gameType: title,
-          allData: allData,
-        ),
+            controller: controller,
+            gameType: title,
+            allData: allData,
+            whicGameName: whicGameName),
       ),
     );
   }
@@ -35,12 +37,14 @@ class MakeBitPageScreen extends StatelessWidget {
   final TextEditingController _pointController = TextEditingController();
   final String? gameType;
   final dynamic allData;
+  final dynamic whicGameName;
   final MakeBiteController controller;
 
   MakeBitPageScreen(
       {Key? key,
       required this.allData,
-      this.gameType,
+      required this.gameType,
+      required this.whicGameName,
       required this.controller})
       : super(key: key);
 
@@ -150,66 +154,69 @@ class MakeBitPageScreen extends StatelessWidget {
         return singlePanna;
       case 'double_panna':
         return doublePanna;
-      case 'ttiplepanna':
+      case 'triple_panna':
         return triplePanna;
-      case 'panna':
-        return panna;
+
       default:
-        return List<String>.generate(10, (i) => i.toString());
+        return panna;
     }
   }
 
   Widget getOpenredio(dynamic gameData) {
-    print(" ==============${gameData}");
-
     if (gameData is GaliDisawarGame) {
       // Handle GaliDisawarGame type
-      return Row(
-        children: [
-          Radio(
-            value: 0,
-            groupValue: controller.selectedValue.value,
-            onChanged: (value) {
-              controller.selectedValue.value = value!;
-            },
-            activeColor: Colors.black,
-          ),
-          const Text('Open', style: TextStyle(color: Colors.black)),
-          Radio(
-            value: 1,
-            groupValue: controller.selectedValue.value,
-            onChanged: (value) {
-              controller.selectedValue.value = value!;
-            },
-            activeColor: Colors.black,
-          ),
-          const Text('Close', style: TextStyle(color: Colors.black)),
-        ],
+      return Visibility(
+        visible: false,
+        child: Row(
+          children: [
+            Radio(
+              value: 0,
+              groupValue: controller.selectedValue!.value,
+              onChanged: (value) {
+                controller.selectedValue!.value = value!;
+              },
+              activeColor: Colors.black,
+            ),
+            const Text('Open', style: TextStyle(color: Colors.black)),
+            Radio(
+              value: 1,
+              groupValue: controller.selectedValue!.value,
+              onChanged: (value) {
+                controller.selectedValue!.value = value!;
+              },
+              activeColor: Colors.black,
+            ),
+            const Text('Close', style: TextStyle(color: Colors.black)),
+          ],
+        ),
       );
     } else if (gameData is StarlineGame) {
       // Handle StarlineGame type
       // Assuming StarlineGame has a property 'open', adjust the condition accordingly
-      return Row(
-        children: [
-          Radio(
-            value: 0,
-            groupValue: controller.selectedValue.value,
-            onChanged: (value) {
-              controller.selectedValue.value = value!;
-            },
-            activeColor: Colors.black,
-          ),
-          const Text('Open', style: TextStyle(color: Colors.black)),
-          Radio(
-            value: 1,
-            groupValue: controller.selectedValue.value,
-            onChanged: (value) {
-              controller.selectedValue.value = value!;
-            },
-            activeColor: Colors.black,
-          ),
-          const Text('Close', style: TextStyle(color: Colors.black)),
-        ],
+      return Visibility(
+        visible: false,
+        child: Row(
+          children: [
+            Radio(
+              value: 0,
+              groupValue: controller.selectedValue!.value,
+              onChanged: (value) {
+                controller.selectedValue!.value = value!;
+              },
+              activeColor: Colors.black,
+            ),
+            const Text('Open', style: TextStyle(color: Colors.black)),
+            Radio(
+              value: 1,
+              groupValue: controller.selectedValue!.value,
+              onChanged: (value) {
+                controller.selectedValue!.value = value!;
+              },
+              activeColor: Colors.black,
+            ),
+            const Text('Close', style: TextStyle(color: Colors.black)),
+          ],
+        ),
       );
     } else if (gameData is GameList) {
       // Handle 'single_digit' case
@@ -254,22 +261,74 @@ class MakeBitPageScreen extends StatelessWidget {
       Get.snackbar('Error', 'Please select a digit.');
       return;
     }
+    switch (whicGameName) {
+      case 'gali_disawar':
+        controller.bids.add({
+          "game_id": allData.id.toString(),
+          "game_type": gameType.toString(),
+          "session": controller.selectedValue.value == 0 ? "Open" : "Close",
+          "bid_points": _pointController.text,
+          "left_digit": controller.selectedValue.value == 0
+              ? controller.selectedDigit!.value.toString()
+              : "",
+          "right_digit": controller.selectedValue.value == 1
+              ? controller.selectedDigit!.value.toString()
+              : "",
+          "open_panna": "",
+          "close_panna": ""
+        });
+
+        break;
+      case 'star_line':
+        controller.bids.add({
+          "game_id": allData.id.toString(),
+          "game_type": gameType.toString(),
+          "session": controller.selectedValue.value == 0 ? "Open" : "Close",
+          "bid_points": _pointController.text,
+          "digit": controller.selectedValue.value == 0
+              ? controller.selectedDigit!.value.toString()
+              : "",
+          "panna": controller.selectedValue.value == 1
+              ? controller.selectedDigit!.value.toString()
+              : "",
+        });
+        break;
+      case 'main_game':
+        controller.bids.add({
+          "game_id": allData.id.toString(),
+          "game_type": gameType.toString(),
+          "session": controller.selectedValue.value == 0 ? "Open" : "Close",
+          "bid_points": _pointController.text,
+          "open_digit": controller.selectedValue.value == 0
+              ? controller.selectedDigit!.value.toString()
+              : "",
+          "close_digit": controller.selectedValue.value == 1
+              ? controller.selectedDigit!.value.toString()
+              : "",
+          "open_panna": "",
+          "close_panna": ""
+        });
+        break;
+      default:
+        controller.bids.add({
+          "game_id": allData.id.toString(),
+          "game_type": gameType.toString(),
+          "session": controller.selectedValue.value == 0 ? "Open" : "Close",
+          "bid_points": _pointController.text,
+          "open_digit": controller.selectedValue.value == 0
+              ? controller.selectedDigit!.value.toString()
+              : "",
+          "close_digit": controller.selectedValue.value == 1
+              ? controller.selectedDigit!.value.toString()
+              : "",
+          "open_panna": "",
+          "close_panna": ""
+        });
+
+        break;
+    }
 
     // If validation passes, add the bid
-    controller.bids.add({
-      "game_id": allData.id,
-      "game_type": gameType ?? '',
-      "session": controller.selectedValue.value == 0 ? "Open" : "Close",
-      "bid_points": _pointController.text,
-      "open_digit": controller.selectedValue.value == 0
-          ? controller.selectedDigit!.value
-          : "",
-      "close_digit": controller.selectedValue.value == 1
-          ? controller.selectedDigit!.value
-          : "",
-      "open_panna": "",
-      "close_panna": ""
-    });
 
     // Clear the input fields after adding the bid
     controller.selectedDigit!.value = "";
@@ -405,7 +464,7 @@ class MakeBitPageScreen extends StatelessWidget {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  controller.fetchWinStatement();
+                  controller.fetchWinStatement(gameName: whicGameName);
                 },
                 style: ElevatedButton.styleFrom(
                   shadowColor: Colors.black,

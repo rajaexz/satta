@@ -1,11 +1,15 @@
-
 import 'package:winner11/screen/profile/controller/profile_controller.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:winner11/screen/header/appbar.dart';
+import 'package:winner11/screen/profile/editProfile.dart';
 import 'package:winner11/utilis/AllColor.dart';
 
+import '../../main.dart';
+import '../../utilis/borderbox.dart';
+import '../../utilis/boxSpace.dart';
+import '../../utilis/fontstyle.dart';
 
 //   final ThemeController themeController = Get.put(ThemeController());
 // class ShowProfile extends StatefulWidget {
@@ -26,7 +30,7 @@ import 'package:winner11/utilis/AllColor.dart';
 //       await ImagePicker().pickImage(source: ImageSource.gallery);
 //   final store = await SharedPreferences.getInstance();
 //   var id = store.getString('userId');
-    
+
 //   if (pickedFile1 != null) {
 //     if (_isLoading) {
 //       // ignore: use_build_context_synchronously
@@ -102,7 +106,6 @@ import 'package:winner11/utilis/AllColor.dart';
 //     double fem = MediaQuery.of(context).size.width / 390;
 //     final dynamic data = Get.arguments as dynamic;
 
-  
 //       return RefreshIndicator(
 //         onRefresh: _refreshProfile,
 //         child: Scaffold(
@@ -128,7 +131,7 @@ import 'package:winner11/utilis/AllColor.dart';
 //                    Obx(
 //                     ()=>
 //                   Container(
-                      
+
 //                           decoration: BoxDecoration(
 //                      border:border,
 //                      borderRadius:boRadiusAll ,
@@ -195,14 +198,14 @@ import 'package:winner11/utilis/AllColor.dart';
 //                     ),
 //                   ),
 //                   size20h,
-               
+
 //                   Obx(
 //                     ()=> Container(
 //                       margin: GlobleglobleMargin.Margin10V,
 //                       width: double.infinity,
 //                       height: 180,
 //                       padding: EdgeInsets.all(10),
-                        
+
 //                           decoration: BoxDecoration(
 //                     border: border,
 //                        borderRadius:boRadiusAll ,
@@ -214,7 +217,7 @@ import 'package:winner11/utilis/AllColor.dart';
 //                                           : boxshadow2 ],
 //                     ),
 //                       child: Column(
-                         
+
 //                           children: [
 //                             Container(
 //                               width: double.infinity,
@@ -237,7 +240,7 @@ import 'package:winner11/utilis/AllColor.dart';
 //                                     ),
 //                                   ),
 //                                   Positioned(
-                                 
+
 //                                     right: 0,
 //                                     child: GestureDetector(
 //                                       onTap: () {
@@ -263,7 +266,7 @@ import 'package:winner11/utilis/AllColor.dart';
 //                                 ],
 //                               ),
 //                             ),
-                    
+
 //                             size20h,
 //                                  Row(
 //                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -276,7 +279,7 @@ import 'package:winner11/utilis/AllColor.dart';
 //                                     style: CustomStyles.textExternel)
 //                               ],
 //                             ),
-                          
+
 //                             Row(
 //                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //                               children: [
@@ -301,14 +304,14 @@ import 'package:winner11/utilis/AllColor.dart';
 //                     ),
 //                   ),
 //                   size10h,
-                
+
 //                   Obx(
 //                     ()=> Container(
 //                       margin: GlobleglobleMargin.Margin10V,
 //                       width: double.infinity,
 //                       height: 150,
 //                       padding: EdgeInsets.all(10),
-                    
+
 //                             decoration: BoxDecoration(
 //                       border: border,
 //                          borderRadius:boRadiusAll ,
@@ -341,7 +344,7 @@ import 'package:winner11/utilis/AllColor.dart';
 //                                     ),
 //                                   ),
 //                                   Positioned(
-                                 
+
 //                                     right: 0,
 //                                     child: GestureDetector(
 //                                       onTap: () {
@@ -392,7 +395,7 @@ import 'package:winner11/utilis/AllColor.dart';
 //                     ),
 //                   ),
 //                   size10h,
-             
+
 //                        Center(
 //                                   child: Column(
 //                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -524,9 +527,6 @@ import 'package:winner11/utilis/AllColor.dart';
 //   ),
 // ];
 
-
-
-
 class ShowProfile extends GetView<UserDetailsController> {
   const ShowProfile({Key? key}) : super(key: key);
 
@@ -534,47 +534,103 @@ class ShowProfile extends GetView<UserDetailsController> {
     Get.put(UserDetailsController());
 
     return Scaffold(
-      
-        appBar:
-        
-   CustomAppBar(title: "Profile"),
-     body: GetBuilder<UserDetailsController>(
-          init: controller,
-          builder: (controller) => UserDetailsScreen(
-            controller: controller,
-          ),
+      appBar: CustomAppBar(title: "Profile"),
+      body: GetBuilder<UserDetailsController>(
+        init: controller,
+        builder: (controller) => UserDetailsScreen(
+          controller: controller,
         ),
-      );
+      ),
+    );
   }
 }
 
-
 class UserDetailsScreen extends StatelessWidget {
-    UserDetailsController? controller ;
-UserDetailsScreen({this.controller});
+  UserDetailsController? controller;
+  UserDetailsScreen({this.controller});
   @override
   Widget build(BuildContext context) {
-    return 
-       Obx(() {
-        if (controller!.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
-        } else {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                 _buildProfileItem(
-                icon: Icons.person,
-                label: 'Username',
-                value: controller!.userDetails.value.data!.username,
+    double fem = MediaQuery.of(context).size.width / 390;
+    return Obx(() {
+      if (controller!.isLoading.value) {
+        return Center(child: CircularProgressIndicator());
+      } else {
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Container(
+                decoration: BoxDecoration(
+                  border: border,
+                  borderRadius: boRadiusAll,
+                  color: themeController.isLightMode.value
+                      ? myColorWhite
+                      : myColor,
+                  boxShadow: [
+                    themeController.isLightMode.value ? boxdark : boxshadow2
+                  ],
+                ),
+                padding:
+                    EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+                child: Column(
+                  children: [
+                    Align(
+                      child: Stack(
+                        children: [
+                          SizedBox(
+                            width: 120 * fem,
+                            height: 120 * fem,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: ClipOval(
+                                  child: Image.asset(
+                                "assets/logo.jpeg",
+                                fit: BoxFit.cover,
+                              )),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: IconButton(
+                              icon: Icon(Icons.edit),
+                              onPressed: () async {
+                                Get.to(EditProfile());
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    size20w,
+                    Container(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              controller!.userDetails.value.data!.username,
+                              style: CustomStyles.textExternel,
+                            ),
+                          ]),
+                    ),
+                  ],
+                ),
               ),
-              _buildProfileItem(
-                icon: Icons.phone,
-                label: 'Mobile',
-                value: controller!.userDetails.value.data!.mobile,
-              ),
+
+              // _buildProfileItem(
+              //   icon: Icons.person,
+              //   label: 'Username',
+              //   value:,
+              // ),
+              // _buildProfileItem(
+              //   icon: Icons.phone,
+              //   label: 'Mobile',
+              //   value:,
+              // ),
               _buildProfileItem(
                 icon: Icons.email,
                 label: 'Email',
@@ -588,7 +644,8 @@ UserDetailsScreen({this.controller});
               _buildProfileItem(
                 icon: Icons.account_circle,
                 label: 'Account Holder Name',
-                value: controller!.userDetails.value.data!.accountHolderName.toString(),
+                value: controller!.userDetails.value.data!.accountHolderName
+                    .toString(),
               ),
               _buildProfileItem(
                 icon: Icons.account_balance_wallet,
@@ -598,93 +655,92 @@ UserDetailsScreen({this.controller});
               _buildProfileItem(
                 icon: Icons.location_city,
                 label: 'Branch Address',
-                value: controller!.userDetails.value.data!.branchAddress.toString(),
+                value: controller!.userDetails.value.data!.branchAddress
+                    .toString(),
               ),
               _buildProfileItem(
                 icon: Icons.account_balance_wallet,
                 label: 'Bank Account No',
-                value: controller!.userDetails.value.data!.bankAccountNo.toString(),
+                value: controller!.userDetails.value.data!.bankAccountNo
+                    .toString(),
               ),
               _buildProfileItem(
                 icon: Icons.payment,
                 label: 'Paytm Mobile No',
-                value: controller!.userDetails.value.data!.paytmMobileNo.toString(),
+                value: controller!.userDetails.value.data!.paytmMobileNo
+                    .toString(),
               ),
               _buildProfileItem(
                 icon: Icons.phone_android,
                 label: 'PhonePe Mobile No',
-                value: controller!.userDetails.value.data!.phonepeMobileNo.toString(),
+                value: controller!.userDetails.value.data!.phonepeMobileNo
+                    .toString(),
               ),
               _buildProfileItem(
                 icon: Icons.phone_android,
                 label: 'GPay Mobile No',
-                value: controller!.userDetails.value.data!.gpayMobileNo.toString(),
+                value:
+                    controller!.userDetails.value.data!.gpayMobileNo.toString(),
               ),
               _buildProfileItem(
                 icon: Icons.notifications,
                 label: 'Pending Notification',
-                value: controller!.userDetails.value.data!.pendingNoti.toString(),
+                value:
+                    controller!.userDetails.value.data!.pendingNoti.toString(),
               ),
-            
-                ]
-              ),
-            
-            
-            ),
-          );
-        }
-      });
-   
+            ]),
+          ),
+        );
+      }
+    });
   }
 }
 
-
-
-
-  Widget _buildProfileItem({required IconData icon, required String label, required String value}) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      padding: EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(0, 3), // changes position of shadow
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Icon(icon, color: myColor),
-          SizedBox(width: 16.0),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey[700],
-                  ),
+Widget _buildProfileItem(
+    {required IconData icon, required String label, required String value}) {
+  return Container(
+    margin: EdgeInsets.symmetric(vertical: 8.0),
+    padding: EdgeInsets.all(16.0),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(8.0),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.5),
+          spreadRadius: 2,
+          blurRadius: 5,
+          offset: Offset(0, 3), // changes position of shadow
+        ),
+      ],
+    ),
+    child: Row(
+      children: [
+        Icon(icon, color: myColor),
+        SizedBox(width: 16.0),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey[700],
                 ),
-                SizedBox(height: 4.0),
-                Text(
-                  value,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black,
-                  ),
+              ),
+              SizedBox(height: 4.0),
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.black,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}

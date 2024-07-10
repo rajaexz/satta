@@ -3,18 +3,12 @@ import 'package:get/get.dart';
 import 'package:vibration/vibration.dart';
 import 'package:winner11/screen/tap1/hisrotry/GaliBitHestoryView.dart';
 
-import '../../main.dart';
 import '../../model/GaliGame.dart';
 import '../../utilis/AllColor.dart';
-import '../../utilis/borderbox.dart';
-import '../../utilis/boxSpace.dart';
 import '../../utilis/fontstyle.dart';
-import '../../utilis/globlemargin.dart';
 import '../header/appbar.dart';
 import '../tap2/myGame.dart';
-import '../wallet/wallet_controller.dart/bit_hestory_controller.dart';
 import 'controller/GaliGame_controller.dart';
-import 'controller/StarlineGame_controller.dart';
 
 class GaliGamePage extends GetView<GaliGameController> {
   const GaliGamePage({Key? key}) : super(key: key);
@@ -95,7 +89,7 @@ class GaliGameView extends StatelessWidget {
 
                 return Card(
                   elevation: 4.0, // Adjust the elevation as needed
-                  margin: EdgeInsets.symmetric(
+                  margin: const EdgeInsets.symmetric(
                       vertical: 8.0,
                       horizontal: 16.0), // Adjust the margin as needed
                   child: Padding(

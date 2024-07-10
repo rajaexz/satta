@@ -16,25 +16,6 @@ class BidHistoryPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bid History'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.date_range),
-            onPressed: () async {
-              DateTimeRange? picked = await showDateRangePicker(
-                context: context,
-                firstDate: DateTime(2011),
-                lastDate: DateTime(2024),
-                initialDateRange: DateTimeRange(
-                  start: controller.fromDate.value,
-                  end: controller.toDate.value,
-                ),
-              );
-              if (picked != null && picked.start != picked.end) {
-                controller.updateDateRange(picked.start, picked.end);
-              }
-            },
-          ),
-        ],
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -44,18 +25,138 @@ class BidHistoryPage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Showing results from ${DateFormat('yyyy-MM-dd').format(controller.fromDate.value)} to ${DateFormat('yyyy-MM-dd').format(controller.toDate.value)}',
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      onPressed: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: controller.fromDate.value,
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2100),
+                        );
+                        if (pickedDate != null) {
+                          controller.fromDate.value = pickedDate;
+                        }
+                      },
+                      child: Obx(() => Text(
+                            'From: ${controller.fromDate.value.toIso8601String().split('T').first}',
+                          )),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: controller.toDate.value,
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2100),
+                        );
+                        if (pickedDate != null) {
+                          controller.toDate.value = pickedDate;
+                        }
+                      },
+                      child: Obx(() => Text(
+                            'To: ${controller.toDate.value.toIso8601String().split('T').first}',
+                          )),
+                    ),
+                  ],
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: controller.bidHistoryList.length,
-                  itemBuilder: (context, index) {
-                    final bid = controller.bidHistoryList[index];
-                    return BidHistoryCard(bid: bid);
-                  },
-                ),
+                child: Obx(() {
+                  return controller.isLoading.value
+                      ? const Center(child: CircularProgressIndicator())
+                      : controller.bidHistoryList.value.data.isEmpty
+                          ? const Center(child: Text('No Data Available'))
+                          : ListView.builder(
+                              itemCount:
+                                  controller.bidHistoryList.value.data.length,
+                              itemBuilder: (context, index) {
+                                final item =
+                                    controller.bidHistoryList.value.data[index];
+
+                                return Container(
+                                  height: 150,
+                                  margin: const EdgeInsets.all(9),
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 5,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        item.gameType,
+                                        style: const TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                item.biddedAt,
+                                                style: const TextStyle(
+                                                    fontSize: 12),
+                                              ),
+                                            ],
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                item.leftDigit,
+                                                style: const TextStyle(
+                                                    fontSize: 12),
+                                              ),
+                                              Text(
+                                                item.rightDigit,
+                                                style: const TextStyle(
+                                                    fontSize: 12),
+                                              ),
+                                              Text(
+                                                "${item.bidPoints}",
+                                                style: const TextStyle(
+                                                    fontSize: 12),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        item.gameName,
+                                        style: const TextStyle(
+                                            color: Colors.green),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                }),
               ),
             ],
           );

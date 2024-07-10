@@ -10,17 +10,18 @@ import '../../../network/storage_repository.dart';
 
 class MakeBiteController extends GetxController {
   var allData;
+  var title;
+
   RxInt selectedValue = 0.obs;
   var bids = <Map<String, String>>[].obs; // Add this to manage bids
   var isLoading = false.obs;
   final Dio _dio = Dio();
 
- RxString? selectedDigit = ''.obs; // Initialize selectedDigit
-  MakeBiteController(this.allData);
+  RxString? selectedDigit = ''.obs; // Initialize selectedDigit
+  MakeBiteController(this.allData, this.title);
 
   @override
   void onInit() {
-    print('==================${allData.id}');
     super.onInit();
   }
 
@@ -29,13 +30,13 @@ class MakeBiteController extends GetxController {
     update();
   }
 
-
   void deleteBid(int index) {
     bids.removeAt(index);
     update();
   }
 
-  Future<void> fetchWinStatement() async {
+  fetchWinStatement({required String gameName}) async {
+    print('=========sfdgsfdgdsfgdfsgsfg=========${bids}');
     isLoading(true);
     try {
       final token = await StorageRepository.getToken();
@@ -45,24 +46,37 @@ class MakeBiteController extends GetxController {
           "bids": bids,
         }),
       });
+
+      // Determine the URL based on the gameName
+      String url;
+      switch (gameName) {
+        case 'gali_disawar':
+          url = '${ApiPath.baseUrl}gali_disawar_place_bid';
+          break;
+        case 'star_line':
+          url = '${ApiPath.baseUrl}starline_place_bid';
+          break;
+        case 'main_game':
+          url = '${ApiPath.baseUrl}place_bid';
+          break;
+        default:
+          url = '${ApiPath.baseUrl}place_bid';
+          break;
+      }
+
       final response = await _dio.post(
-        '${ApiPath.baseUrl}place_bid',
+        url,
         data: formData,
         options: Options(headers: {'Token': token}),
       );
 
-      print(response.data);
       var jsonResponse = jsonDecode(response.data); // Decode the JSON response
-
       if (response.statusCode == 200 && jsonResponse['status'] == 'success') {
-    Get.snackbar( jsonResponse['message'], "");
-      
-        Get.offAll('/home');
+        Get.snackbar(jsonResponse['message'], jsonResponse['message']);
+        Get.toNamed('/home');
         update();
       } else {
-        if (jsonResponse["code"] == "400") {
-          Get.snackbar( jsonResponse['message'], "Some Thing Went Wrong");
-        }
+        Get.snackbar(jsonResponse['message'], jsonResponse['message']);
       }
     } catch (e) {
       // Handle error

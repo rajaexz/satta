@@ -142,20 +142,20 @@ class _LoginpageState extends State<Loginpage> {
                     size10h,
                     size10h,
                     loginController.isLoading.value
-                        ?const CircularProgressIndicator(
+                        ? const CircularProgressIndicator(
                             color: Colors.red,
-                          ): _buildLoginBtn(
+                          )
+                        : _buildLoginBtn(
                             context: context,
                             phController: phoneController,
                             pass: pass,
                             colors: myColorRed),
-                        
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Already have an account? '),
+                    const Text('You Do not  have account?  '),
                     TextButton(
                       onPressed: () {
                         Get.to(() => SignupPage());

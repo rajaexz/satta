@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:winner11/model/mainGame.dart';
 import '../header/appbar.dart';
 import '../top3/MakeBit.dart';
 
 class GridViewWidget extends StatelessWidget {
-var gameData;
-  final String? whicGameName;
+  var gameData;
+  final String whicGameName;
 
-  GridViewWidget({super.key, required this.gameData, this.whicGameName});
+  GridViewWidget(
+      {super.key, required this.gameData, required this.whicGameName});
 
   final List<String> imageUrls = [
     'https://th.bing.com/th/id/OIP.y0OiNv_Nn1a5Zn9kZYWDVQHaHd?rs=1&pid=ImgDetMain',
@@ -30,6 +32,12 @@ var gameData;
     {'title': 'Half Sangam', 'data': 'half_sangam'},
     {'title': 'Full Sangam', 'data': 'full_sangam'},
   ];
+  final List<Map<String, dynamic>> gameTypeMaintype2 = [
+    {'title': 'Single Digit', 'data': 'single_digit'},
+    {'title': 'Single Panna', 'data': 'single_panna'},
+    {'title': 'Double Panna', 'data': 'double_panna'},
+    {'title': 'Triple Panna', 'data': 'triple_panna'},
+  ];
 
   final List<Map<String, dynamic>> gameTypeGali = [
     {'title': 'Jodi Digit', 'data': 'jodi_digit'},
@@ -45,7 +53,6 @@ var gameData;
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: CustomAppBar(
         title: "My Game ",
@@ -55,15 +62,36 @@ var gameData;
         children: [
           if (whicGameName == "gali_disawar")
             Expanded(
-              child: gameGrid(gameType: gameTypeGali, imageUrls: imageUrls,  allData: gameData),
+              child: gameGrid(
+                  gameType: gameTypeGali,
+                  imageUrls: imageUrls,
+                  allData: gameData,
+                  whicGameName: whicGameName),
             ),
-          if (whicGameName == "main_game")
-            Expanded(
-              child: gameGrid(gameType: gameTypeMain, imageUrls: imageUrls, allData: gameData),
-            ),
+          if (whicGameName == "main_game" && gameData is GameList)
+            gameData.open
+                ? Expanded(
+                    child: gameGrid(
+                      gameType: gameTypeMain,
+                      imageUrls: imageUrls,
+                      allData: gameData,
+                      whicGameName: whicGameName,
+                    ),
+                  )
+                : Expanded(
+                    child: gameGrid(
+                        gameType: gameTypeMaintype2,
+                        imageUrls: imageUrls,
+                        allData: gameData,
+                        whicGameName: whicGameName),
+                  ),
           if (whicGameName == "star_line")
             Expanded(
-              child: gameGrid(gameType: gameTypeStarline, imageUrls: imageUrls, allData: gameData),
+              child: gameGrid(
+                  gameType: gameTypeStarline,
+                  imageUrls: imageUrls,
+                  allData: gameData,
+                  whicGameName: whicGameName),
             ),
         ],
       ),
@@ -71,13 +99,22 @@ var gameData;
   }
 }
 
-Widget gameGrid({required List<Map<String, dynamic>> gameType, required List<String> imageUrls, allData}) {
+Widget gameGrid({
+  required List<Map<String, dynamic>> gameType,
+  required List<String> imageUrls,
+  allData,
+  required String whicGameName,
+}) {
   return GridView.count(
     crossAxisCount: 2,
     children: List.generate(gameType.length, (index) {
       return GestureDetector(
         onTap: () {
-          Get.to(MakeBitPage(allData: allData, title: gameType[index]['data']));
+          Get.to(MakeBitPage(
+            allData: allData,
+            title: gameType[index]['data'],
+            whicGameName: whicGameName,
+          ));
         },
         child: Container(
           margin: EdgeInsets.all(8.0),

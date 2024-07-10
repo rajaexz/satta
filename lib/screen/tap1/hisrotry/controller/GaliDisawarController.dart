@@ -1,21 +1,24 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
-import '../../../../network/api_path.dart';
-import '../../../../network/network_config.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:dio/src/form_data.dart' as alfrom;
+import '../../../../network/api_path.dart';
+import '../../../../network/storage_repository.dart';
 
 class Galidisawarcontroller extends GetxController {
   var isLoading = false.obs;
-  final Dio _dio = Dio();
-  BidHistoryResponse? games;
-
+  var starlineResponse = GaliBidHistoryResponse(
+    message: '',
+    code: '',
+    status: '',
+    data: [],
+  ).obs;
   var fromDate = DateTime.now().obs;
   var toDate = DateTime.now().obs;
+
+  final Dio _dio = Dio();
 
   @override
   void onInit() {
@@ -23,54 +26,55 @@ class Galidisawarcontroller extends GetxController {
     super.onInit();
   }
 
+  String get formattedFromDate =>
+      DateFormat('yyyy-MM-dd HH:mm:ss').format(fromDate.value);
+  String get formattedToDate =>
+      DateFormat('yyyy-MM-dd HH:mm:ss').format(toDate.value);
+
   Future<void> fetchBitStatement() async {
+    final formDData =
+        alfrom.FormData.fromMap({"from_date": fromDate, "to_date": toDate});
+
     isLoading(true);
     try {
-      final token = 'JZzG5NPNnOCRS5lO'; // Use your actual token here
-      final response = await _dio.post(
-        ' ${ApiPath.baseUrl}gali_disawar_bid_history',
-        options: Options(headers: {'Token': "JZzG5NPNnOCRS5lO"}),
-        data: {
-          // 'from_date':
-          //     '${fromDate.value.toIso8601String().split('T').first} 00:00:00',
-          // 'to_date':
-          //     '${toDate.value.toIso8601String().split('T').first} 23:59:59',
-        },
+      final token = await StorageRepository.getToken();
+      print("Token: $token");
+
+      final response = await _dio.get(
+        '${ApiPath.baseUrl}gali_disawar_bid_history',
+        data: formDData,
+        options: Options(
+          headers: {'Token': "$token"},
+        ),
       );
+      print("Response Data: ${response.data}");
 
       if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.data);
+        var jsonResponse =
+            jsonDecode(response.data); // Decode the JSON response
+        print("JSON Response: $jsonResponse");
+
         if (jsonResponse['status'] == 'success') {
-          games = BidHistoryResponse.fromJson(jsonResponse);
+          starlineResponse.value =
+              GaliBidHistoryResponse.fromJson(jsonResponse);
+          print("Parsed Response: ${starlineResponse.value}");
         } else {
-          Get.showSnackbar(const GetSnackBar(
-            title: "Something went wrong",
-            message: "Incomplete",
-            backgroundColor: Colors.red,
-            duration: Duration(seconds: 2),
-          ));
+          Get.snackbar('Failed to fetch data', jsonResponse['message']);
         }
+      } else {
+        Get.snackbar('Failed to fetch data', 'Server error');
       }
     } catch (e) {
-      Get.showSnackbar(GetSnackBar(
-        title: "Error",
-        message: e.toString(),
-        backgroundColor: Colors.red,
-        duration: const Duration(seconds: 2),
-      ));
+      // Handle error
+      print("Error: $e");
+      Get.snackbar('Failed to fetch data', e.toString());
     } finally {
       isLoading(false);
     }
   }
-
-  void updateDates(DateTime from, DateTime to) {
-    fromDate.value = from;
-    toDate.value = to;
-    fetchBitStatement();
-  }
 }
 
-class BidHistory {
+class GaliBidHistory {
   String gameId;
   String gameType;
   String leftDigit;
@@ -79,7 +83,7 @@ class BidHistory {
   String biddedAt;
   String gameName;
 
-  BidHistory({
+  GaliBidHistory({
     required this.gameId,
     required this.gameType,
     required this.leftDigit,
@@ -89,8 +93,8 @@ class BidHistory {
     required this.gameName,
   });
 
-  factory BidHistory.fromJson(Map<String, dynamic> json) {
-    return BidHistory(
+  factory GaliBidHistory.fromJson(Map<String, dynamic> json) {
+    return GaliBidHistory(
       gameId: json['game_id'],
       gameType: json['game_type'],
       leftDigit: json['left_digit'],
@@ -102,24 +106,24 @@ class BidHistory {
   }
 }
 
-class BidHistoryResponse {
+class GaliBidHistoryResponse {
   String message;
   String code;
   String status;
-  List<BidHistory> data;
+  List<GaliBidHistory> data;
 
-  BidHistoryResponse({
+  GaliBidHistoryResponse({
     required this.message,
     required this.code,
     required this.status,
     required this.data,
   });
 
-  factory BidHistoryResponse.fromJson(Map<String, dynamic> json) {
+  factory GaliBidHistoryResponse.fromJson(Map<String, dynamic> json) {
     var list = json['data'] as List;
-    List<BidHistory> dataList =
-        list.map((i) => BidHistory.fromJson(i)).toList();
-    return BidHistoryResponse(
+    List<GaliBidHistory> dataList =
+        list.map((i) => GaliBidHistory.fromJson(i)).toList();
+    return GaliBidHistoryResponse(
       message: json['message'],
       code: json['code'],
       status: json['status'],

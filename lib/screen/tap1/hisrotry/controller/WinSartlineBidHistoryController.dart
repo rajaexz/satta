@@ -1,6 +1,7 @@
 // network/network_provider.dart
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 // controllers/win_history_controller.dart
@@ -8,11 +9,17 @@ import 'package:intl/intl.dart';
 
 import '../../../../network/api_path.dart';
 import '../../../../network/network_config.dart';
+import '../../../../network/storage_repository.dart';
 
 class WinHistoryController extends GetxController {
-  var winHistoryList = <WinHistory>[].obs;
+  var winHistoryList = WinHistoryResponse(
+    message: '',
+    code: '',
+    status: '',
+    data: [],
+  ).obs;
   var isLoading = false.obs;
-
+  final Dio _dio = Dio();
   var fromDate = DateTime.now().obs;
   var toDate = DateTime.now().obs;
 
@@ -28,16 +35,20 @@ class WinHistoryController extends GetxController {
   void fetchWinHistory() async {
     try {
       isLoading(true);
-      var response = await networkProvider.postCommonCallForm(
-          ' ${ApiPath.baseUrl}starline_win_history',
-          {"from_date": fromDate, "to_date": toDate});
-
-      var jsonResponse = jsonDecode(response.body); // Decode the JSON response
-      if (response.status == 'success') {
-        winHistoryList.value = jsonResponse;
+      final token = await StorageRepository.getToken();
+      final response = await _dio.get(
+        '${ApiPath.baseUrl}starline_win_history',
+        options: Options(
+          headers: {'Token': "$token"},
+        ),
+      );
+      var jsonResponse = jsonDecode(response.data); // Decode the JSON response
+      if (jsonResponse['status'] == 'success') {
+        // Check status from JSON response
+        winHistoryList.value = WinHistoryResponse.fromJson(jsonResponse);
       } else {
         Get.showSnackbar(GetSnackBar(
-          message: response.bodyString,
+          message: jsonResponse['message'], // Show message from JSON response
           duration: Duration(seconds: 2),
         ));
       }

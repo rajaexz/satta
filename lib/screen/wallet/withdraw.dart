@@ -1,4 +1,3 @@
-
 import 'package:winner11/screen/component/profileContainer.dart';
 import 'package:winner11/screen/wallet/wallet_controller.dart/withdrow_controller.dart';
 
@@ -26,6 +25,7 @@ class WithdrawPage extends GetView<WithdrowController> {
     );
   }
 }
+
 class Withdrow extends StatefulWidget {
   final WithdrowController? controller;
 
@@ -37,22 +37,42 @@ class Withdrow extends StatefulWidget {
 
 class _WithdrowState extends State<Withdrow> {
   String selectedMethod = '';
-  final List<Map<String, String>> paymentMethods = [
-    {"name": "Paytm", "method": "paytm"},
-    {"name": "GPay", "method": "gpay"},
-    {"name": "PhonePe", "method": "phonepe"},
-  ];
-
- 
 
   void selectMethod(String method) {
     setState(() {
-      selectedMethod = method;
+      switch (method) {
+        case "paytm":
+          selectedMethod = widget
+              .controller!.userDetails.value.data!.paytmMobileNo
+              .toString();
+        case "gpay":
+          selectedMethod = widget
+              .controller!.userDetails.value.data!.gpayMobileNo
+              .toString();
+
+        case "phonepe":
+          selectedMethod = widget
+              .controller!.userDetails.value.data!.phonepeMobileNo
+              .toString();
+
+          break;
+        default:
+          selectedMethod = widget
+              .controller!.userDetails.value.data!.paytmMobileNo
+              .toString();
+          ;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, String>> paymentMethods = [
+      {"name": "Paytm", "method": "paytm"},
+      {"name": "GPay", "method": "gpay"},
+      {"name": "PhonePe", "method": "phonepe"},
+    ];
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(
@@ -114,7 +134,8 @@ class _WithdrowState extends State<Withdrow> {
           child: Text(
             methodName,
             style: TextStyle(
-              color: selectedMethod == methodValue ? Colors.white : Colors.black,
+              color:
+                  selectedMethod == methodValue ? Colors.white : Colors.black,
             ),
           ),
         ),

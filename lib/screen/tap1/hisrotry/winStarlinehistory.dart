@@ -24,14 +24,14 @@ class WinHistoryPage extends StatelessWidget {
             onPressed: () async {
               DateTimeRange? picked = await showDateRangePicker(
                 context: context,
-                firstDate: DateTime.now(),
+                firstDate: DateTime(2000), // Allow earlier dates
                 lastDate: DateTime.now(),
                 initialDateRange: DateTimeRange(
                   start: controller.fromDate.value,
                   end: controller.toDate.value,
                 ),
               );
-              if (picked != null && picked.start != picked.end) {
+              if (picked != null) {
                 controller.updateDateRange(picked.start, picked.end);
               }
             },
@@ -41,8 +41,7 @@ class WinHistoryPage extends StatelessWidget {
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
-        } else if (controller.winHistoryList == null ||
-            controller.winHistoryList.isEmpty) {
+        } else if (controller.winHistoryList.value.data.isEmpty) {
           return const Center(child: Text('No Data Available'));
         } else {
           return Column(
@@ -55,9 +54,9 @@ class WinHistoryPage extends StatelessWidget {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: controller.winHistoryList.length,
+                  itemCount: controller.winHistoryList.value.data.length,
                   itemBuilder: (context, index) {
-                    final win = controller.winHistoryList[index];
+                    final win = controller.winHistoryList.value.data[index];
                     return WinHistoryCard(win: win);
                   },
                 ),
