@@ -18,7 +18,7 @@ import 'package:winner11/utilis/globlemargin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../component/profileContainer.dart';
-  var dataProfile;
+
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
 
@@ -125,13 +125,7 @@ class _EditProfileState extends State<EditProfile> {
                         ElevatedButton(
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              callApi(
-                                context: context,
-                                nameController: nameController,
-                                emailController: emailController,
-                            
-                              );
-
+                        
                               
                             }
                           },
@@ -159,54 +153,6 @@ class _EditProfileState extends State<EditProfile> {
   }
 
 
-callApi({
-  context,
-TextEditingController?  nameController,
-  TextEditingController? emailController,
- 
-}) async {
-  final store = await SharedPreferences.getInstance();
-  var id = store.getString("userId");
-
-  var editData = {
-    "id": id.toString(),
-    "name": nameController!.text,
-    "email": emailController!.text,
-  };
-
-
-   var result = "";
-
-  // Update the widget state inside setState
-  setState(() {
-    dataProfile = result;
-  });
-
- 
-  //    setState(()  async {
-  //                dataProfile = await  apiService.userallType(
-  //   uri: "/user_update_profile",
-  //   data: editData,
-  // );
-  //      });
- 
-  
-if(!nameController.text.isEmpty && !emailController.text.isEmpty){
-
-    if (dataProfile != "nodata") {
-    CustomToaster.showSuccess(context, dataProfile["data"]["message"]);
-
-
-  } else {
-    CustomToaster.showWarning(context, dataProfile["data"]["message"]);
-  }
-}else{
-    CustomToaster.showWarning(context, dataProfile["data"]["message"]);
-
-}
-
-
-}
 
 
 }

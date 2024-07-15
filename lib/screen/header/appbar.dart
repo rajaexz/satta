@@ -100,15 +100,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             myImage: "assets/icon/wallet2.png",
           ),
         ),
-        IconButton(
-          icon: Icon(
-            Icons.sunny_snowing,
-            color: myColorWhite,
-          ), // Icon to display
-          onPressed: () {
-            themeController.toggleTheme();
-          },
-        ),
+        // IconButton(
+        //   icon: Icon(
+        //     Icons.sunny_snowing,
+        //     color: myColorWhite,
+        //   ), // Icon to display
+        //   onPressed: () {
+        //     themeController.toggleTheme();
+        //   },
+        // ),
              Stack(
             children: [
                IconButton(

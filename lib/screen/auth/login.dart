@@ -71,7 +71,7 @@ class _LoginpageState extends State<Loginpage> {
                 Column(
                   crossAxisAlignment: AlignmentStartCross,
                   children: [
-                    Text("Sign up on WINNERSATTA App",
+                    Text("Sign up on ATTA App",
                         style: CustomStyles.headerTextStyle),
                     size10h,
                     Text("Get 50 Coins on  Sign up",

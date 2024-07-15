@@ -18,15 +18,15 @@ class MyHomePageController extends GetxController {
   }
 
   void fetchData() async {
-    final tokenpin = await StorageRepository.getTokenpin();
+    final token = await StorageRepository.getToken();
     try {
       isLoading(true);
       var response = await Dio().get('${ApiPath.baseUrl}app_details',
-          options: Options(headers: {'Token': tokenpin}));
+          options: Options(headers: {'Token': token}));
 
       if (response.statusCode == 200) {
         var badydecode = jsonDecode(response.data);
-        if (badydecode["code"] == "100" && tokenpin != null) {
+        if (badydecode["code"] == "100" && token!= null) {
           dataModel = DataModel.fromJson(badydecode["data"]);
           isLoading(false);
           update();

@@ -598,7 +598,7 @@ class UserDetailsScreen extends StatelessWidget {
                             child: IconButton(
                               icon: Icon(Icons.edit),
                               onPressed: () async {
-                                Get.to(EditProfile());
+                                Get.toNamed('/editProfile');
                               },
                             ),
                           ),

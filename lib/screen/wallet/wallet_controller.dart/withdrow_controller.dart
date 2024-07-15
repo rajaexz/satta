@@ -53,15 +53,16 @@ class WithdrowController extends con.GetxController {
       );
       print(response.data);
       if (response.statusCode == 200) {
-        var jsonResponse =
-            jsonDecode(response.data!); // Decode the JSON response
+        var jsonResponse = jsonDecode(response.data); // Decode the JSON response
         userDetails(UserDetails.fromJson(jsonResponse));
       } else {
         // Handle error
+        Get.snackbar('Error', 'Failed to fetch user details');
       }
     } catch (e) {
       // Handle error
       print(e);
+      Get.snackbar('Error', 'Failed to fetch user details');
     } finally {
       isLoading(false);
     }
@@ -84,15 +85,15 @@ class WithdrowController extends con.GetxController {
 
       if (response.statusCode == 200 && jsonResponse['status'] == 'success') {
         Get.snackbar('Successful', "Your transaction is complete");
-
         update();
         Get.toNamed("/home", arguments: "id");
       } else {
-        Get.snackbar(jsonResponse['message'], "Some Thing Went Wrong");
+        Get.snackbar('Error', jsonResponse['message'] ?? "Some Thing Went Wrong");
       }
     } catch (e) {
       // Handle error
       print(e);
+      Get.snackbar('Error', 'Failed to process withdrawal');
     } finally {
       isLoading(false);
     }

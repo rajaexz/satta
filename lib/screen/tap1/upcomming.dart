@@ -72,7 +72,7 @@ class UpCommingView extends StatelessWidget {
                       imageSize: 50),
                   customImageContainer(
                     imageSize: 50,
-                    name: "waallet",
+                    name: "Wallet",
                     context: context,
                     imageUrl: Theme.of(context).brightness == Brightness.light
                         ? "assets/icon/wallet.png"
@@ -111,23 +111,31 @@ class UpCommingView extends StatelessWidget {
                   ),
                 ],
               ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                GestureDetector(
-                  onTap: () {
-                    showbottombar(context);
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 5),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 10),
-                    decoration: BoxDecoration(color: myColorRed),
-                    child: const Text(
-                      "Gali Disawar Game",
-                      style: TextStyle(color: Colors.white),
+              Padding(
+                padding: const EdgeInsets.only(left:  8.0),
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                             
+                  GestureDetector(
+                    onTap: () {
+                      showbottombar(context);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 10),
+                      decoration: BoxDecoration(color: myColorRed),
+                      child: const Text(
+                        "Other Game",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
-                  ),
-                )
-              ])
+                  )
+                            ,     GestureDetector(
+                    onTap: () {
+                      showbottombar(context);
+                    },child: Icon(Icons.arrow_forward, color: myColor,))
+                ]),
+              )
             ],
           ),
         ),
@@ -135,7 +143,7 @@ class UpCommingView extends StatelessWidget {
 // Mycontest ----------------------------------------------------------
 
         size10h,
-        Simpletitlebtn(HeadName: "Curent Sata Game"),
+        Simpletitlebtn(HeadName: " Current Sata Game"),
 
 //Upcoming Match List
 
@@ -268,6 +276,19 @@ class UpCommingView extends StatelessWidget {
       ],
     );
   }
+
+Future<void> openWhatsApp() async {
+
+ final whatsappUrl = 'https://wa.me/${controller!.dataModel!.contactDetails.whatsappNo}';
+    
+  
+  if (await canLaunch(whatsappUrl)) {
+    await launch(whatsappUrl);
+  } else {
+    throw 'Could not launch $whatsappUrl';
+  }
+}
+
 }
 
 Widget customImageContainer(
@@ -314,16 +335,6 @@ Widget customImageContainer(
   );
 }
 
-Future<void> openWhatsApp() async {
-  const phoneNumber = '1234567890'; // Replace with the actual phone number
-  final whatsappUrl = 'whatsapp://send?phone=$phoneNumber';
-
-  if (await canLaunch(whatsappUrl)) {
-    await launch(whatsappUrl);
-  } else {
-    throw 'Could not launch $whatsappUrl';
-  }
-}
 
 showbottombar(context) {
   showModalBottomSheet<void>(

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:winner11/model/mainGame.dart';
 import '../header/appbar.dart';
 import '../top3/MakeBit.dart';
+
 
 class GridViewWidget extends StatelessWidget {
   var gameData;
@@ -12,15 +14,15 @@ class GridViewWidget extends StatelessWidget {
       {super.key, required this.gameData, required this.whicGameName});
 
   final List<String> imageUrls = [
-    'https://th.bing.com/th/id/OIP.y0OiNv_Nn1a5Zn9kZYWDVQHaHd?rs=1&pid=ImgDetMain',
-    'https://clipart-library.com/new_gallery/dice-clipart-1.jpeg',
-    'https://pngimg.com/uploads/dice/dice_PNG87.png',
-    'https://w7.pngwing.com/pngs/989/1002/png-transparent-dominoes-dice-free-content-dice-s-free-game-white-rectangle-thumbnail.png',
-    'https://th.bing.com/th/id/OIP.y0OiNv_Nn1a5Zn9kZYWDVQHaHd?rs=1&pid=ImgDetMain',
-    'https://clipart-library.com/new_gallery/dice-clipart-1.jpeg',
-    'https://pngimg.com/uploads/dice/dice_PNG87.png',
-    'https://w7.pngwing.com/pngs/989/1002/png-transparent-dominoes-dice-free-content-dice-s-free-game-white-rectangle-thumbnail.png',
-    'https://th.bing.com/th/id/OIP.y0OiNv_Nn1a5Zn9kZYWDVQHaHd?rs=1&pid=ImgDetMain',
+    'assets/icon/1patti.png',
+    'assets/icon/jodipatti.png',
+    'assets/icon/2patti.png',
+
+    'assets/icon/allpatti.png',
+    'assets/icon/3patti.png',
+    'assets/icon/3patti.png',
+    'assets/icon/allpatti.png',
+    // Add more if needed to match the longest gameType list
   ];
 
   final List<Map<String, dynamic>> gameTypeMain = [
@@ -117,7 +119,7 @@ Widget gameGrid({
           ));
         },
         child: Container(
-          margin: EdgeInsets.all(8.0),
+          margin: const EdgeInsets.all(8.0),
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -127,7 +129,7 @@ Widget gameGrid({
                 color: Colors.black.withOpacity(0.2),
                 spreadRadius: 2,
                 blurRadius: 5,
-                offset: Offset(0, 3),
+                offset: const Offset(0, 3),
               ),
             ],
           ),
@@ -135,18 +137,21 @@ Widget gameGrid({
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.network(
+                child: Image.asset(
                   imageUrls[index],
                   fit: BoxFit.cover,
                 ),
               ),
-              Center(
+              Positioned(
+                bottom: 0,
+                child: 
+         Align(
+                alignment: Alignment.center,
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     color: Color.fromARGB(255, 185, 23, 11),
                   ),
-                  width: 100,
                   height: 40,
                   alignment: Alignment.center,
                   child: Text(
@@ -157,7 +162,7 @@ Widget gameGrid({
                     ),
                   ),
                 ),
-              ),
+              ),     ),
             ],
           ),
         ),

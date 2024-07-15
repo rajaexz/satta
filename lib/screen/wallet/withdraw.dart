@@ -42,25 +42,16 @@ class _WithdrowState extends State<Withdrow> {
     setState(() {
       switch (method) {
         case "paytm":
-          selectedMethod = widget
-              .controller!.userDetails.value.data!.paytmMobileNo
-              .toString();
+          selectedMethod = widget.controller!.userDetails.value.data!.paytmMobileNo.toString();
+          break;
         case "gpay":
-          selectedMethod = widget
-              .controller!.userDetails.value.data!.gpayMobileNo
-              .toString();
-
+          selectedMethod = widget.controller!.userDetails.value.data!.gpayMobileNo.toString();
+          break;
         case "phonepe":
-          selectedMethod = widget
-              .controller!.userDetails.value.data!.phonepeMobileNo
-              .toString();
-
+          selectedMethod = widget.controller!.userDetails.value.data!.phonepeMobileNo.toString();
           break;
         default:
-          selectedMethod = widget
-              .controller!.userDetails.value.data!.paytmMobileNo
-              .toString();
-          ;
+          selectedMethod = '';
       }
     });
   }
@@ -85,7 +76,7 @@ class _WithdrowState extends State<Withdrow> {
               hintText: "Enter Your Money",
               inputType: TextInputType.number,
               errorMessage: "Please enter you",
-              usernameRegex: r'^[\S\s]{1,}$',
+              usernameRegex:  r'^\d{10}$',
             ),
             const SizedBox(height: 20),
             Row(
@@ -134,8 +125,7 @@ class _WithdrowState extends State<Withdrow> {
           child: Text(
             methodName,
             style: TextStyle(
-              color:
-                  selectedMethod == methodValue ? Colors.white : Colors.black,
+              color: selectedMethod == methodValue ? Colors.white : Colors.black,
             ),
           ),
         ),

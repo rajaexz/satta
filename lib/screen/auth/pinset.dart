@@ -106,4 +106,19 @@ class PinPage extends StatelessWidget {
       ),
     );
   }
+
+
+  
+  
+
+Future<void> openWhatsApp() async {
+  const phoneNumber = '1234567890'; // Replace with the actual phone number
+  final whatsappUrl = 'whatsapp://send?phone=$phoneNumber';
+
+  if (await canLaunch(whatsappUrl)) {
+    await launch(whatsappUrl);
+  } else {
+    throw 'Could not launch $whatsappUrl';
+  }
+}
 }
