@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
-import 'package:winner11/screen/component/profileContainer.dart';
-import 'package:winner11/screen/header/appbar.dart';
+import 'package:Billa/screen/component/profileContainer.dart';
+import 'package:Billa/screen/header/appbar.dart';
 
 import 'controller/PaytmentSreencontroller.dart';
 

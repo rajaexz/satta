@@ -1,7 +1,6 @@
-
-import 'package:winner11/model/AppDataModel.dart';
-import 'package:winner11/utilis/AllColor.dart';
-import 'package:winner11/utilis/borderbox.dart';
+import 'package:Billa/model/AppDataModel.dart';
+import 'package:Billa/utilis/AllColor.dart';
+import 'package:Billa/utilis/borderbox.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

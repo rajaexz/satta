@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:winner11/main.dart';
-import 'package:winner11/screen/component/custom_toaster.dart';
-import 'package:winner11/screen/wallet/wallet_controller.dart/addfund_controller.dart';
+import 'package:Billa/main.dart';
+import 'package:Billa/screen/component/custom_toaster.dart';
+import 'package:Billa/screen/wallet/wallet_controller.dart/addfund_controller.dart';
 
 import '../../utilis/AllColor.dart';
 import '../../utilis/borderbox.dart';
@@ -56,7 +56,6 @@ class _MyUpiViewState extends State<MyUpiView> {
   bool isApiRequestInProgress = false;
   late Razorpay _razorpay;
 
-
   @override
   void initState() {
     super.initState();
@@ -70,8 +69,7 @@ class _MyUpiViewState extends State<MyUpiView> {
 
   ///rozopay
 
-Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
- 
+  Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
     var withdrawData = {
       "points": widget.controller!.moneyController.text,
       "trans_status": "successful",
@@ -79,10 +77,8 @@ Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
     };
 
     // Call the addFund method
-  await widget.controller!.addFund(withdrawData);
-
-
-}
+    await widget.controller!.addFund(withdrawData);
+  }
 
   Future<void> _handlePaymentError(PaymentFailureResponse response) async {
     final store = await SharedPreferences.getInstance();
@@ -101,11 +97,11 @@ Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
   void _startPayment() async {
     var options = {
       'key': 'rzp_test_UsSB8qTArOcYxL',
-      'amount': (int.parse(widget.controller!.moneyController.text)* 100)
+      'amount': (int.parse(widget.controller!.moneyController.text) * 100)
           .toString(), // amount in the smallest currency unit (e.g., paise)
       'name': 'Billo',
       'description': 'Payment for your product or service',
-      'prefill': {'contact': '1234567890', 'email': 'Winner11@email.com'},
+      'prefill': {'contact': '1234567890', 'email': 'Billa@email.com'},
       'external': {
         'wallets': ['paytm']
       }

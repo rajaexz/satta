@@ -33,7 +33,7 @@ class TransferController extends con.GetxController {
       final response = await _dio.post(
         '${ApiPath.baseUrl}transfer_verify', // Replace with your actual API URL
         data: FormData.fromMap(data),
-        options: Options(headers: {'Token': "JZzG5NPNnOCRS5lO"}),
+        options: Options(headers: {'Token': "$token"}),
       );
 
       print("${response.data} ===========================");
@@ -64,7 +64,7 @@ class TransferController extends con.GetxController {
       final response = await _dio.post(
         '${ApiPath.baseUrl}transfer_points', // Replace with your actual API URL
         data: FormData.fromMap(data),
-        options: Options(headers: {'Token': "JZzG5NPNnOCRS5lO"}),
+        options: Options(headers: {'Token': "${token}"}),
       );
 
       var jsonResponse = jsonDecode(response.data); // Decode the JSON response

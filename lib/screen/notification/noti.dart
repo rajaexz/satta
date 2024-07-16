@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winner11/main.dart';
-import 'package:winner11/screen/component/darkmode.dart';
-import 'package:winner11/screen/notification/controller/noti_controller.dart';
-import 'package:winner11/utilis/AllColor.dart';
-import 'package:winner11/utilis/borderbox.dart';
-import 'package:winner11/utilis/boxSpace.dart';
-import 'package:winner11/utilis/fontstyle.dart';
-import 'package:winner11/utilis/globlemargin.dart';
+import 'package:Billa/main.dart';
+import 'package:Billa/screen/component/darkmode.dart';
+import 'package:Billa/screen/notification/controller/noti_controller.dart';
+import 'package:Billa/utilis/AllColor.dart';
+import 'package:Billa/utilis/borderbox.dart';
+import 'package:Billa/utilis/boxSpace.dart';
+import 'package:Billa/utilis/fontstyle.dart';
+import 'package:Billa/utilis/globlemargin.dart';
 
 import '../header/appbar.dart';
 

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:winner11/utilis/borderbox.dart';
+import 'package:Billa/utilis/borderbox.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import '../utilis/AllColor.dart';

@@ -1,158 +1,86 @@
-import 'package:winner11/screen/component/coundown.dart';
-import 'package:winner11/screen/component/darkmode.dart';
-import 'package:winner11/screen/profile/profile.dart';
-import 'package:winner11/screen/profile/profile_model.dart';
-import 'package:get/get.dart';
-
 import 'package:get/get.dart';
 
 import 'package:flutter/material.dart';
-import 'package:winner11/screen/component/custom_toaster.dart';
-import 'package:winner11/screen/header/appbar.dart';
-import 'package:winner11/screen/header/headerTop.dart';
-import 'package:winner11/service/authapi.dart';
-import 'package:winner11/utilis/AllColor.dart';
-import 'package:winner11/utilis/boxSpace.dart';
-import 'package:winner11/utilis/fontstyle.dart';
-import 'package:winner11/utilis/globlemargin.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:Billa/screen/profile/controller/editcontroller.dart';
+import 'package:Billa/utilis/AllColor.dart';
 
-import '../component/profileContainer.dart';
-
-class EditProfile extends StatefulWidget {
-  const EditProfile({super.key});
-
-  @override
-  State<EditProfile> createState() => _EditProfileState();
-}
-
-class _EditProfileState extends State<EditProfile> {
-  final dynamic data = Get.arguments as dynamic;
-
-
-  final formKey = GlobalKey<FormState>();
-  final formKey2 = GlobalKey<FormState>();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  // bank deatail
-  TextEditingController bankNameController = TextEditingController();
-  TextEditingController bankAccountController = TextEditingController();
-
-  TextEditingController ifscCodeController = TextEditingController();
-
-  void dispose() {
-    nameController.dispose();
-    emailController.dispose();
-    // Dispose other controllers
-
-//bank
-
-    bankNameController.dispose();
-    bankAccountController.dispose();
-    ifscCodeController.dispose();
-    super.dispose();
-  }
+class EditProfilePage extends StatelessWidget {
+  final ProfileController _controller = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
-    final mQ = MediaQuery.of(context).size;
-    if (data != null) {
-      UserDetails userDetails = UserDetails.fromJson(data);
-
-      return Scaffold(
-        appBar: CustomAppBar(title: "Edit Profile "),
-        body: SingleChildScrollView(
-          child: Container(
-            margin: GlobleglobleMargin.globleMargin,
-            child: Column(
-              children: [
-                Form(
-                  key: formKey,
-                  child: Container(
-                    height: 600,
-                    child: Column(
-                      children: [
-                        size20h,
-                        size20h,
-                        Simpletitlebtn(
-                          HeadName: "Edit Profile",
-                        ),
-
-                        size20h,
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(10),
-                              color: myColorRed,
-                              child: Text(
-                                "User Details",
-                                style: CustomStyleswhite.header2TextStyle,
-                              ),
-                            )
-                          ],
-                        ),
-
-                        MyFunctionInput(
-                          controller: nameController,
-                          fieldName: userDetails.name == "No Name"
-                              ? "Name"
-                              : userDetails.name,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(title: Text("Edit Profile")),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Form(
+                key: _controller.formKey,
+                child: Container(
+                  height: 600,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      const SizedBox(height: 20),
+                      SizedBox(height: 20),
+                      TextFormField(
+                        controller: _controller.nameController,
+                        decoration: const InputDecoration(
+                          labelText: "Name",
                           hintText: "Your Name",
-                          inputType: TextInputType.text,
-                          errorMessage: "Please enter your Name",
-                          usernameRegex:
-                              r"^[A-Za-z\s]{1,}$", // Adjust the regex for name validation
                         ),
-
-                      
-                        size20h,
-                        MyFunctionInput(
-                          controller: emailController,
-                          fieldName: userDetails.email == "No Email"
-                              ? "Email"
-                              : userDetails.email,
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter your Name";
+                          }
+                          if (!RegExp(r"^[A-Za-z\s]{1,}$").hasMatch(value)) {
+                            return "Please enter a valid name";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: _controller.emailController,
+                        decoration: const InputDecoration(
+                          labelText: "Email",
                           hintText: "example@example.com",
-                          inputType: TextInputType.emailAddress,
-                          errorMessage: "Please enter a valid email",
-                          usernameRegex:
-                              r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$',
                         ),
-
-                        //Bnak Deatial
-                        size20h,
-
-                        ElevatedButton(
-                          onPressed: () async {
-                            if (formKey.currentState!.validate()) {
-                        
-                              
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                myColorgreen, // Set the button background color to green
-                          ),
-                          child: Text(
-                            ' User Details Save',
-                            style: CustomStyleswhite.headerTextStyle,
-                          ),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter a valid email";
+                          }
+                          if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$')
+                              .hasMatch(value)) {
+                            return "Please enter a valid email";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: _controller.updateProfile,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
                         ),
-                      ],
-                    ),
+                        child: const Text(
+                          'Save User Details',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-               ],
-            ),
+              ),
+            ],
           ),
         ),
-      );
-    } else {
-      return Text("data");
-    }
+      ),
+    );
   }
-
-
-
-
 }

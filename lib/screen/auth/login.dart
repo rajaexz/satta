@@ -1,12 +1,13 @@
-import 'package:winner11/routes/Api.dart';
+import 'package:Billa/routes/Api.dart';
+import 'package:Billa/screen/auth/forget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winner11/screen/auth/controller/authController.dart';
-import 'package:winner11/screen/auth/singup.dart';
-import 'package:winner11/utilis/alinement.dart';
-import 'package:winner11/utilis/boxSpace.dart';
-import 'package:winner11/utilis/fontstyle.dart';
-import 'package:winner11/utilis/globlemargin.dart';
+import 'package:Billa/screen/auth/controller/authController.dart';
+import 'package:Billa/screen/auth/singup.dart';
+import 'package:Billa/utilis/alinement.dart';
+import 'package:Billa/utilis/boxSpace.dart';
+import 'package:Billa/utilis/fontstyle.dart';
+import 'package:Billa/utilis/globlemargin.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../utilis/AllColor.dart';
 import '../component/custom_toaster.dart';
@@ -71,11 +72,9 @@ class _LoginpageState extends State<Loginpage> {
                 Column(
                   crossAxisAlignment: AlignmentStartCross,
                   children: [
-                    Text("Sign up on ATTA App",
+                    Text("Login up on Winer Satta App",
                         style: CustomStyles.headerTextStyle),
                     size10h,
-                    Text("Get 50 Coins on  Sign up",
-                        style: CustomStyles.smallTextStyle),
                   ],
                 ),
                 Column(
@@ -138,6 +137,14 @@ class _LoginpageState extends State<Loginpage> {
                         // If none of the conditions are met, return null (no error)
                         return null;
                       },
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(ForgotPasswordScreen());
+                      },
+                      child: const Center(
+                        child: Text("Forget pin "),
+                      ),
                     ),
                     size10h,
                     size10h,

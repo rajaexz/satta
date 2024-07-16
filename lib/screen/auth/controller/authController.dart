@@ -1,13 +1,15 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:Billa/screen/auth/createpassword.dart';
+import 'package:Billa/screen/auth/otpsrceenForget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/src/form_data.dart' as alfrom;
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:winner11/screen/auth/login.dart';
+import 'package:Billa/screen/auth/login.dart';
 
 import '../../../network/storage_repository.dart';
 import '../../../service/authapi.dart';
@@ -26,11 +28,11 @@ class SignupController extends GetxController {
   Future<void> signup() async {
     isLoading.value = true;
     final dio = Dio();
-    var pin = _generatePin();
+
     final formData = alfrom.FormData.fromMap({
       'full_name': fullNameController.text.toString(),
       'mobile': mobileController.text.toString(),
-      'pin': pin.toString(),
+      'pin': pinController.text.toString(),
       'password': passwordController.text.toString(),
     });
 
@@ -45,8 +47,7 @@ class SignupController extends GetxController {
       print('Signup successful: ${jsonResponse}');
 
       if (response.statusCode == 200) {
-        Get.toNamed("/otp",
-            arguments: {"phone": mobileController.text, "otp": pin});
+        Get.toNamed("/otp", arguments: mobileController.text);
         Get.snackbar('Success', 'Signup successful',
             snackPosition: SnackPosition.BOTTOM);
       } else {
@@ -62,19 +63,30 @@ class SignupController extends GetxController {
     }
   }
 
-  Future<void> forgotPassword(String mobile) async {
-    isLoading(true);
-    try {
-      final response = await apiService.post('/forgot_password', data: {
-        'mobile': mobile,
-      });
+  Future<void> forgotPasswordVerify(String mobile, pass) async {
+    final token = await StorageRepository.getToken();
 
+    isLoading(true);
+    final dio = Dio();
+
+    try {
+      final formData =
+          alfrom.FormData.fromMap({'mobile': mobile, "password": pass});
+
+      final response = await dio.post(
+        'https://development.smapidev.co.in/api/Api/forgot_password_verify',
+        data: formData,
+        options: Options(
+          headers: {
+            'Token': '$token',
+          },
+        ),
+      );
       var jsonResponse = jsonDecode(response.data!);
-      // Handle response
+      print(jsonResponse);
       if (jsonResponse['status'] == 'success') {
         Get.snackbar('Success', jsonResponse['message']);
         // Navigate to verify OTP screen
-        Get.toNamed('/otp');
       } else {
         Get.snackbar('Error', jsonResponse['message']);
       }
@@ -85,21 +97,55 @@ class SignupController extends GetxController {
     }
   }
 
-  Future<void> verifyOtp(String mobile, String otp, String newPassword) async {
+  Future<void> forgotPassword(String mobile) async {
     isLoading(true);
+    final dio = Dio();
+
     try {
-      final response = await apiService.post('/verify_otp', data: {
+      final formData = alfrom.FormData.fromMap({
         'mobile': mobile,
-        'otp': otp,
-        'password': newPassword,
       });
+
+      final response = await dio.post(
+        'https://development.smapidev.co.in/api/Api/forgot_password',
+        data: formData,
+      );
+      var jsonResponse = jsonDecode(response.data!);
+      // Handle response
+      if (jsonResponse['status'] == 'success') {
+        Get.snackbar('Success', jsonResponse['message']);
+        // Navigate to verify OTP screen
+        Get.to(OtpPageForget(), arguments: mobile);
+      } else {
+        Get.snackbar('Error', jsonResponse['message']);
+      }
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<void> verifyOtp(String mobile, String otp) async {
+    final dio = Dio();
+
+    isLoading(true);
+    final formData = alfrom.FormData.fromMap({
+      'mobile': mobile,
+      'otp': otp,
+    });
+    try {
+      final response = await dio.post(
+        'https://development.smapidev.co.in/api/Api/verify_otp',
+        data: formData,
+      );
 
       var jsonResponse = jsonDecode(response.data!);
       // Handle response
       if (jsonResponse['status'] == 'success') {
         Get.snackbar('Success', jsonResponse['message']);
         // Navigate to login screen
-        Get.to(() => Loginpage());
+        Get.to(() => CreateNewPasswordScreen(), arguments: mobile);
       } else {
         Get.snackbar('Error', jsonResponse['message']);
       }

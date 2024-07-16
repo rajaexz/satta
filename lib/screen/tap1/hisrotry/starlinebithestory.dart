@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winner11/network/network_config.dart';
-import 'package:winner11/screen/tap1/hisrotry/controller/SartlineBidHistoryController.dart';
+import 'package:Billa/network/network_config.dart';
+import 'package:Billa/screen/tap1/hisrotry/controller/SartlineBidHistoryController.dart';
 import 'package:intl/intl.dart';
-import 'package:winner11/screen/tap1/hisrotry/widget/bitcart.dart';
+import 'package:Billa/screen/tap1/hisrotry/widget/bitcart.dart';
 
 class BidHistoryPage extends StatelessWidget {
   final BidHistoryController controller =

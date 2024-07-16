@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:winner11/utilis/AllColor.dart';
-
+import 'package:Billa/utilis/AllColor.dart';
 
 class SimpleCounter extends StatefulWidget {
   final int totalSeconds;
@@ -44,7 +43,7 @@ class _SimpleCounterState extends State<SimpleCounter> {
     String monthStr = widget.matchDate.split('-')[1];
     int month;
 
-         switch (monthStr) {
+    switch (monthStr) {
       case 'Jan':
         month = 1;
         break;
@@ -110,31 +109,25 @@ class _SimpleCounterState extends State<SimpleCounter> {
     });
   }
 
- String formatTime(int seconds) {
-        int remainingSeconds = seconds % (24 * 60 * 60);
-        int days = seconds ~/ (24 * 60 * 60);
-        int hours = remainingSeconds ~/ (60 * 60);
-        remainingSeconds = remainingSeconds % (60 * 60);
-        int minutes = remainingSeconds ~/ 60;
-        remainingSeconds = remainingSeconds % 60;
-      
-        String daysStr = days.toString().padLeft(2, '0');
-        String hoursStr = hours.toString().padLeft(2, '0');
-        String minutesStr = minutes.toString().padLeft(2, '0');
-        String secondsStr = remainingSeconds.toString().padLeft(2, '0');
-      
-       
-         
-          if (daysStr == '00') {
-            return '${daysStr == '00' ? '' : daysStr + ":" }${hoursStr == '00' ? '' : "$hoursStr" }:$minutesStr:$secondsStr';
-          } else {
-            return '$daysStr Days Left';
-          }
-      }
-      
+  String formatTime(int seconds) {
+    int remainingSeconds = seconds % (24 * 60 * 60);
+    int days = seconds ~/ (24 * 60 * 60);
+    int hours = remainingSeconds ~/ (60 * 60);
+    remainingSeconds = remainingSeconds % (60 * 60);
+    int minutes = remainingSeconds ~/ 60;
+    remainingSeconds = remainingSeconds % 60;
 
+    String daysStr = days.toString().padLeft(2, '0');
+    String hoursStr = hours.toString().padLeft(2, '0');
+    String minutesStr = minutes.toString().padLeft(2, '0');
+    String secondsStr = remainingSeconds.toString().padLeft(2, '0');
 
-
+    if (daysStr == '00') {
+      return '${daysStr == '00' ? '' : daysStr + ":"}${hoursStr == '00' ? '' : "$hoursStr"}:$minutesStr:$secondsStr';
+    } else {
+      return '$daysStr Days Left';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -164,16 +157,16 @@ class _SimpleCounterState extends State<SimpleCounter> {
   }
 }
 
+String getCurrentDate() {
+  DateTime now = DateTime.now();
+  return '${now.year}-${now.month}-${now.day}';
+}
 
-  String getCurrentDate() {
-    DateTime now = DateTime.now();
-    return '${now.year}-${now.month}-${now.day}';
-  }
-
-
-
-
-String getMatchStatus({required String Allyear, required int totalSeconds, required String matchDate, required String matchTime}) {
+String getMatchStatus(
+    {required String Allyear,
+    required int totalSeconds,
+    required String matchDate,
+    required String matchTime}) {
   DateTime matchStartTime;
 
   // Parse the match date and time
@@ -266,7 +259,6 @@ String getMatchStatus({required String Allyear, required int totalSeconds, requi
 
 // Usage:
 
-
- Future delayedAnySecond(anysec) async {
+Future delayedAnySecond(anysec) async {
   await Duration(seconds: anysec);
 }

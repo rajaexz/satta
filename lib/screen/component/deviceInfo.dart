@@ -1,16 +1,15 @@
-
-import 'package:winner11/service/authapi.dart';
+import 'package:Billa/service/authapi.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 
 //contraction
 // contractionDeviceInfo(context) async {
 //   final ApiService apiService = ApiService();
-  
+
 //   var data = await apiService.userallGet(uri: "/toggle_get_user");
-    
+
 //   if (data["status"] == "200") {
-    
+
 //     if (data["data"]["status"] != "Active") {
 
 //       await DialogHelper.showInputDialog(context);
@@ -21,16 +20,13 @@ import 'package:flutter/material.dart';
 // }
 
 Future<void> getDeviceInfo(context) async {
- 
- 
-
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   AndroidDeviceInfo androidInfo;
   IosDeviceInfo iosInfo;
   var deviceId = "";
   var deviceName = "";
   try {
-   if (Theme.of(context).platform == TargetPlatform.android) {
+    if (Theme.of(context).platform == TargetPlatform.android) {
       androidInfo = await deviceInfo.androidInfo;
       deviceId = androidInfo.androidId;
       deviceName = androidInfo.model;
@@ -45,7 +41,7 @@ Future<void> getDeviceInfo(context) async {
       deviceName = iosInfo.utsname.machine;
 
       if (iosInfo != "" && deviceId != "" && deviceName != "") {
-        var demo ={};
+        var demo = {};
       } else {
         return;
       }

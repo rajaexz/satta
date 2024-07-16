@@ -1,16 +1,16 @@
 import 'package:get/get.dart';
-import 'package:winner11/screen/component/iconStatus.dart';
-import 'package:winner11/screen/header/appbar.dart';
-import 'package:winner11/screen/wallet/wallet_controller.dart/bit_hestory_controller.dart';
-import 'package:winner11/screen/wallet/wallet_controller.dart/win_hestory_controller.dart';
+import 'package:Billa/screen/component/iconStatus.dart';
+import 'package:Billa/screen/header/appbar.dart';
+import 'package:Billa/screen/wallet/wallet_controller.dart/bit_hestory_controller.dart';
+import 'package:Billa/screen/wallet/wallet_controller.dart/win_hestory_controller.dart';
 
-import 'package:winner11/utilis/AllColor.dart';
-import 'package:winner11/utilis/borderbox.dart';
-import 'package:winner11/utilis/boxSpace.dart';
-import 'package:winner11/utilis/fontstyle.dart';
-import 'package:winner11/utilis/globlemargin.dart';
+import 'package:Billa/utilis/AllColor.dart';
+import 'package:Billa/utilis/borderbox.dart';
+import 'package:Billa/utilis/boxSpace.dart';
+import 'package:Billa/utilis/fontstyle.dart';
+import 'package:Billa/utilis/globlemargin.dart';
 import 'package:flutter/material.dart';
-import 'package:winner11/screen/wallet/walletHestory.dart';
+import 'package:Billa/screen/wallet/walletHestory.dart';
 
 class WinHestory extends GetView<WinHestoryController> {
   const WinHestory({Key? key}) : super(key: key);
@@ -37,9 +37,7 @@ class WinHestoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (controller.isLoading.value) {
-      return const Center(child: CircularProgressIndicator());
-    } else if (controller.wingames.isEmpty) {
+    if (controller.wingames.isEmpty && controller.isLoading.value) {
       return Center(child: Text('Error fetching data'));
     } else {
       return Column(

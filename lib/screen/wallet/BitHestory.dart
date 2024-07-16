@@ -1,14 +1,14 @@
 import 'package:get/get.dart';
-import 'package:winner11/screen/header/appbar.dart';
-import 'package:winner11/screen/wallet/wallet_controller.dart/bit_hestory_controller.dart';
+import 'package:Billa/screen/header/appbar.dart';
+import 'package:Billa/screen/wallet/wallet_controller.dart/bit_hestory_controller.dart';
 
-import 'package:winner11/utilis/AllColor.dart';
-import 'package:winner11/utilis/borderbox.dart';
-import 'package:winner11/utilis/boxSpace.dart';
-import 'package:winner11/utilis/fontstyle.dart';
-import 'package:winner11/utilis/globlemargin.dart';
+import 'package:Billa/utilis/AllColor.dart';
+import 'package:Billa/utilis/borderbox.dart';
+import 'package:Billa/utilis/boxSpace.dart';
+import 'package:Billa/utilis/fontstyle.dart';
+import 'package:Billa/utilis/globlemargin.dart';
 import 'package:flutter/material.dart';
-import 'package:winner11/screen/wallet/walletHestory.dart';
+import 'package:Billa/screen/wallet/walletHestory.dart';
 
 import 'wallet_controller.dart/all_hestory_controller.dart';
 
@@ -19,7 +19,7 @@ class BitHestory extends GetView<BitHestoryController> {
     Get.put(BitHestoryController());
 
     return Scaffold(
-      appBar: CustomAppBar(title: " Bit Hestory"),
+      appBar: CustomAppBar(title: " Bid History"),
       body: GetBuilder<BitHestoryController>(
         init: controller,
         builder: (controller) => BitHestoryView(
@@ -72,8 +72,8 @@ class BitHestoryView extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            item.gameType,
-                            style: TextStyle(fontSize: 10, color: myColorGray),
+                            "${item.gameType.toString().split('_')[0]} ${item.gameType.toString().split('_')[1]}",
+                            style: CustomStyles.header2TextStyle,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -16,7 +16,7 @@ class NotificationController extends GetxController {
   }
 
   Future<void> readNotification() async {
-    final token = await StorageRepository.getTokenpin();
+    final token = await StorageRepository.getToken();
     final response = await GetConnect().post(
       '${ApiPath.baseUrl}read_notification',
       {"readnoti": true},
@@ -38,7 +38,7 @@ class NotificationController extends GetxController {
 
   var isLoading = true.obs;
   void fetchData() async {
-    final tokenpin = await StorageRepository.getTokenpin();
+    final tokenpin = await StorageRepository.getToken();
     try {
       isLoading(true);
       var response = await Dio().get('${ApiPath.baseUrl}app_details',

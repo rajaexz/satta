@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/src/form_data.dart' as alfrom;
-import 'package:winner11/screen/auth/forget.dart';
+import 'package:Billa/screen/auth/forget.dart';
 import '../../../network/api_path.dart';
 import '../../../network/storage_repository.dart';
 import '../../../utilis/app_constant.dart';

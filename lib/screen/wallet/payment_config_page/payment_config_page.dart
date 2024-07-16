@@ -1,12 +1,13 @@
 // views/payment_config_page.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winner11/screen/wallet/payment_config_page/controller/payment_config_controller.dart';
-import 'package:winner11/screen/wallet/payment_config_page/model/PaymentConfig.dart';
+import 'package:Billa/screen/wallet/payment_config_page/controller/payment_config_controller.dart';
+import 'package:Billa/screen/wallet/payment_config_page/model/PaymentConfig.dart';
 import '../../../network/network_config.dart';
 
 class PaymentConfigPage extends StatelessWidget {
-  final PaymentConfigController controller = Get.put(PaymentConfigController(NetworkProvider()));
+  final PaymentConfigController controller =
+      Get.put(PaymentConfigController(NetworkProvider()));
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,9 @@ class PaymentConfigPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Support Number: ${config.supportNumber}', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+                  Text('Support Number: ${config.supportNumber}',
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 16.0),
                   _buildAvailableMethods(config.availableMethods),
                   const SizedBox(height: 16.0),
@@ -46,14 +49,19 @@ class PaymentConfigPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Available Methods:', style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+        Text('Available Methods:',
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
         const SizedBox(height: 8.0),
-        Text('Bank Account: ${methods.bankAccount ? "Available" : "Not Available"}'),
+        Text(
+            'Bank Account: ${methods.bankAccount ? "Available" : "Not Available"}'),
         Text('UPI: ${methods.upi ? "Available" : "Not Available"}'),
         Text('QR Code: ${methods.qrCode ? "Available" : "Not Available"}'),
         const SizedBox(height: 8.0),
-        Text('Payment Gateways:', style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-        ...methods.paymentGateway.map((gateway) => _buildPaymentGateway(gateway)).toList(),
+        Text('Payment Gateways:',
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+        ...methods.paymentGateway
+            .map((gateway) => _buildPaymentGateway(gateway))
+            .toList(),
       ],
     );
   }
@@ -74,7 +82,8 @@ class PaymentConfigPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Default Method: ${details.defaultMethod}', style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+        Text('Default Method: ${details.defaultMethod}',
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
         const SizedBox(height: 8.0),
         Text('UPI Limit: ${details.upiLimit}'),
         Text('Amount Configuration: ${details.amountConfiguration}'),
@@ -92,7 +101,8 @@ class PaymentConfigPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('$title:', style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+        Text('$title:',
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
         Text('UPI Name: ${method.upiName}'),
         Text('UPI ID: ${method.upiId}'),
         Text('Remark: ${method.remark}'),
@@ -106,7 +116,8 @@ class PaymentConfigPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Bank Account:', style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+        Text('Bank Account:',
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
         Text('Video: ${account.video}'),
         Text('Notice: ${account.notice}'),
         Text('Bank Name: ${account.bankName}'),
@@ -122,7 +133,8 @@ class PaymentConfigPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('QR Code:', style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+        Text('QR Code:',
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
         Text('Video: ${qr.video}'),
         Text('Notice: ${qr.notice}'),
         Text('QR Image: ${qr.qrImage}'),

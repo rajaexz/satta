@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winner11/screen/component/darkmode.dart';
-import 'package:winner11/screen/profile/controller/profile_controller.dart';
+import 'package:Billa/screen/component/darkmode.dart';
+import 'package:Billa/screen/profile/controller/profile_controller.dart';
 
-import 'package:winner11/utilis/AllColor.dart';
-import 'package:winner11/utilis/borderbox.dart';
-import 'package:winner11/utilis/boxSpace.dart';
-import 'package:winner11/utilis/fontstyle.dart';
+import 'package:Billa/utilis/AllColor.dart';
+import 'package:Billa/utilis/borderbox.dart';
+import 'package:Billa/utilis/boxSpace.dart';
+import 'package:Billa/utilis/fontstyle.dart';
 import '../../network/storage_repository.dart';
 import '../../service/authapi.dart';
 
@@ -19,37 +19,6 @@ Drawer myDrawer(BuildContext context) {
       'title': 'Settings',
       'onTap': () async {
         Get.toNamed('/setting');
-      },
-    },
-  ];
-
-  List<Map<String, dynamic>> moreData = [
-    {
-      'iconData': Icons.info,
-      'title': 'Terms & Condition',
-      'onTap': () async {
-        Get.toNamed('/tarmAnd');
-      },
-    },
-    {
-      'iconData': Icons.account_circle,
-      'title': 'About Us',
-      'onTap': () async {
-        Get.toNamed('/myAboutus');
-      },
-    },
-    {
-      'iconData': Icons.help,
-      'title': 'Privacy Policy',
-      'onTap': () async {
-        Get.toNamed('/privacy');
-      },
-    },
-    {
-      'iconData': Icons.help,
-      'title': 'FAQ',
-      'onTap': () async {
-        Get.toNamed('/faq');
       },
     },
   ];
@@ -71,7 +40,7 @@ Drawer myDrawer(BuildContext context) {
     },
     {
       'iconData': Icons.biotech,
-      'title': 'Bit History',
+      'title': 'Bid History',
       'onTap': () async {
         Get.toNamed('/bitHistory');
       },
@@ -150,20 +119,20 @@ Drawer myDrawer(BuildContext context) {
               children: buildList(impotentData),
             ),
           ),
-          Container(
-            margin: EdgeInsets.all(13),
-            decoration: BoxDecoration(
-              border: border,
-              borderRadius: boRadiusAll,
-              color: themeController.isLightMode.value ? myColorWhite : myColor,
-              boxShadow: [
-                themeController.isLightMode.value ? boxdark : boxshadow2
-              ],
-            ),
-            child: Column(
-              children: buildList(moreData),
-            ),
-          ),
+          // Container(
+          //   margin: EdgeInsets.all(13),
+          //   decoration: BoxDecoration(
+          //     border: border,
+          //     borderRadius: boRadiusAll,
+          //     color: themeController.isLightMode.value ? myColorWhite : myColor,
+          //     boxShadow: [
+          //       themeController.isLightMode.value ? boxdark : boxshadow2
+          //     ],
+          //   ),
+          //   child: Column(
+          //     children: buildList(moreData),
+          //   ),
+          // ),
           TextButton(
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(myColorRed),

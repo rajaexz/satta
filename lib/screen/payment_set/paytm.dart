@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
-import 'package:winner11/screen/component/profileContainer.dart';
+import 'package:Billa/screen/component/profileContainer.dart';
 
 import 'controller/PaytmentSreencontroller.dart';
 
@@ -41,7 +41,7 @@ class UpdatePaytmForm extends StatelessWidget {
             controller: phoneController,
             fieldName: "Enter Phone ",
             hintText: "Enter Your Phone ",
-            inputType: TextInputType.text,
+            inputType: TextInputType.number,
             errorMessage: "Please enter a valid 10-digit phone number",
             usernameRegex: r'^\d{10}$',
           ),

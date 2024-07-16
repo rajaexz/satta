@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:winner11/utilis/fontstyle.dart';
+import 'package:Billa/utilis/fontstyle.dart';
 
 class SubSectionTitle extends StatelessWidget {
   final String title;
@@ -12,14 +12,11 @@ class SubSectionTitle extends StatelessWidget {
       padding: EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0),
       child: Text(
         title,
-      style: CustomStyles.smallTextStyle,
+        style: CustomStyles.smallTextStyle,
       ),
     );
   }
 }
-
-
-
 
 class SectionContent extends StatelessWidget {
   final String content;
@@ -30,11 +27,13 @@ class SectionContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text(content,style: CustomStyles.smallTextStyle,),
+      child: Text(
+        content,
+        style: CustomStyles.smallTextStyle,
+      ),
     );
   }
 }
-
 
 class SectionTitle extends StatelessWidget {
   final String title;
@@ -47,7 +46,7 @@ class SectionTitle extends StatelessWidget {
       padding: EdgeInsets.all(8.0),
       child: Text(
         title,
-        style:CustomStyles.headerTextStyle,
+        style: CustomStyles.headerTextStyle,
       ),
     );
   }

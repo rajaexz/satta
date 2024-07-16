@@ -1,13 +1,12 @@
-import 'package:winner11/screen/component/darkmode.dart';
+import 'package:Billa/screen/component/darkmode.dart';
 import 'package:flutter/material.dart';
-import 'package:winner11/utilis/borderbox.dart';
+import 'package:Billa/utilis/borderbox.dart';
 import 'package:get/get.dart';
 
 import '../../utilis/AllColor.dart';
 import '../../utilis/fontstyle.dart';
 
 myFunction({myColor, text, textColor}) {
-
   return Container(
     padding: EdgeInsets.all(5),
     width: double.infinity,
@@ -24,16 +23,16 @@ myFunction({myColor, text, textColor}) {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         DefaultTextStyle(
-          style: textColor,
-          child: Text(text, )),
+            style: textColor,
+            child: Text(
+              text,
+            )),
       ],
     ),
   );
 }
 
-
-  final ThemeController themeController = Get.put(ThemeController());
-
+final ThemeController themeController = Get.put(ThemeController());
 
 class MyFunctionInput extends StatefulWidget {
   final TextEditingController controller;
@@ -42,6 +41,7 @@ class MyFunctionInput extends StatefulWidget {
   final TextInputType inputType;
   final String errorMessage;
   final String usernameRegex; // New parameter for username validation
+  final bool? obscureText;
 
   MyFunctionInput({
     required this.controller,
@@ -50,6 +50,7 @@ class MyFunctionInput extends StatefulWidget {
     required this.inputType,
     required this.errorMessage,
     required this.usernameRegex, // Pass the regex as a parameter
+    this.obscureText,
   });
 
   @override
@@ -58,7 +59,7 @@ class MyFunctionInput extends StatefulWidget {
 
 class _MyFunctionInputState extends State<MyFunctionInput> {
   bool isAUser = false;
-  int  valueCount = 0;
+  int valueCount = 0;
   void setValidator(String inputValue) {
     setState(() {
       valueCount = inputValue.length;
@@ -68,26 +69,28 @@ class _MyFunctionInputState extends State<MyFunctionInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() =>Container(
-        
+    return Obx(
+      () => Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
-     color: themeController.isLightMode.value ? myColorWhite : myColor,
-          border: Border.all(color:myColorRed), // Replace with your border style
-          borderRadius: BorderRadius.circular(10), // Replace with your border radius
-        
+          color: themeController.isLightMode.value ? myColorWhite : myColor,
+          border:
+              Border.all(color: myColorRed), // Replace with your border style
+          borderRadius:
+              BorderRadius.circular(10), // Replace with your border radius
         ),
         child: TextFormField(
           decoration: InputDecoration(
-             errorText: isAUser == true || valueCount <= 0 ? null : widget.errorMessage,
+            errorText:
+                isAUser == true || valueCount <= 0 ? null : widget.errorMessage,
             hintText: widget.hintText,
           ),
           controller: widget.controller,
           onChanged: (inputValue) {
-        
             setValidator(inputValue);
           },
+
           textAlign: TextAlign.start,
           keyboardType: widget.inputType,
           style: TextStyle(fontSize: 16), // Replace with your text style
@@ -127,7 +130,7 @@ Widget myFunctionInput2(
             if (value == null || value.isEmpty) {
               return 'Please enter $fieldName';
             }
-            
+
             // Add additional validation for bank account number
             if (isValidBankAccount(value)) {
               return 'Please enter a valid $fieldName';

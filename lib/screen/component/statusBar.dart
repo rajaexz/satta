@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:winner11/utilis/AllColor.dart';
+import 'package:Billa/utilis/AllColor.dart';
 
 class SystemUiConfig extends GetxController {
   Rx<SystemUiOverlayStyle> overlayStyle = Rx<SystemUiOverlayStyle>(

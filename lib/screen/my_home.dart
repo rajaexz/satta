@@ -2,28 +2,29 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
-import 'package:winner11/banner/banner.dart';
-import 'package:winner11/banner/banner_Model.dart';
-import 'package:winner11/screen/component/deviceInfo.dart';
-import 'package:winner11/service/authapi.dart';
+import 'package:Billa/banner/banner.dart';
+import 'package:Billa/banner/banner_Model.dart';
+import 'package:Billa/screen/component/deviceInfo.dart';
+import 'package:Billa/service/authapi.dart';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winner11/screen/component/custom_toaster.dart';
+import 'package:Billa/screen/component/custom_toaster.dart';
 
-import 'package:winner11/screen/header/appbar.dart';
+import 'package:Billa/screen/header/appbar.dart';
 
-import 'package:winner11/screen/header/sidebar.dart';
+import 'package:Billa/screen/header/sidebar.dart';
 
-import 'package:winner11/screen/tap1/upcomming.dart';
-import 'package:winner11/utilis/AllColor.dart';
+import 'package:Billa/screen/tap1/upcomming.dart';
+import 'package:Billa/utilis/AllColor.dart';
+import 'package:Billa/utilis/fontstyle.dart';
 
-import 'package:winner11/utilis/globlemargin.dart';
+import 'package:Billa/utilis/globlemargin.dart';
 
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:marquee_list/marquee_list.dart';
 import 'controller/MyHomePage_controller.dart';
 
 class MyHomePage extends GetView<MyHomePageController> {
@@ -73,8 +74,6 @@ class _MyHomeVeiwState extends State<MyHomeVeiw> with TickerProviderStateMixin {
     store.setString('KYCstatus', kyc);
   }
 
-
-
   getConnectivity() =>
       subscription = Connectivity().onConnectivityChanged.listen(
         (ConnectivityResult result) async {
@@ -90,26 +89,24 @@ class _MyHomeVeiwState extends State<MyHomeVeiw> with TickerProviderStateMixin {
     setState(() {/* update state */});
   }
 
-
   ScrollController _scrollController = ScrollController();
   bool _showButton = false;
   @override
   Widget build(BuildContext context) {
-
     return RefreshIndicator(
       onRefresh: _refreshProfile,
       child: SingleChildScrollView(
         controller: _scrollController,
         child: widget.controller!.isLoading.value
             ? Column(
-              children: [
-                Center(
+                children: [
+                  Center(
                     child: CircularProgressIndicator(
                       color: myColor,
                     ),
                   ),
-              ],
-            )
+                ],
+              )
             : Column(
                 children: [
                   //banner----------------------------------------------------
@@ -122,6 +119,24 @@ class _MyHomeVeiwState extends State<MyHomeVeiw> with TickerProviderStateMixin {
                         )
                       : SizedBox.shrink(),
                   BannerAdd(banners: widget.controller!.dataModel!.banner),
+
+                  Container(
+                    color: Colors.black.withOpacity(0.5),
+                    margin: EdgeInsets.symmetric(vertical: 10.0),
+                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    height: 50.0,
+                    child: MarqueeList(
+                      scrollDirection:
+                          Axis.horizontal, // By default, it's horizontal
+                      children: [
+                        Text(
+                          widget.controller!.dataModel!.bannerMarquee,
+                          style: CustomStyleswhite.header2TextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+
                   Container(
                     margin: GlobleglobleMargin.globleMargin,
                     child: const UpComming(),

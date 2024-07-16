@@ -1,14 +1,14 @@
 import 'package:get/get.dart';
-import 'package:winner11/screen/component/iconStatus.dart';
-import 'package:winner11/screen/header/appbar.dart';
-import 'package:winner11/service/authapi.dart';
-import 'package:winner11/utilis/AllColor.dart';
-import 'package:winner11/utilis/borderbox.dart';
-import 'package:winner11/utilis/boxSpace.dart';
-import 'package:winner11/utilis/fontstyle.dart';
-import 'package:winner11/utilis/globlemargin.dart';
+import 'package:Billa/screen/component/iconStatus.dart';
+import 'package:Billa/screen/header/appbar.dart';
+import 'package:Billa/service/authapi.dart';
+import 'package:Billa/utilis/AllColor.dart';
+import 'package:Billa/utilis/borderbox.dart';
+import 'package:Billa/utilis/boxSpace.dart';
+import 'package:Billa/utilis/fontstyle.dart';
+import 'package:Billa/utilis/globlemargin.dart';
 import 'package:flutter/material.dart';
-import 'package:winner11/screen/wallet/walletHestory.dart';
+import 'package:Billa/screen/wallet/walletHestory.dart';
 
 import 'wallet_controller.dart/all_hestory_controller.dart';
 
@@ -19,7 +19,7 @@ class AllHestory extends GetView<AllHestoryController> {
     Get.put(AllHestoryController());
 
     return Scaffold(
-      appBar: CustomAppBar(title: "All Bit Hestory"),
+      appBar: CustomAppBar(title: "All Bid History"),
       body: GetBuilder<AllHestoryController>(
         init: controller,
         builder: (controller) => AllHestoryView(
@@ -60,60 +60,59 @@ class AllHestoryView extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final item = controller!.withdrawData.value!.statement[index];
 
-                    return Container(
-                      margin: const EdgeInsets.all(9),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        border: border,
-                        borderRadius: boRadiusAll,
-                        color: themeController.isLightMode.value
-                            ? myColorWhite
-                            : myColor,
-                        boxShadow: [
-                          themeController.isLightMode.value ? boxdark : boxshadow2
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            item.createdAt,
-                            style: TextStyle(fontSize: 10, color: myColorGray),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    getStatusIcon(item.transStatus),
-                                  ],
-                                ),
-                              ),
-                              Column(
+                  return Container(
+                    margin: const EdgeInsets.all(9),
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border: border,
+                      borderRadius: boRadiusAll,
+                      color: themeController.isLightMode.value
+                          ? myColorWhite
+                          : myColor,
+                      boxShadow: [
+                        themeController.isLightMode.value ? boxdark : boxshadow2
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          item.createdAt,
+                          style: TextStyle(fontSize: 10, color: myColorGray),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    item.transType.toString(),
-                                    style: CustomStyles.textExternel,
-                                  ),
-                                  Text(
-                                    " ₹${item.points.toString()}",
-                                    style: CustomStyles.textExternel,
-                                  ),
+                                  getStatusIcon(item.transStatus),
                                 ],
-                              )
-                            ],
-                          ),
-                          Text(
-                            "${item.transStatus}".toString(),
-                            style: TextStyle(color: myColorgreen),
-                          ),
-                        
-                        ],
-                      ),
-                    );
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  item.transType.toString(),
+                                  style: CustomStyles.textExternel,
+                                ),
+                                Text(
+                                  " ₹${item.points.toString()}",
+                                  style: CustomStyles.textExternel,
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                        Text(
+                          "${item.transStatus}".toString(),
+                          style: TextStyle(color: myColorgreen),
+                        ),
+                      ],
+                    ),
+                  );
                 },
               )),
         ],

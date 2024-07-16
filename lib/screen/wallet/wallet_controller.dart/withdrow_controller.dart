@@ -6,6 +6,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 
 import '../../../model/usedetail.dart';
+import '../../../model/userStatus.dart';
 import '../../../network/api_path.dart';
 import '../../../network/storage_repository.dart';
 import 'package:get/get.dart' as con;
@@ -21,23 +22,23 @@ class WithdrowController extends con.GetxController {
   var isLoading = false.obs;
   final Dio _dio = Dio();
 
-  var userDetails = UserDetails(
+  var userDetails = UserStatusResponse(
     message: '',
     code: '',
     status: '',
-    data: UserData(
-      username: '',
-      mobile: '',
-      email: '',
-      bankName: '',
-      accountHolderName: '',
-      ifscCode: '',
-      branchAddress: '',
-      bankAccountNo: '',
-      paytmMobileNo: '',
-      phonepeMobileNo: '',
-      gpayMobileNo: '',
-      pendingNoti: '',
+    data: Data(
+      maximumBidAmount: '',
+      availablePoints: '',
+      maximumDeposit: '',
+      maximumTransfer: '',
+      maximumWithdraw: '',
+      transfer: '',
+      minimumTransfer: '',
+      upiName: '',
+      upiPaymentId: '',
+      minimumBidAmount: '',
+      minimumDeposit: '',
+      minimumWithdraw: '',
     ),
   ).obs;
 
@@ -48,13 +49,14 @@ class WithdrowController extends con.GetxController {
 
       print(token);
       final response = await _dio.get(
-        '${ApiPath.baseUrl}get_user_details', // Replace with your actual API URL
+        '${ApiPath.baseUrl}user_status', // Replace with your actual API URL
         options: Options(headers: {'Token': token}),
       );
       print(response.data);
       if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.data); // Decode the JSON response
-        userDetails(UserDetails.fromJson(jsonResponse));
+        var jsonResponse =
+            jsonDecode(response.data); // Decode the JSON response
+        userDetails(UserStatusResponse.fromJson(jsonResponse));
       } else {
         // Handle error
         Get.snackbar('Error', 'Failed to fetch user details');
@@ -72,12 +74,11 @@ class WithdrowController extends con.GetxController {
     isLoading(true);
     try {
       final token = await StorageRepository.getToken();
-      print(token);
 
       final response = await _dio.post(
         '${ApiPath.baseUrl}withdraw', // Replace with your actual API URL
         data: FormData.fromMap(data),
-        options: Options(headers: {'Token': token}),
+        options: Options(headers: {'Token': '$token'}),
       );
 
       print("${response.data} ===========================");
@@ -88,7 +89,8 @@ class WithdrowController extends con.GetxController {
         update();
         Get.toNamed("/home", arguments: "id");
       } else {
-        Get.snackbar('Error', jsonResponse['message'] ?? "Some Thing Went Wrong");
+        Get.snackbar(
+            'Error', jsonResponse['message'] ?? "Some Thing Went Wrong");
       }
     } catch (e) {
       // Handle error

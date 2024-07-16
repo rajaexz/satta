@@ -67,7 +67,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '930760873616',
     projectId: 'winner-9b9d4',
     storageBucket: 'winner-9b9d4.appspot.com',
-    iosBundleId: 'com.example.winner11',
+    iosBundleId: 'com.example.Billa',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -76,6 +76,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '930760873616',
     projectId: 'winner-9b9d4',
     storageBucket: 'winner-9b9d4.appspot.com',
-    iosBundleId: 'com.example.winner11.RunnerTests',
+    iosBundleId: 'com.example.Billa.RunnerTests',
   );
 }

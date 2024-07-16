@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vibration/vibration.dart';
-import 'package:winner11/screen/tap1/hisrotry/starlinebithestory.dart';
+import 'package:Billa/screen/tap1/hisrotry/starlinebithestory.dart';
 
 import '../../utilis/AllColor.dart';
 import '../../utilis/fontstyle.dart';
@@ -43,36 +43,40 @@ class StarlineGameView extends StatelessWidget {
         children: [
           Row(
             children: [
-              GestureDetector(
-                onTap: () {
-                  Get.to(BidHistoryPage());
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(top: 5),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  decoration: BoxDecoration(color: myColorRed),
-                  child: const Text(
-                    "Star Line History",
-                    style: TextStyle(color: Colors.white),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(BidHistoryPage());
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 5),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 10),
+                    decoration: BoxDecoration(color: myColorRed),
+                    child: Text(
+                      "Star Line History  ",
+                      style: CustomStyleswhite.smallTextStyle,
+                    ),
                   ),
                 ),
               ),
               SizedBox(
                 width: 20,
               ),
-              GestureDetector(
-                onTap: () {
-                  Get.to(WinHistoryPage());
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(top: 5),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  decoration: BoxDecoration(color: myColorRed),
-                  child: const Text(
-                    "Star Line Win History",
-                    style: TextStyle(color: Colors.white),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(WinHistoryPage());
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 5),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 10),
+                    decoration: BoxDecoration(color: myColorRed),
+                    child: Text(
+                      "Star Line Win History",
+                      style: CustomStyleswhite.smallTextStyle,
+                    ),
                   ),
                 ),
               ),

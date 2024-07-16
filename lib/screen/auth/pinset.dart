@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
-import 'package:winner11/screen/auth/controller/PinController.dart';
-import 'package:winner11/screen/auth/forget_pin.dart';
-import 'package:winner11/screen/tap1/upcomming.dart';
+import 'package:Billa/screen/auth/controller/PinController.dart';
+import 'package:Billa/screen/auth/forget_pin.dart';
+import 'package:Billa/screen/tap1/upcomming.dart';
 
 import '../../network/network_config.dart';
 
@@ -31,12 +31,8 @@ class PinPage extends StatelessWidget {
               return CircularProgressIndicator();
             } else {
               return Column(
-              
                 children: [
-                  
-        
-        
-                    size20h,
+                  size20h,
                   size20h,
                   size20h,
                   size20h,
@@ -53,19 +49,15 @@ class PinPage extends StatelessWidget {
                           style: CustomStyles.smallTextStyle),
                     ],
                   ),
-                  Column(
-                    crossAxisAlignment: AlignmentStartCross,
-                    children: [
-                      size10h,
-                      size10h,
-                      size20h,
-                      size20h,
-                      Text("Best Of Luck",
-                          style: CustomStyles.header2TextStyle),
-                      size10h,
-                      size10h,
-        
-                ]),
+                  Column(crossAxisAlignment: AlignmentStartCross, children: [
+                    size10h,
+                    size10h,
+                    size20h,
+                    size20h,
+                    Text("Best Of Luck", style: CustomStyles.header2TextStyle),
+                    size10h,
+                    size10h,
+                  ]),
                   Pinput(
                     length: 4,
                     obscureText: true,
@@ -73,7 +65,7 @@ class PinPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed:pinController.errorMessage.isEmpty
+                    onPressed: pinController.errorMessage.isEmpty
                         ? () {
                             // Manually trigger login for testing or alternative UI flow
                             pinController.loginWithPin();
@@ -82,13 +74,12 @@ class PinPage extends StatelessWidget {
                     child: const Text('Submit'),
                   ),
                   const SizedBox(height: 20),
-                         customImageContainer(
+                  customImageContainer(
                       context: context,
                       imageUrl: 'assets/wh.jpg',
                       onTap: openWhatsApp,
                       name: "Whatsapp",
                       imageSize: 50),
-           
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
@@ -107,18 +98,14 @@ class PinPage extends StatelessWidget {
     );
   }
 
+  Future<void> openWhatsApp() async {
+    const phoneNumber = '1234567890'; // Replace with the actual phone number
+    final whatsappUrl = 'whatsapp://send?phone=$phoneNumber';
 
-  
-  
-
-Future<void> openWhatsApp() async {
-  const phoneNumber = '1234567890'; // Replace with the actual phone number
-  final whatsappUrl = 'whatsapp://send?phone=$phoneNumber';
-
-  if (await canLaunch(whatsappUrl)) {
-    await launch(whatsappUrl);
-  } else {
-    throw 'Could not launch $whatsappUrl';
+    if (await canLaunch(whatsappUrl)) {
+      await launch(whatsappUrl);
+    } else {
+      throw 'Could not launch $whatsappUrl';
+    }
   }
-}
 }

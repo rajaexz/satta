@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:winner11/model/usedetail.dart';
+import 'package:Billa/model/usedetail.dart';
 
 import '../../../network/api_path.dart';
 import '../../../network/storage_repository.dart';

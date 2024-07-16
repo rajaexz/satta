@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winner11/screen/wallet/paymantMathord/controller/Allpayment_controller.dart';
+import 'package:Billa/screen/wallet/paymantMathord/controller/Allpayment_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:upi_india/upi_india.dart';
 
-
 import '../Upi_payment.dart';
 import '../wallet_controller.dart/addfund_controller.dart';
-
-
 
 class Allpayment extends GetView<AddfundController> {
   const Allpayment({Key? key}) : super(key: key);
@@ -17,17 +14,17 @@ class Allpayment extends GetView<AddfundController> {
     Get.put(AddfundController());
 
     return GetBuilder<AddfundController>(
-        init: controller,
-        builder: (controller) => AllpaymentScreen(
-          controller: controller,
-        ),
-      );
+      init: controller,
+      builder: (controller) => AllpaymentScreen(
+        controller: controller,
+      ),
+    );
   }
 }
 
 class AllpaymentScreen extends StatefulWidget {
-   AddfundController?  controller;
-   AllpaymentScreen({super.key,this.controller});
+  AddfundController? controller;
+  AllpaymentScreen({super.key, this.controller});
 
   @override
   State<AllpaymentScreen> createState() => _AllpaymentScreenState();
@@ -67,7 +64,9 @@ class _AllpaymentScreenState extends State<AllpaymentScreen> {
       receiverName: 'Billa',
       transactionRefId: 'TestingUpiIndiaPlugin',
       transactionNote: 'Not actual. Just an example.',
-      amount:double.parse(widget.controller!.moneyController.text,),
+      amount: double.parse(
+        widget.controller!.moneyController.text,
+      ),
     );
   }
 
@@ -75,7 +74,7 @@ class _AllpaymentScreenState extends State<AllpaymentScreen> {
     if (apps == null) {
       return const Center(child: CircularProgressIndicator());
     } else if (apps!.isEmpty)
-      return   MyUpi();
+      return MyUpi();
     else
       return Align(
         alignment: Alignment.topCenter,
@@ -126,17 +125,17 @@ class _AllpaymentScreenState extends State<AllpaymentScreen> {
     }
   }
 
-  Future<void> _checkTxnStatus(String status,String txnId) async {
+  Future<void> _checkTxnStatus(String status, String txnId) async {
     switch (status) {
       case UpiPaymentStatus.SUCCESS:
         var withdrawData = {
-      "points": widget.controller!.moneyController.text,
-      "trans_status": status,
-      "trans_id": txnId
-    };
+          "points": widget.controller!.moneyController.text,
+          "trans_status": status,
+          "trans_id": txnId
+        };
 
-    // Call the addFund method
-  await widget.controller!.addFund(withdrawData);
+        // Call the addFund method
+        await widget.controller!.addFund(withdrawData);
 
         break;
       case UpiPaymentStatus.SUBMITTED:
@@ -169,70 +168,65 @@ class _AllpaymentScreenState extends State<AllpaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return   SingleChildScrollView(
+    return SingleChildScrollView(
       child: SizedBox(
         height: 500,
-       
         child: Column(
-            children: <Widget>[
-              Expanded(
-                child: displayUpiApps(),
-              ),
-              Expanded(
-                child: FutureBuilder(
-                  future: _transaction,
-                  builder: (BuildContext context, AsyncSnapshot<UpiResponse> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasError) {
-                        return Center(
-                          child: Text(
-                            _upiErrorHandler(snapshot.error.runtimeType),
-                            style: header,
-                          ), // Print's text message on screen
-                        );
-                      }
-        
-                      // If we have data then definitely we will have UpiResponse.
-                      // It cannot be null
-                      UpiResponse _upiResponse = snapshot.data!;
-        
-                      // Data in UpiResponse can be null. Check before printing
-                      String txnId = _upiResponse.transactionId ?? 'N/A';
-                      String resCode = _upiResponse.responseCode ?? 'N/A';
-                      String txnRef = _upiResponse.transactionRefId ?? 'N/A';
-                      String status = _upiResponse.status ?? 'N/A';
-                      String approvalRef = _upiResponse.approvalRefNo ?? 'N/A';
-                      _checkTxnStatus(status,txnId);
-        
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                              displayTransactionData('Status', status.toUpperCase()),
-                            displayTransactionData('Transaction Id', txnId),
-                            displayTransactionData('Response Code', resCode),
-                            displayTransactionData('Reference Id', txnRef),
-                          
-                            displayTransactionData('Approval No', approvalRef),
-                          ],
-                        ),
-                      );
-                    } else
+          children: <Widget>[
+            Expanded(
+              child: displayUpiApps(),
+            ),
+            Expanded(
+              child: FutureBuilder(
+                future: _transaction,
+                builder: (BuildContext context,
+                    AsyncSnapshot<UpiResponse> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
                       return Center(
-                        child: Text(''),
+                        child: Text(
+                          _upiErrorHandler(snapshot.error.runtimeType),
+                          style: header,
+                        ), // Print's text message on screen
                       );
-                  },
-                ),
-              )
-            ],
-          ),
+                    }
+
+                    // If we have data then definitely we will have UpiResponse.
+                    // It cannot be null
+                    UpiResponse _upiResponse = snapshot.data!;
+
+                    // Data in UpiResponse can be null. Check before printing
+                    String txnId = _upiResponse.transactionId ?? 'N/A';
+                    String resCode = _upiResponse.responseCode ?? 'N/A';
+                    String txnRef = _upiResponse.transactionRefId ?? 'N/A';
+                    String status = _upiResponse.status ?? 'N/A';
+                    String approvalRef = _upiResponse.approvalRefNo ?? 'N/A';
+                    _checkTxnStatus(status, txnId);
+
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          displayTransactionData(
+                              'Status', status.toUpperCase()),
+                          displayTransactionData('Transaction Id', txnId),
+                          displayTransactionData('Response Code', resCode),
+                          displayTransactionData('Reference Id', txnRef),
+                          displayTransactionData('Approval No', approvalRef),
+                        ],
+                      ),
+                    );
+                  } else
+                    return Center(
+                      child: Text(''),
+                    );
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
-  
   }
-
-
-
 }
-

@@ -1,11 +1,11 @@
 // ignore: file_names
-import 'package:winner11/screen/component/deviceInfo.dart';
+import 'package:Billa/screen/component/deviceInfo.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:winner11/utilis/AllColor.dart';
-import 'package:winner11/utilis/fontstyle.dart';
+import 'package:Billa/utilis/AllColor.dart';
+import 'package:Billa/utilis/fontstyle.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingScreen extends StatefulWidget {

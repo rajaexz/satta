@@ -1,10 +1,10 @@
-import 'package:winner11/screen/profile/controller/profile_controller.dart';
+import 'package:Billa/screen/profile/controller/profile_controller.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winner11/screen/header/appbar.dart';
-import 'package:winner11/screen/profile/editProfile.dart';
-import 'package:winner11/utilis/AllColor.dart';
+import 'package:Billa/screen/header/appbar.dart';
+import 'package:Billa/screen/profile/editProfile.dart';
+import 'package:Billa/utilis/AllColor.dart';
 
 import '../../main.dart';
 import '../../utilis/borderbox.dart';
@@ -598,7 +598,8 @@ class UserDetailsScreen extends StatelessWidget {
                             child: IconButton(
                               icon: Icon(Icons.edit),
                               onPressed: () async {
-                                Get.toNamed('/editProfile');
+                                Get.to(EditProfilePage(),
+                                    arguments: controller!.userDetails.value);
                               },
                             ),
                           ),

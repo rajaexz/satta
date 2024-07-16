@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:winner11/screen/component/profileContainer.dart';
-import 'package:winner11/screen/header/appbar.dart';
-import 'package:winner11/screen/wallet/wallet_controller.dart/trancefer_controller.dart';
+import 'package:Billa/screen/component/profileContainer.dart';
+import 'package:Billa/screen/header/appbar.dart';
+import 'package:Billa/screen/wallet/wallet_controller.dart/trancefer_controller.dart';
 
 class TransferPage extends GetView<TransferController> {
   const TransferPage({Key? key}) : super(key: key);
@@ -22,6 +22,7 @@ class TransferPage extends GetView<TransferController> {
     );
   }
 }
+
 bool containsAlphabet(String value) {
   // Regular expression to check if the string contains any alphabetic character
   final alphabetRegex = RegExp(r'[a-zA-Z]');
@@ -43,17 +44,17 @@ class TransferView extends StatelessWidget {
               children: [
                 MyFunctionInput(
                   controller: controller!.userNumberController,
-                  fieldName: "Enter Your User Number",
-                  hintText: " User Number",
+                  fieldName: "Enter  Amount",
+                  hintText: " Enter vaild Amount",
                   inputType: TextInputType.number,
                   errorMessage: "Please enter  User Number",
                   usernameRegex:
-                      r'^\d{10}$', // Adjust the regex for name validation
+                      r'^\d+(\.\d{1,2})?$', // Adjust the regex for name validation
                 ),
                 SizedBox(height: 16),
                 Center(
                     child: Text(
-                 "User Name :${ controller!.userName.value}",
+                  "User Name :${controller!.userName.value}",
                   style: TextStyle(color: Colors.green),
                 )),
                 ElevatedButton(
@@ -69,33 +70,32 @@ class TransferView extends StatelessWidget {
                 if (controller!.userName.value.isNotEmpty)
                   Text('User Name: ${controller!.userName.value}'),
                 SizedBox(height: 16),
-
-                if (containsAlphabet(controller!.userName.value)) 
-                Column(
-                  children: [
-                    TextField(
-                      controller: controller!.pointsController,
-                      decoration: const InputDecoration(
-                        labelText: 'Points',
-                        border: OutlineInputBorder(),
+                if (containsAlphabet(controller!.userName.value))
+                  Column(
+                    children: [
+                      TextField(
+                        controller: controller!.pointsController,
+                        decoration: const InputDecoration(
+                          labelText: 'Points',
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.number,
                       ),
-                      keyboardType: TextInputType.number,
-                    ),
-                        SizedBox(height: 16),
-                                ElevatedButton(
-                onPressed: () {
-                  var transferPointsData = {
-                    'user_number': controller!.userNumberController.text,
-                    "points": controller!.pointsController.text
-                  };
-                
-                  controller!.transferPoints(transferPointsData);
-                },
-                child: Text('Transfer Points'),
-                                ),
-                  ],
-                ),
-            
+                      SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () {
+                          var transferPointsData = {
+                            'user_number':
+                                controller!.userNumberController.text,
+                            "points": controller!.pointsController.text
+                          };
+
+                          controller!.transferPoints(transferPointsData);
+                        },
+                        child: Text('Transfer Points'),
+                      ),
+                    ],
+                  ),
               ],
             ),
           );

@@ -2,17 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vibration/vibration.dart';
-import 'package:winner11/screen/component/darkmode.dart';
+import 'package:Billa/screen/component/darkmode.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winner11/screen/component/custom_toaster.dart';
-import 'package:winner11/screen/header/headerTop.dart';
-import 'package:winner11/screen/tap1/controller/upcomming_controller.dart';
-import 'package:winner11/screen/tap2/myGame.dart';
-import 'package:winner11/service/authapi.dart';
-import 'package:winner11/utilis/AllColor.dart';
-import 'package:winner11/utilis/boxSpace.dart';
-import 'package:winner11/utilis/fontstyle.dart';
+import 'package:Billa/screen/component/custom_toaster.dart';
+import 'package:Billa/screen/header/headerTop.dart';
+import 'package:Billa/screen/tap1/controller/upcomming_controller.dart';
+import 'package:Billa/screen/tap2/myGame.dart';
+import 'package:Billa/service/authapi.dart';
+import 'package:Billa/utilis/AllColor.dart';
+import 'package:Billa/utilis/boxSpace.dart';
+import 'package:Billa/utilis/fontstyle.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -39,7 +39,7 @@ class UpCommingView extends StatelessWidget {
 
   final ThemeController themeController = Get.put(ThemeController());
 
-  final String? id = Get.arguments as String?;
+  final dynamic id = Get.arguments;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -112,29 +112,34 @@ class UpCommingView extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(left:  8.0),
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                             
-                  GestureDetector(
-                    onTap: () {
-                      showbottombar(context);
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 5),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 10),
-                      decoration: BoxDecoration(color: myColorRed),
-                      child: const Text(
-                        "Other Game",
-                        style: TextStyle(color: Colors.white),
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          showbottombar(context);
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 30, vertical: 10),
+                          decoration: BoxDecoration(color: myColorRed),
+                          child: const Text(
+                            "Other Game",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
                       ),
-                    ),
-                  )
-                            ,     GestureDetector(
-                    onTap: () {
-                      showbottombar(context);
-                    },child: Icon(Icons.arrow_forward, color: myColor,))
-                ]),
+                      GestureDetector(
+                          onTap: () {
+                            showbottombar(context);
+                          },
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: myColor,
+                          ))
+                    ]),
               )
             ],
           ),
@@ -150,7 +155,7 @@ class UpCommingView extends StatelessWidget {
         LayoutBuilder(
           builder: (context, constraints) {
             double width = constraints.maxWidth;
-;
+            ;
             return Column(
               children: [
                 for (var bid in controller!.bids)
@@ -240,15 +245,18 @@ class UpCommingView extends StatelessWidget {
                               ),
                               isSemanticButton: true,
                               onPressed: () {
-                                bid.play ? Get.to(GridViewWidget(gameData:bid,whicGameName: "main_game",)) : null;
+                                bid.play
+                                    ? Get.to(GridViewWidget(
+                                        gameData: bid,
+                                        whicGameName: "main_game",
+                                      ))
+                                    : null;
 
-                                  if (!bid.play) {
-              Vibration.vibrate();
+                                if (!bid.play) {
+                                  Vibration.vibrate();
 
-                       Get.snackbar('Market is Close ', "");
-       
-    
-            }
+                                  Get.snackbar('Market is Close ', "");
+                                }
                               },
                               child: Text(
                                 bid.play ? "Open" : "Close",
@@ -277,18 +285,16 @@ class UpCommingView extends StatelessWidget {
     );
   }
 
-Future<void> openWhatsApp() async {
+  Future<void> openWhatsApp() async {
+    final whatsappUrl =
+        'https://wa.me/${controller!.dataModel!.contactDetails.whatsappNo}';
 
- final whatsappUrl = 'https://wa.me/${controller!.dataModel!.contactDetails.whatsappNo}';
-    
-  
-  if (await canLaunch(whatsappUrl)) {
-    await launch(whatsappUrl);
-  } else {
-    throw 'Could not launch $whatsappUrl';
+    if (await canLaunch(whatsappUrl)) {
+      await launch(whatsappUrl);
+    } else {
+      throw 'Could not launch $whatsappUrl';
+    }
   }
-}
-
 }
 
 Widget customImageContainer(
@@ -334,7 +340,6 @@ Widget customImageContainer(
     ),
   );
 }
-
 
 showbottombar(context) {
   showModalBottomSheet<void>(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vibration/vibration.dart';
-import 'package:winner11/screen/tap1/hisrotry/GaliBitHestoryView.dart';
+import 'package:Billa/screen/tap1/hisrotry/GaliBitHestoryView.dart';
 
 import '../../model/GaliGame.dart';
 import '../../utilis/AllColor.dart';
@@ -43,36 +43,40 @@ class GaliGameView extends StatelessWidget {
         children: [
           Row(
             children: [
-              GestureDetector(
-                onTap: () {
-                  Get.to(Galibithestoryview());
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(top: 5),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  decoration: BoxDecoration(color: myColorRed),
-                  child: const Text(
-                    "Gali Disaawar History",
-                    style: TextStyle(color: Colors.white),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(Galibithestoryview());
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 5),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 10),
+                    decoration: BoxDecoration(color: myColorRed),
+                    child: Text(
+                      "Gali Disaawar History",
+                      style: CustomStyleswhite.smallTextStyle,
+                    ),
                   ),
                 ),
               ),
               SizedBox(
-                width: 20,
+                width: 10,
               ),
-              GestureDetector(
-                onTap: () {
-                  Get.to(Galibithestoryview());
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(top: 5),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  decoration: BoxDecoration(color: myColorRed),
-                  child: const Text(
-                    "Gali Disaawar Win History",
-                    style: TextStyle(color: Colors.white),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(Galibithestoryview());
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 5),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 10),
+                    decoration: BoxDecoration(color: myColorRed),
+                    child: Text(
+                      "Gali Disaawar Win History",
+                      style: CustomStyleswhite.smallTextStyle,
+                    ),
                   ),
                 ),
               ),

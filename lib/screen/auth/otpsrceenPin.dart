@@ -1,23 +1,21 @@
 // ignore_for_file: use_build_context_synchronously
 
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
-import 'package:winner11/screen/auth/controller/authController.dart';
+import 'package:Billa/screen/auth/controller/authController.dart';
 
 import 'package:get/get.dart';
 
-import 'package:winner11/routes/Api.dart';
+import 'package:Billa/routes/Api.dart';
 
-import 'package:winner11/utilis/AllColor.dart';
+import 'package:Billa/utilis/AllColor.dart';
 import 'package:pinput/pinput.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter/material.dart';
 
 class OtpPagePin extends StatefulWidget {
-  var code ;
+  var code;
   OtpPagePin({super.key, this.code});
 
   @override
@@ -29,12 +27,10 @@ class _OtpPagePinState extends State<OtpPagePin> {
 
   //api
 
-
-
   @override
   Widget build(BuildContext context) {
-    var otpcode ;
- return Scaffold(
+    var otpcode;
+    return Scaffold(
       extendBodyBehindAppBar: true,
       body: Container(
         margin: EdgeInsets.only(left: 25, right: 25),
@@ -72,21 +68,21 @@ class _OtpPagePinState extends State<OtpPagePin> {
                 length: 4,
                 showCursor: true,
                 onCompleted: (pin) {
-                 otpcode = pin;
+                  otpcode = pin;
                 },
               ),
               const SizedBox(
                 height: 20,
               ),
-                 Column(
+              Column(
                 children: [
                   GestureDetector(
                       onTap: () {
-if(otpcode != null);
-  Get.toNamed("/Createsetpin");
+                        if (otpcode != null) ;
+                        Get.toNamed("/Createsetpin");
 
-   Get.toNamed("/login");
-                         Get.snackbar('Error', "OTP is UnMatch");
+                        Get.toNamed("/login");
+                        Get.snackbar('Error', "OTP is UnMatch");
                       },
                       child: DefaultTextStyle(
                         style: TextStyle(color: myColor),
@@ -96,7 +92,6 @@ if(otpcode != null);
                       )),
                   TextButton(
                       onPressed: () {
-                         
                         authController.resendotpPIn(otpcode);
                       },
                       child: DefaultTextStyle(

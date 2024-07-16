@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:winner11/screen/auth/controller/authController.dart';
+import 'package:Billa/screen/auth/controller/authController.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   final SignupController controller = Get.put(SignupController());
@@ -18,10 +19,27 @@ class ForgotPasswordScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
+            TextFormField(
               controller: mobileController,
-              decoration: const InputDecoration(labelText: 'Mobile'),
-              keyboardType: TextInputType.phone,
+              decoration: InputDecoration(labelText: 'Mobile'),
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(
+                    10), // Limits the length to 10 digits
+                FilteringTextInputFormatter.digitsOnly, // Allows only digits
+              ],
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your mobile number';
+                }
+                // Regex pattern for 10-digit mobile number
+                String pattern = r'^[0-9]{10}$';
+                RegExp regex = RegExp(pattern);
+                if (!regex.hasMatch(value)) {
+                  return 'Please enter a valid 10-digit mobile number';
+                }
+                return null;
+              },
             ),
             SizedBox(height: 20),
             Obx(() {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winner11/utilis/AllColor.dart';
+import 'package:Billa/utilis/AllColor.dart';
 
 class ThemeController extends GetxController {
   // Define custom color schemes for light and dark themes
@@ -24,9 +24,10 @@ class ThemeController extends GetxController {
 
   // Function to toggle the theme
   void toggleTheme() {
-    currentThemeMode.value =
-        currentThemeMode.value == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
-    
+    currentThemeMode.value = currentThemeMode.value == ThemeMode.light
+        ? ThemeMode.dark
+        : ThemeMode.light;
+
     // Update the isLightMode variable
     isLightMode.value = currentThemeMode.value == ThemeMode.light;
   }
@@ -38,4 +39,3 @@ class ThemeController extends GetxController {
             : darkColorScheme,
       );
 }
-

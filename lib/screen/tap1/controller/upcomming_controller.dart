@@ -4,13 +4,13 @@ import 'package:get/get.dart';
 
 import 'dart:convert';
 
-import 'package:winner11/model/mainGame.dart';
-
+import 'package:Billa/model/mainGame.dart';
 
 import '../../../network/api_path.dart';
 import '../../../network/storage_repository.dart';
 
 import '../../../model/AppDataModel.dart';
+
 class GameBidController extends GetxController {
   var isLoading = false.obs;
   final Dio _dio = Dio();
@@ -23,9 +23,10 @@ class GameBidController extends GetxController {
     fetchData();
     super.onInit();
   }
-    DataModel? dataModel;
- 
- void fetchData() async {
+
+  DataModel? dataModel;
+
+  void fetchData() async {
     final token = await StorageRepository.getToken();
     try {
       isLoading(true);
@@ -34,7 +35,7 @@ class GameBidController extends GetxController {
 
       if (response.statusCode == 200) {
         var badydecode = jsonDecode(response.data);
-        if (badydecode["code"] == "100" && token!= null) {
+        if (badydecode["code"] == "100" && token != null) {
           dataModel = DataModel.fromJson(badydecode["data"]);
           isLoading(false);
           update();
@@ -55,6 +56,7 @@ class GameBidController extends GetxController {
       update();
     }
   }
+
   Future<void> fetchWinStatement() async {
     isLoading(true);
     try {
@@ -73,9 +75,7 @@ class GameBidController extends GetxController {
         }
         update();
       } else {
-           Get.snackbar('Something went wrong ', "Incomplete");
-       
-    
+        Get.snackbar('Something went wrong ', "Incomplete");
       }
     } catch (e) {
       // Handle error

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winner11/screen/auth/controller/froget_pin_controller.dart';
+import 'package:Billa/screen/auth/controller/froget_pin_controller.dart';
 
 class ForgotPasswordScreenPIN extends StatelessWidget {
   final ForgetPinController controller = Get.put(ForgetPinController());
 
-   ForgotPasswordScreenPIN({super.key});
+  ForgotPasswordScreenPIN({super.key});
 
   @override
   Widget build(BuildContext context) {

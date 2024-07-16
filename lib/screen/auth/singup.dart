@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:winner11/screen/auth/controller/authController.dart';
-import 'package:winner11/screen/auth/login.dart';
-import 'package:winner11/utilis/fontstyle.dart';
-import 'package:winner11/utilis/globlemargin.dart';
+import 'package:Billa/screen/auth/controller/authController.dart';
+import 'package:Billa/screen/auth/login.dart';
+import 'package:Billa/utilis/fontstyle.dart';
+import 'package:Billa/utilis/globlemargin.dart';
 import '../../utilis/AllColor.dart';
 import '../../utilis/alinement.dart';
 import '../../utilis/boxSpace.dart';
@@ -30,7 +31,7 @@ class SignupPage extends StatelessWidget {
               Column(
                 crossAxisAlignment: AlignmentStartCross,
                 children: [
-                  Text("Sign up on SATTA App",
+                  Text("Sign up on  Winer Satta App",
                       style: CustomStyles.headerTextStyle),
                   size10h,
                   Text("Get 50 Coins on  Sign up",
@@ -55,10 +56,22 @@ class SignupPage extends StatelessWidget {
                       TextFormField(
                         controller: signupController.mobileController,
                         decoration: InputDecoration(labelText: 'Mobile'),
-                        keyboardType: TextInputType.phone,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(
+                              10), // Limits the length to 10 digits
+                          FilteringTextInputFormatter
+                              .digitsOnly, // Allows only digits
+                        ],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your mobile number';
+                          }
+                          // Regex pattern for 10-digit mobile number
+                          String pattern = r'^[0-9]{10}$';
+                          RegExp regex = RegExp(pattern);
+                          if (!regex.hasMatch(value)) {
+                            return 'Please enter a valid 10-digit mobile number';
                           }
                           return null;
                         },
@@ -70,6 +83,29 @@ class SignupPage extends StatelessWidget {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your password';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: signupController.pinController,
+                        decoration: InputDecoration(labelText: '4-Digit Code'),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(
+                              4), // Limits the length to 4 digits
+                          FilteringTextInputFormatter
+                              .digitsOnly, // Allows only digits
+                        ],
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a 4-digit code';
+                          }
+                          // Regex pattern for 4-digit code
+                          String pattern = r'^[0-9]{4}$';
+                          RegExp regex = RegExp(pattern);
+                          if (!regex.hasMatch(value)) {
+                            return 'Please enter a valid 4-digit code';
                           }
                           return null;
                         },

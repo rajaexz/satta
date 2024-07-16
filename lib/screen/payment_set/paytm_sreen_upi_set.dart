@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winner11/screen/header/appbar.dart';
-import 'package:winner11/screen/header/sidebar.dart';
-import 'package:winner11/screen/my_home.dart';
-import 'package:winner11/screen/payment_set/controller/PaytmentSreencontroller.dart';
+import 'package:Billa/screen/header/appbar.dart';
+import 'package:Billa/screen/header/sidebar.dart';
+import 'package:Billa/screen/my_home.dart';
+import 'package:Billa/screen/payment_set/controller/PaytmentSreencontroller.dart';
 
 import '../controller/MyHomePage_controller.dart';
 

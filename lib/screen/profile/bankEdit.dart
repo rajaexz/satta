@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-import 'package:winner11/model/usedetail.dart';
-import 'package:winner11/network/storage_repository.dart';
-import 'package:winner11/screen/component/coundown.dart';
-import 'package:winner11/screen/component/custom_toaster.dart';
-import 'package:winner11/screen/component/profileContainer.dart';
-import 'package:winner11/screen/header/appbar.dart';
-import 'package:winner11/service/authapi.dart';
-import 'package:winner11/utilis/AllColor.dart';
-import 'package:winner11/utilis/boxSpace.dart';
-import 'package:winner11/utilis/fontstyle.dart';
-import 'package:winner11/utilis/globlemargin.dart';
+import 'package:Billa/model/usedetail.dart';
+import 'package:Billa/network/storage_repository.dart';
+import 'package:Billa/screen/component/coundown.dart';
+import 'package:Billa/screen/component/custom_toaster.dart';
+import 'package:Billa/screen/component/profileContainer.dart';
+import 'package:Billa/screen/header/appbar.dart';
+import 'package:Billa/service/authapi.dart';
+import 'package:Billa/utilis/AllColor.dart';
+import 'package:Billa/utilis/boxSpace.dart';
+import 'package:Billa/utilis/fontstyle.dart';
+import 'package:Billa/utilis/globlemargin.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -99,14 +99,6 @@ class _BankEditState extends State<BankEdit> {
 
                 return Column(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      color: myColorRed,
-                      child: Text(
-                        "Bank Details",
-                        style: CustomStyleswhite.header2TextStyle,
-                      ),
-                    ),
                     MyFunctionInput(
                       controller: bankNameController,
                       fieldName: "Bank Name",
@@ -170,7 +162,7 @@ class _BankEditState extends State<BankEdit> {
                         backgroundColor: myColorgreen,
                       ),
                       child: Text(
-                        'Bank Details Save',
+                        ' Save',
                         style: CustomStyleswhite.headerTextStyle,
                       ),
                     ),

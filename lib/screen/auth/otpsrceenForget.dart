@@ -12,15 +12,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter/material.dart';
 
-class OtpPage extends StatefulWidget {
+class OtpPageForget extends StatefulWidget {
   int? mobile;
-  OtpPage({super.key, this.mobile});
+  OtpPageForget({super.key, this.mobile});
 
   @override
-  State<OtpPage> createState() => _OtpPageState();
+  State<OtpPageForget> createState() => _OtpPageState();
 }
 
-class _OtpPageState extends State<OtpPage> {
+class _OtpPageState extends State<OtpPageForget> {
   final SignupController authController = Get.put(SignupController());
 
   var code = "";
@@ -100,7 +100,7 @@ class _OtpPageState extends State<OtpPage> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       onPressed: () async {
-                        authController.verifyUser(data!, code);
+                        authController.verifyOtp(data!, code);
                       },
                       child: Text(
                         "Verify Your Phone OTP",

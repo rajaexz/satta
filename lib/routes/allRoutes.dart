@@ -1,36 +1,41 @@
-import 'package:winner11/screen/auth/create_pinset.dart';
-import 'package:winner11/screen/auth/singup.dart';
-import 'package:winner11/screen/payment_set/gpay.dart';
-import 'package:winner11/screen/payment_set/paytm.dart';
-import 'package:winner11/screen/payment_set/paytm_sreen_upi_set.dart';
-import 'package:winner11/screen/payment_set/phonepay.dart';
+// import '../../auth/create_pinset.dart';
+// import '../../auth/singup.dart';
+import 'package:Billa/screen/auth/create_pinset.dart';
+import 'package:Billa/screen/auth/otpsrceen.dart';
+import 'package:Billa/screen/auth/pinset.dart';
+import 'package:Billa/screen/auth/singup.dart';
+import 'package:Billa/screen/payment_set/gpay.dart';
+import 'package:Billa/screen/payment_set/paytm.dart';
+import 'package:Billa/screen/payment_set/paytm_sreen_upi_set.dart';
+import 'package:Billa/screen/payment_set/phonepay.dart';
 
-import 'package:winner11/screen/profile/bankEdit.dart';
+import 'package:Billa/screen/profile/bankEdit.dart';
 
 import 'package:get/get.dart';
-import 'package:winner11/screen/aboutTerm&Condition/Tream&con.dart';
-import 'package:winner11/screen/aboutTerm&Condition/aboutus.dart';
-import 'package:winner11/screen/aboutTerm&Condition/faq.dart';
-import 'package:winner11/screen/auth/login.dart';
-import 'package:winner11/screen/auth/otpsrceen.dart';
-import 'package:winner11/screen/my_home.dart';
-import 'package:winner11/screen/notification/enableNotification.dart';
-import 'package:winner11/screen/notification/noti.dart';
-import 'package:winner11/screen/profile/editProfile.dart';
-import 'package:winner11/screen/profile/profile.dart';
-import 'package:winner11/screen/setting/Setting.dart';
-import 'package:winner11/screen/setting/more.dart';
-import 'package:winner11/screen/tap1/gali_game.dart';
-import 'package:winner11/screen/tap1/starline_game.dart';
-import 'package:winner11/screen/wallet/AllHestory.dart';
-import 'package:winner11/screen/wallet/transfer_point.dart';
-import 'package:winner11/screen/wallet/winHestory.dart';
-import 'package:winner11/screen/wallet/withdraw.dart';
-import 'package:winner11/splash/intro.dart';
-import 'package:winner11/splash/splash.dart';
+import 'package:Billa/screen/aboutTerm&Condition/Tream&con.dart';
+import 'package:Billa/screen/aboutTerm&Condition/aboutus.dart';
+import 'package:Billa/screen/aboutTerm&Condition/faq.dart';
+// import '../../auth/login.dart';
+// import '../../auth/otpsrceen.dart';
+import 'package:Billa/screen/my_home.dart';
+import 'package:Billa/screen/notification/enableNotification.dart';
+import 'package:Billa/screen/notification/noti.dart';
+import 'package:Billa/screen/profile/editProfile.dart';
+import 'package:Billa/screen/profile/profile.dart';
+import 'package:Billa/screen/setting/Setting.dart';
+import 'package:Billa/screen/setting/more.dart';
+import 'package:Billa/screen/tap1/gali_game.dart';
+import 'package:Billa/screen/tap1/starline_game.dart';
+import 'package:Billa/screen/wallet/AllHestory.dart';
+import 'package:Billa/screen/wallet/transfer_point.dart';
+import 'package:Billa/screen/wallet/winHestory.dart';
+import 'package:Billa/screen/wallet/withdraw.dart';
+import 'package:Billa/splash/intro.dart';
+import 'package:Billa/splash/splash.dart';
 
 import '../screen/aboutTerm&Condition/policy.dart';
-import '../screen/auth/pinset.dart';
+// import '../../auth/pinset.dart';
+import '../screen/auth/login.dart';
 import '../screen/tap1/hisrotry/starlinebithestory.dart';
 import '../screen/wallet/BitHestory.dart';
 import '../screen/wallet/addmoney.dart';
@@ -87,10 +92,7 @@ var allRutes = [
       name: '/addMoney',
       page: () => Addmoney(),
       transition: Transition.leftToRightWithFade),
-  //   GetPage(
-  // name: '/QRcode',
-  // page: () => WebViewExample(),
-  // transition: Transition.leftToRightWithFade),
+
   GetPage(
       name: "/setting",
       page: () => const MySetting(),
@@ -165,7 +167,7 @@ var allRutes = [
 
   GetPage(
       name: "/editProfile",
-      page: () => EditProfile(),
+      page: () => EditProfilePage(),
       transitionDuration: Duration(milliseconds: 500),
       transition: Transition.leftToRightWithFade),
   GetPage(

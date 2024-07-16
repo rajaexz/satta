@@ -1,21 +1,23 @@
 import 'dart:io';
 
-import 'package:winner11/screen/component/darkmode.dart';
-import 'package:winner11/utilis/borderbox.dart';
+import 'package:Billa/screen/component/darkmode.dart';
+import 'package:Billa/utilis/borderbox.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:winner11/screen/header/appbar.dart';
-import 'package:winner11/screen/header/headerTop.dart';
-import 'package:winner11/service/authapi.dart';
-import 'package:winner11/utilis/AllColor.dart';
-import 'package:winner11/utilis/boxSpace.dart';
-import 'package:winner11/utilis/fontstyle.dart';
+import 'package:Billa/screen/header/appbar.dart';
+import 'package:Billa/screen/header/headerTop.dart';
+import 'package:Billa/service/authapi.dart';
+import 'package:Billa/utilis/AllColor.dart';
+import 'package:Billa/utilis/boxSpace.dart';
+import 'package:Billa/utilis/fontstyle.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../utilis/globlemargin.dart';
 
 import '../../service/authapi.dart';
-  final ThemeController themeController = Get.put(ThemeController());
+
+final ThemeController themeController = Get.put(ThemeController());
+
 class MySetting extends StatefulWidget {
   const MySetting({super.key});
 
@@ -24,49 +26,45 @@ class MySetting extends StatefulWidget {
 }
 
 class _MySettingState extends State<MySetting> {
-     
- 
-
   @override
   Widget build(BuildContext context) {
-      
-       List<Widget> listTiles = [];
-    
- List<Map<String, dynamic>> tileData = [
-    {
-      'iconData': Icons.star_rate,
-      'title': 'Rate Us',
-      'onTap': () async {
-       showRateUsDialogRating(context);
+    List<Widget> listTiles = [];
+
+    List<Map<String, dynamic>> tileData = [
+      {
+        'iconData': Icons.star_rate,
+        'title': 'Rate Us',
+        'onTap': () async {
+          showRateUsDialogRating(context);
+        },
       },
-    },
- {
-      'iconData': Icons.update,
-      'title': 'Chech for Update',
-      'onTap': () async {
-     showRateUsDialogUpdate(context);
+      {
+        'iconData': Icons.update,
+        'title': 'Chech for Update',
+        'onTap': () async {
+          showRateUsDialogUpdate(context);
+        },
       },
-    },
-    {
-      'iconData': Icons.wallet,
-      'title': 'Wallet History',
-      'onTap': () async {
-      Get.toNamed("/historyWallet");  
+      {
+        'iconData': Icons.wallet,
+        'title': 'Wallet History',
+        'onTap': () async {
+          Get.toNamed("/historyWallet");
+        },
       },
-    },
-  ];
-    
+    ];
+
     for (int index = 0; index < tileData.length; index++) {
-    var data = tileData[index];
-    listTiles.add(
-      customListTile(
-        index: index,
-        iconData: data['iconData'],
-        title: data['title'],
-        onTap: data['onTap'],
-      ),
-    );
-  }
+      var data = tileData[index];
+      listTiles.add(
+        customListTile(
+          index: index,
+          iconData: data['iconData'],
+          title: data['title'],
+          onTap: data['onTap'],
+        ),
+      );
+    }
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Settings',
@@ -76,26 +74,16 @@ class _MySettingState extends State<MySetting> {
         child: Column(children: [
           Column(
             children: [
-           
-              
-            Column(children: listTiles,),
-              
-              
-        
-
-             
-        ],
+              Column(
+                children: listTiles,
+              ),
+            ],
           )
         ]),
       ),
     );
   }
 }
-
-
-
-
-
 
 customSliderbarUpdate(context, name, icons) {
   return InkWell(
@@ -112,7 +100,7 @@ customSliderbarUpdate(context, name, icons) {
             width: 100,
             margin: const EdgeInsets.only(left: 5, right: 5),
             decoration: BoxDecoration(
-              borderRadius:boRadiusAll,
+              borderRadius: boRadiusAll,
             ),
             child: Icon(icons),
           ),
@@ -123,7 +111,7 @@ customSliderbarUpdate(context, name, icons) {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(name, style:CustomStyles.header2TextStyle),
+                Text(name, style: CustomStyles.header2TextStyle),
                 const SizedBox(
                   height: 5,
                 ),
@@ -143,8 +131,8 @@ customSliderbarUpdate(context, name, icons) {
     ),
   );
 }
-showRateUsDialogUpdate(BuildContext context) async {
 
+showRateUsDialogUpdate(BuildContext context) async {
   return showDialog<bool>(
     context: context,
     barrierDismissible: true,
@@ -172,7 +160,7 @@ showRateUsDialogUpdate(BuildContext context) async {
             Text(
               "Please consider updating us!",
               style: TextStyle(
-                color:myColor,
+                color: myColor,
                 fontSize: 16,
               ),
             ),
@@ -183,7 +171,6 @@ showRateUsDialogUpdate(BuildContext context) async {
             onPressed: () => Navigator.pop(context, false),
             child: Text(
               "Maybe later",
-
             ),
           ),
           TextButton(
@@ -193,7 +180,6 @@ showRateUsDialogUpdate(BuildContext context) async {
             },
             child: Text(
               "Update Now",
-   
             ),
           ),
         ],
@@ -225,20 +211,16 @@ String _getStoreUrlUpdata(String packageName, String iOSAppId) {
   }
 }
 
-/////////////////////////////////////////////////////rating 
+/////////////////////////////////////////////////////rating
 showRateUsDialogRating(BuildContext context) async {
-
-
   return showDialog<bool>(
     context: context,
     barrierDismissible: true,
     builder: (BuildContext context) {
       return AlertDialog(
-        backgroundColor:myColorWhite,
+        backgroundColor: myColorWhite,
         contentTextStyle: TextStyle(
-          color: 
-              
-               myColor,
+          color: myColor,
           fontFamily: 'Lora',
           fontWeight: FontWeight.w400,
           fontSize: 10,
@@ -250,7 +232,7 @@ showRateUsDialogRating(BuildContext context) async {
             Text(
               "Enjoying our app?",
               style: TextStyle(
-                color:  myColor,
+                color: myColor,
                 fontSize: 20,
               ),
             ),
@@ -301,6 +283,7 @@ void launchRateAppURL() async {
     throw 'Could not launch store URL';
   }
 }
+
 String _getStoreUrl(String packageName, String iOSAppId) {
   if (Platform.isAndroid) {
     return 'https://play.google.com/store/apps/details?id=$packageName';
@@ -310,30 +293,27 @@ String _getStoreUrl(String packageName, String iOSAppId) {
     throw 'Unsupported platform';
   }
 }
-  Widget customListTile({
-    required int index,
-    required IconData iconData,
-    required String title,
-    required VoidCallback onTap,
-  }) {
-    return Obx(
-    ()=> Container(
-           margin: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                     border:border,
-                     borderRadius:boRadiusAll ,
-           color: themeController.isLightMode.value
-                                  ? myColorWhite
-                                  : myColor,
-                      boxShadow: [  themeController.isLightMode.value
-                                          ? boxdark
-                                          : boxshadow2 ],
-                    ),
-        child: ListTile(
-          leading: Icon(iconData),
-          title: Text(title, style: CustomStyles.header2TextStyle),
-          onTap: onTap,
-        ),
+
+Widget customListTile({
+  required int index,
+  required IconData iconData,
+  required String title,
+  required VoidCallback onTap,
+}) {
+  return Obx(
+    () => Container(
+      margin: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        border: border,
+        borderRadius: boRadiusAll,
+        color: themeController.isLightMode.value ? myColorWhite : myColor,
+        boxShadow: [themeController.isLightMode.value ? boxdark : boxshadow2],
       ),
-    );
-  }
+      child: ListTile(
+        leading: Icon(iconData),
+        title: Text(title, style: CustomStyles.header2TextStyle),
+        onTap: onTap,
+      ),
+    ),
+  );
+}

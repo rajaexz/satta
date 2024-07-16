@@ -1,36 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:winner11/screen/component/darkmode.dart';
-import 'package:winner11/screen/component/imageComponet.dart';
-import 'package:winner11/service/authapi.dart';
-import 'package:winner11/utilis/borderbox.dart';
-import 'package:winner11/utilis/boxSpace.dart';
+import 'package:Billa/screen/component/darkmode.dart';
+import 'package:Billa/screen/component/imageComponet.dart';
+import 'package:Billa/service/authapi.dart';
+import 'package:Billa/utilis/borderbox.dart';
+import 'package:Billa/utilis/boxSpace.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utilis/AllColor.dart';
 import '../wallet/walletHestory.dart';
+
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget> actions;
 
   final ThemeController themeController;
 
-
   CustomAppBar({
     required this.title,
     this.actions = const [],
-  })   : themeController = Get.put(ThemeController());
-  var currentNotiNumber ;
-
+  }) : themeController = Get.put(ThemeController());
+  var currentNotiNumber;
 
   @override
   Size get preferredSize => Size.fromHeight(56.0);
 
   @override
   Widget build(BuildContext context) {
-
-
     return AppBar(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 0,
@@ -84,12 +81,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
               builder: (BuildContext context) {
-                return  const FractionallySizedBox(
+                return const FractionallySizedBox(
                   heightFactor:
                       0.5, // Adjust this value to control the height (0.0 to 1.0).
-                  child: Myhestory(
-                 
-                ),
+                  child: Myhestory(),
                 );
               },
             );
@@ -109,22 +104,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         //     themeController.toggleTheme();
         //   },
         // ),
-             Stack(
-            children: [
-               IconButton(
-                icon: Icon(
-                  Icons.notifications_none,
-                  color: myColorWhite,
-                ), // Icon to display
-                onPressed: () {
-              
-                  Get.toNamed('/myNoti');
-                },
-              ),
-            
-            ],
-          ),
-      
+        Stack(
+          children: [
+            IconButton(
+              icon: Icon(
+                Icons.notifications_none,
+                color: myColorWhite,
+              ), // Icon to display
+              onPressed: () {
+                Get.toNamed('/myNoti');
+              },
+            ),
+          ],
+        ),
       ],
     );
   }

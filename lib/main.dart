@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:winner11/firebase_options.dart';
-import 'package:winner11/routes/allRoutes.dart';
-import 'package:winner11/service/authapi.dart';
-import 'package:winner11/utilis/AllColor.dart';
+import 'package:Billa/firebase_options.dart';
+import 'package:Billa/routes/allRoutes.dart';
+import 'package:Billa/service/authapi.dart';
+import 'package:Billa/utilis/AllColor.dart';
 
 import 'screen/component/darkmode.dart';
 
@@ -53,8 +53,6 @@ _fcmConfigure() {
   //       backgroundColor:
   //           themeController.isLightMode.value ? myColorWhite : myColor);
   // });
-
-
 }
 
 @pragma('vm:entry-point')
@@ -77,8 +75,6 @@ class _MyAppState extends State<MyApp> {
 
   void initState() {
     super.initState();
-
-
   }
 
   var current_noti_number;
@@ -92,7 +88,7 @@ class _MyAppState extends State<MyApp> {
         initialRoute: '/splash',
         debugShowCheckedModeBanner: false,
         getPages: allRutes,
-        title: 'winners11',
+        title: 'Billa',
         builder: (context, child) {
           return MediaQuery(
             data: MediaQuery.of(context)

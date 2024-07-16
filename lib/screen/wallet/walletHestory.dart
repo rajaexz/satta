@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winner11/screen/component/darkmode.dart';
-import 'package:winner11/screen/component/iconStatus.dart';
-import 'package:winner11/screen/header/headerTop.dart';
+import 'package:Billa/screen/component/darkmode.dart';
+import 'package:Billa/screen/component/iconStatus.dart';
+import 'package:Billa/screen/header/headerTop.dart';
 
-import 'package:winner11/utilis/AllColor.dart';
-import 'package:winner11/utilis/borderbox.dart';
-import 'package:winner11/utilis/boxSpace.dart';
-import 'package:winner11/utilis/fontstyle.dart';
+import 'package:Billa/utilis/AllColor.dart';
+import 'package:Billa/utilis/borderbox.dart';
+import 'package:Billa/utilis/boxSpace.dart';
+import 'package:Billa/utilis/fontstyle.dart';
 
 import 'wallet_controller.dart/all_hestory_controller.dart';
 

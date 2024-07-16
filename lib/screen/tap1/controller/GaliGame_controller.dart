@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' as con;
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/snackbar/snackbar.dart';
-import 'package:winner11/model/GaliGame.dart';
+import 'package:Billa/model/GaliGame.dart';
 
 import '../../../model/BitStatement.dart';
 import '../../../model/StarlineGame.dart';
@@ -36,7 +36,6 @@ class GaliGameController extends con.GetxController {
     try {
       final token = await StorageRepository.getToken();
       print("Token: $token");
-
 
       final response = await _dio.get(
         '${ApiPath.baseUrl}gali_disawar_game', // Replace with your actual API URL

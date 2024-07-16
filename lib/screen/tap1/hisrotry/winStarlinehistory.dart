@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:winner11/screen/tap1/hisrotry/controller/WinSartlineBidHistoryController.dart';
-import 'package:winner11/screen/tap1/hisrotry/widget/WinHistoryCard.dart';
+import 'package:Billa/screen/tap1/hisrotry/controller/WinSartlineBidHistoryController.dart';
+import 'package:Billa/screen/tap1/hisrotry/widget/WinHistoryCard.dart';
 import '../../../network/network_config.dart';
 
 class WinHistoryPage extends StatelessWidget {

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:winner11/model/mainGame.dart';
+import 'package:Billa/model/mainGame.dart';
+import '../../model/GaliGame.dart';
+import '../../model/StarlineGame.dart';
 import '../header/appbar.dart';
 import '../top3/MakeBit.dart';
-
 
 class GridViewWidget extends StatelessWidget {
   var gameData;
@@ -62,7 +63,7 @@ class GridViewWidget extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          if (whicGameName == "gali_disawar")
+          if (whicGameName == "gali_disawar" && gameData is GaliDisawarGame)
             Expanded(
               child: gameGrid(
                   gameType: gameTypeGali,
@@ -87,7 +88,7 @@ class GridViewWidget extends StatelessWidget {
                         allData: gameData,
                         whicGameName: whicGameName),
                   ),
-          if (whicGameName == "star_line")
+          if (whicGameName == "star_line" && gameData is StarlineGame)
             Expanded(
               child: gameGrid(
                   gameType: gameTypeStarline,
@@ -144,15 +145,13 @@ Widget gameGrid({
               ),
               Positioned(
                 bottom: 0,
-                child: 
-         Align(
-                alignment: Alignment.center,
                 child: Container(
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     color: Color.fromARGB(255, 185, 23, 11),
                   ),
                   height: 40,
+                  width: Get.width / 2.5,
                   alignment: Alignment.center,
                   child: Text(
                     gameType[index]['title'].toUpperCase(),
@@ -162,7 +161,7 @@ Widget gameGrid({
                     ),
                   ),
                 ),
-              ),     ),
+              ),
             ],
           ),
         ),

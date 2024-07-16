@@ -1,11 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:winner11/utilis/fontstyle.dart';
+import 'package:Billa/utilis/fontstyle.dart';
 
 import '../../utilis/AllColor.dart';
-
 
 Widget titlebtn({
   required String? HeadName, // Add "?" for null safety
@@ -17,13 +15,13 @@ Widget titlebtn({
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       SizedBox(
-      
         child: Column(
           children: [
             Row(
               children: [
                 Text(
-                  HeadName ?? "Default Text", // Provide a default text if HeadName is null
+                  HeadName ??
+                      "Default Text", // Provide a default text if HeadName is null
                   style: CustomStyles.headerTextStyle,
                 ),
               ],
@@ -33,7 +31,8 @@ Widget titlebtn({
       ),
       InkWell(
         onTap: () {
-          Get.toNamed(routes?.toString() ?? "/home"); // Provide a default route if routes is null
+          Get.toNamed(routes?.toString() ??
+              "/home"); // Provide a default route if routes is null
         },
         child: Text("($Headno)"),
       ),
@@ -41,10 +40,9 @@ Widget titlebtn({
   );
 }
 
-Simpletitlebtn(
-    {required String HeadName,
- 
-  }) {
+Simpletitlebtn({
+  required String HeadName,
+}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -52,14 +50,12 @@ Simpletitlebtn(
         height: 24,
         child: Column(
           children: [
-            
             Row(
               children: [
                 Text(
                   HeadName,
-                  style:CustomStyles.header5TextStyle,
+                  style: CustomStyles.header5TextStyle,
                 ),
-               
               ],
             ),
           ],
@@ -69,40 +65,32 @@ Simpletitlebtn(
   );
 }
 
-
-
-
-// here is using titel button 
+// here is using titel button
 
 class TopHeaderPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-         
-            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                
-                IconButton(
-                  icon:  Icon(
-                    Icons.arrow_back,
-                    color: myColor!, // Close button color
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Close the popup
-                  },
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: myColor!, // Close button color
                 ),
-              ],
-            ),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the popup
+                },
+              ),
+            ],
           ),
-      
-        ],
-      );
-    
+        ),
+      ],
+    );
   }
 }
-
