@@ -22,7 +22,7 @@ class CustomStyles {
   );
   static TextStyle header2TextStyle = TextStyle(
     fontSize: 18,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.bold,
     fontFamily: 'Roboto1', // Use the same font family name here
   );
   static TextStyle header3TextStyle = TextStyle(

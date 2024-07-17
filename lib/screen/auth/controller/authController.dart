@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:Billa/screen/auth/createpassword.dart';
 import 'package:Billa/screen/auth/otpsrceenForget.dart';
+import 'package:Billa/screen/auth/pinset.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
@@ -249,7 +250,9 @@ class SignupController extends GetxController {
         StorageRepository.saveOffline(AppConstant.tokenKeypin, token);
         Get.snackbar('Success', 'Login successful',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed("/Createsetpin", arguments: mobile.toString());
+        final tokenst = await StorageRepository.getTokenpin();
+     Get.toNamed("/Createsetpin", arguments: mobile.toString());
+
       } else {
         Get.snackbar('Error', 'Login failed: ${badydecode["message"]}',
             snackPosition: SnackPosition.BOTTOM);

@@ -54,7 +54,7 @@ class GaliGameView extends StatelessWidget {
                         horizontal: 30, vertical: 10),
                     decoration: BoxDecoration(color: myColorRed),
                     child: Text(
-                      "Gali Disaawar History",
+                      " bid history ",
                       style: CustomStyleswhite.smallTextStyle,
                     ),
                   ),
@@ -74,7 +74,7 @@ class GaliGameView extends StatelessWidget {
                         horizontal: 30, vertical: 10),
                     decoration: BoxDecoration(color: myColorRed),
                     child: Text(
-                      "Gali Disaawar Win History",
+                      "win history",
                       style: CustomStyleswhite.smallTextStyle,
                     ),
                   ),
@@ -211,7 +211,7 @@ class GaliGameView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                item.play.toString(),
+                                item.play ? "Market open " : "Market close",
                                 style: CustomStyles.smallTextStyle,
                               ),
                             ],

@@ -54,7 +54,7 @@ class StarlineGameView extends StatelessWidget {
                         horizontal: 30, vertical: 10),
                     decoration: BoxDecoration(color: myColorRed),
                     child: Text(
-                      "Star Line History  ",
+                      "Bid History ",
                       style: CustomStyleswhite.smallTextStyle,
                     ),
                   ),
@@ -74,7 +74,7 @@ class StarlineGameView extends StatelessWidget {
                         horizontal: 30, vertical: 10),
                     decoration: BoxDecoration(color: myColorRed),
                     child: Text(
-                      "Star Line Win History",
+                      "Win History",
                       style: CustomStyleswhite.smallTextStyle,
                     ),
                   ),

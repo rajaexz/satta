@@ -12,7 +12,8 @@ class StarMakeBidPage extends StatelessWidget {
   final String? title;
   final dynamic allData;
   final dynamic whicGameName;
-StarMakeBidPage({Key? key, this.title, required this.allData, this.whicGameName})
+  StarMakeBidPage(
+      {Key? key, this.title, required this.allData, this.whicGameName})
       : super(key: key);
 
   @override
@@ -630,8 +631,6 @@ class StarMakeBidScreen extends StatelessWidget {
     }
   }
 
-
-
   void _deleteBid(int index) {
     controller.bids.removeAt(index);
   }
@@ -659,14 +658,8 @@ class StarMakeBidScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'Session Type',
-                style: TextStyle(color: Colors.black, fontSize: 18),
-              ),
-              const SizedBox(height: 8),
-              const SizedBox(height: 16),
+
               //===============//
-            
 
               Row(
                 children: [
@@ -706,7 +699,7 @@ class StarMakeBidScreen extends StatelessWidget {
                   const SizedBox(width: 16),
                   Expanded(
                     child: TextField(
-                      controller:  controller.pointController,
+                      controller: controller.pointController,
                       decoration: const InputDecoration(
                         hintText: 'Enter Point',
                       ),
@@ -714,9 +707,9 @@ class StarMakeBidScreen extends StatelessWidget {
                   ),
                 ],
               ),
-                   const SizedBox(height: 16),
+              const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: controller.  addBid,
+                onPressed: controller.addBid,
                 style: ElevatedButton.styleFrom(
                   shadowColor: Colors.black,
                   backgroundColor: Colors.red[900],

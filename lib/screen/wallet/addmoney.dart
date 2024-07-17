@@ -40,6 +40,14 @@ class AddmoneyView extends StatefulWidget {
   _AddmoneyViewState createState() => _AddmoneyViewState();
 }
 
+bool _validateInput(String value) {
+  if (value.isEmpty) {
+    return false;
+  }
+  final int? amount = int.tryParse(value);
+  return amount != null && amount > 0;
+}
+
 class _AddmoneyViewState extends State<AddmoneyView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -70,25 +78,17 @@ class _AddmoneyViewState extends State<AddmoneyView> {
                     ),
                     child: Column(
                       children: [
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            hintText: "Please Enter Amount",
-                          ),
+                        TextField(
                           controller: widget.controller!.moneyController,
-
-                          textAlign: TextAlign.start,
                           keyboardType: TextInputType.number,
-                          style: const TextStyle(
-                              fontSize: 16), // Customize your text style
-                          autofocus: true,
-                          cursorColor:
-                              Colors.black, // Customize your cursor color
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter an amount';
-                            }
-                            return null; // Return null if the input is valid
-                          },
+                          decoration: InputDecoration(
+                            hintText: "Enter Your Money",
+                            errorText: _validateInput(
+                                    widget.controller!.moneyController.text)
+                                ? null
+                                : "Please enter a positive amount.",
+                            border: const OutlineInputBorder(),
+                          ),
                         ),
                       ],
                     )),

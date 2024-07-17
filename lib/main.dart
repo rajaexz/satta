@@ -28,7 +28,7 @@ void main() async {
   );
 
   String? _firebaseToken = await FirebaseMessaging.instance.getToken();
-  print("FCM______:${_firebaseToken}");
+  print("FCM______:$_firebaseToken");
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -45,14 +45,7 @@ _fcmConfigure() {
             themeController.isLightMode.value ? myColorWhite : myColor);
   });
 
-  // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  //   print("onLaunch: $message");
-  //   Get.snackbar(message.notification?.title ?? "No Title",
-  //       message.notification?.body ?? "No body",
-  //       snackPosition: SnackPosition.TOP,
-  //       backgroundColor:
-  //           themeController.isLightMode.value ? myColorWhite : myColor);
-  // });
+
 }
 
 @pragma('vm:entry-point')

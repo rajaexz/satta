@@ -65,32 +65,32 @@ class GridViewWidget extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // if (whicGameName == "gali_disawar" && gameData is GaliDisawarGame)
-          //   Expanded(
-          //     child: gameGrid(
-          //         gameType: gameTypeGali,
-          //         imageUrls: imageUrls,
-          //         allData: gameData,
-          //         whicGameName: whicGameName),
-          //   ),
-          // if (whicGameName == "main_game" && gameData is GameList)
-          //   gameData.open
-          //       ? Expanded(
-          //           child: gameGrid(
-          //             gameType: gameTypeMain,
-          //             imageUrls: imageUrls,
-          //             allData: gameData,
-          //             whicGameName: whicGameName,
-          //           ),
-          //         )
-          //       : Expanded(
-          //           child: gameGrid(
-          //               gameType: gameTypeMaintype2,
-          //               imageUrls: imageUrls,
-          //               allData: gameData,
-          //               whicGameName: whicGameName),
-          //         ),
-          // if (whicGameName == "star_line" && gameData is StarlineGame)
+          if (whicGameName == "gali_disawar" && gameData is GaliDisawarGame)
+            Expanded(
+              child: gameGrid(
+                  gameType: gameTypeGali,
+                  imageUrls: imageUrls,
+                  allData: gameData,
+                  whicGameName: whicGameName),
+            ),
+          if (whicGameName == "main_game" && gameData is GameList)
+            gameData.open
+                ? Expanded(
+                    child: gameGrid(
+                      gameType: gameTypeMain,
+                      imageUrls: imageUrls,
+                      allData: gameData,
+                      whicGameName: whicGameName,
+                    ),
+                  )
+                : Expanded(
+                    child: gameGrid(
+                        gameType: gameTypeMaintype2,
+                        imageUrls: imageUrls,
+                        allData: gameData,
+                        whicGameName: whicGameName),
+                  ),
+          if (whicGameName == "star_line" && gameData is StarlineGame)
             Expanded(
               child: gameGrid(
                   gameType: gameTypeStarline,
@@ -115,38 +115,29 @@ Widget gameGrid({
     children: List.generate(gameType.length, (index) {
       return GestureDetector(
         onTap: () {
-
-
-
-          if (whicGameName == "gali_disawar"){
- Get.to(GaliMakeBidPage(
-            allData: allData,
-            title: gameType[index]['data'],
-            whicGameName: whicGameName,
-          ));
-
+          if (whicGameName == "gali_disawar") {
+            Get.to(GaliMakeBidPage(
+              allData: allData,
+              title: gameType[index]['data'],
+              whicGameName: whicGameName,
+            ));
           }
 
-
-
-          if (whicGameName == "main_game"){
-  Get.to(MakeBitPage(
-            allData: allData,
-            title: gameType[index]['data'],
-            whicGameName: whicGameName,
-          ));
+          if (whicGameName == "main_game") {
+            Get.to(MakeBitPage(
+              allData: allData,
+              title: gameType[index]['data'],
+              whicGameName: whicGameName,
+            ));
           }
 
-          
-          if (whicGameName == "star_line"){
-              Get.to(StarMakeBidPage(
-            allData: allData,
-            title: gameType[index]['data'],
-            whicGameName: whicGameName,
-          ));
+          if (whicGameName == "star_line") {
+            Get.to(StarMakeBidPage(
+              allData: allData,
+              title: gameType[index]['data'],
+              whicGameName: whicGameName,
+            ));
           }
-
-        
         },
         child: Container(
           margin: const EdgeInsets.all(8.0),

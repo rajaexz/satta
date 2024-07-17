@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:get/get.dart';
@@ -11,55 +10,53 @@ import '../../../utilis/app_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
+
 class PinController extends GetxController {
   final TextEditingController setpinController = TextEditingController();
   var isLoading = false.obs;
-    var errorMessage = ''.obs;
+  var errorMessage = ''.obs;
   final Dio dio = Dio();
   Future<void> loginWithPin() async {
-  final tokenpin = await StorageRepository.getToken();
+    final tokenpin = await StorageRepository.getToken();
     isLoading.value = true;
     final dio = Dio();
 
     final formData = alfrom.FormData.fromMap({
-   'pin': setpinController.text,
+      'pin': setpinController.text,
     });
 
+    final response =
+        await dio.post('https://development.smapidev.co.in/api/Api/login_pin',
+            data: formData,
+            options: Options(
+              headers: {
+                'Token': tokenpin,
+              },
+            ));
 
-      final response = await dio.post(
-        'https://development.smapidev.co.in/api/Api/login_pin',
-        data: formData,
-          options: Options(
-          headers: {
-            'Token': tokenpin,
-          },
-          )
-      );
-  
-      isLoading.value = false;
-      if (response.statusCode == 200 &&  tokenpin != null) {
-        final responseData = jsonDecode(response.data);
-        if (responseData['status'] == 'success') {
-      final newToken = responseData['data']['token'];
+    isLoading.value = false;
+    if (response.statusCode == 200 && tokenpin != null) {
+      final responseData = jsonDecode(response.data);
+      if (responseData['status'] == 'success') {
+        final newToken = responseData['data']['token'];
         await StorageRepository.saveOffline(AppConstant.tokenKey, newToken);
-       
-          Get.offAllNamed("/home");
-          Get.snackbar('Success', 'Verify successful',
-              snackPosition: SnackPosition.BOTTOM);
-          // You can handle storing token or navigating to the next screen after verification
-        } else {
-          Get.offAllNamed("/login");
-          Get.snackbar('Error', 'Verify failed: ${responseData['message']}',
-              snackPosition: SnackPosition.BOTTOM);
-        }
+
+        Get.offAllNamed("/home");
+        Get.snackbar('Success', 'Verify successful',
+            snackPosition: SnackPosition.BOTTOM);
+        // You can handle storing token or navigating to the next screen after verification
       } else {
-     Get.offAllNamed("/login");
-        Get.snackbar('Error', 'token is not here  failed: ${response.statusMessage}',
+        Get.offAllNamed("/login");
+        Get.snackbar('Error', 'Verify failed: ${responseData['message']}',
             snackPosition: SnackPosition.BOTTOM);
       }
-  
+    } else {
+      Get.offAllNamed("/login");
+      Get.snackbar(
+          'Error', 'token is not here  failed: ${response.statusMessage}',
+          snackPosition: SnackPosition.BOTTOM);
+    }
   }
-
 
   void validatePin(String pin) {
     if (pin.length != 4) {

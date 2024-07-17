@@ -2,6 +2,7 @@ import 'package:Billa/routes/Api.dart';
 import 'package:Billa/screen/auth/forget.dart';
 import 'package:Billa/screen/tap1/upcomming.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:Billa/screen/auth/controller/authController.dart';
 import 'package:Billa/screen/auth/singup.dart';
@@ -34,6 +35,7 @@ class _LoginpageState extends State<Loginpage> {
   final formKey = GlobalKey<FormState>();
   RegExp digitValidator = RegExp("[0-9]+");
   bool isANumber = true;
+  bool isPasswordVisible = false; // Move this variable to the class level
 
   void setValidator(String inputValue) {
     setState(() {
@@ -55,90 +57,98 @@ class _LoginpageState extends State<Loginpage> {
   @override
   Widget build(BuildContext context) {
     FocusNode focusNode = FocusNode();
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          margin: GlobleglobleMargin.globleMargin,
+          margin: EdgeInsets.all(20),
           child: Form(
             key: formKey,
             child: Column(
-              crossAxisAlignment: AlignmentStartCross,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // TopHeaderPopup(),
-                size20h,
-                size20h,
-                size20h,
-                size20h,
-                size20h,
-                size20h,
-                size20h,
-                Column(
-                  crossAxisAlignment: AlignmentStartCross,
+                SizedBox(height: 20),
+                SizedBox(height: 20),
+                SizedBox(height: 20),
+                SizedBox(height: 20),
+                SizedBox(height: 20),
+                SizedBox(height: 20),
+                SizedBox(height: 20),
+                const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Login up on Winer Satta App",
-                        style: CustomStyles.headerTextStyle),
-                    size10h,
+                    Text("Login up on Billa App",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    SizedBox(height: 10),
                   ],
                 ),
                 Column(
-                  crossAxisAlignment: AlignmentStartCross,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    size10h,
-                    size10h,
-                    size20h,
-                    size20h,
-                    Text("Login using Mobile Number",
-                        style: CustomStyles.header2TextStyle),
-                    size10h,
-                    size10h,
-                    IntlPhoneField(
-                      focusNode: focusNode,
+                    SizedBox(height: 10),
+                    SizedBox(height: 10),
+                    TextFormField(
                       controller: phoneController,
-                      decoration: const InputDecoration(
-                        labelText: 'Phone Number',
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(),
-                        ),
-                      ),
-                      initialCountryCode:
-                          'IN', // Set the initial country code to India
-                      onChanged: (phone) {
-                        // This callback gives you an object with number and country code
-                        validateIndianPhoneNumber(phone.completeNumber);
-                      },
-                      onCountryChanged: (country) {
-                        // Optional: Handle logic when a user changes the country
+                      decoration: InputDecoration(labelText: 'Mobile'),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(
+                            10), // Limits the length to 10 digits
+                        FilteringTextInputFormatter
+                            .digitsOnly, // Allows only digits
+                      ],
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your mobile number';
+                        }
+                        // Regex pattern for 10-digit mobile number
+                        String pattern = r'^[0-9]{10}$';
+                        RegExp regex = RegExp(pattern);
+                        if (!regex.hasMatch(value)) {
+                          return 'Please enter a valid 10-digit mobile number';
+                        }
+                        return null;
                       },
                     ),
                     TextFormField(
                       keyboardType: TextInputType.text,
-                      style: TextStyle(
-                        color: myColor,
+                      style: const TextStyle(
+                        color: Colors.black,
                         fontFamily: 'OpenSans',
                       ),
                       decoration: InputDecoration(
-                        errorText: isANumber ? null : "Please enter a Password",
+                        errorText: 'Please enter a Password',
                         contentPadding: EdgeInsets.only(top: 14.0),
-                        prefixIcon: Icon(
-                          Icons.remove_red_eye,
-                          color: myColor,
+                        prefixIcon: IconButton(
+                          icon: Icon(
+                            isPasswordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.black,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isPasswordVisible = !isPasswordVisible;
+                            });
+                          },
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: myColor!),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: myColor!),
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
                         ),
-                        hintText: 'Enter your Password ',
+                        hintText: 'Enter your Password',
                       ),
                       controller: pass,
+                      obscureText: !isPasswordVisible,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Please enter a Password ';
+                          return 'Please enter a Password';
                         }
-
-                        // If none of the conditions are met, return null (no error)
                         return null;
                       },
                     ),
@@ -147,11 +157,11 @@ class _LoginpageState extends State<Loginpage> {
                         Get.to(ForgotPasswordScreen());
                       },
                       child: const Center(
-                        child: Text("Forget pin "),
+                        child: Text("Forget pin"),
                       ),
                     ),
-                    size10h,
-                    size10h,
+                    SizedBox(height: 10),
+                    SizedBox(height: 10),
                     loginController.isLoading.value
                         ? const CircularProgressIndicator(
                             color: Colors.red,
@@ -160,23 +170,24 @@ class _LoginpageState extends State<Loginpage> {
                             context: context,
                             phController: phoneController,
                             pass: pass,
-                            colors: myColorRed),
-
-
-                                customImageContainer(
-
-
-                      context: context,
-                      imageUrl: 'assets/wh.jpg',
-                      onTap: openWhatsApp,
-                      name: "Whatsapp",
-                      imageSize: 50),
+                            colors: Colors.red,
+                          ),
+                    SizedBox(height: 10),
+                    Center(
+                      child: customImageContainer(
+                        context: context,
+                        imageUrl: 'assets/wh.jpg',
+                        onTap: openWhatsApp,
+                        name: "Whatsapp",
+                        imageSize: 50,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('You Do not  have account?  '),
+                    const Text('You do not have an account?'),
                     TextButton(
                       onPressed: () {
                         Get.to(() => SignupPage());
@@ -192,8 +203,10 @@ class _LoginpageState extends State<Loginpage> {
       ),
     );
   }
+
   Future<void> openWhatsApp() async {
-    var  phoneNumber = '${controller?.dataModel!.contactDetails.mobileNo1}'; // Replace with the actual phone number
+    var phoneNumber =
+        '${controller?.dataModel!.contactDetails.mobileNo1}'; // Replace with the actual phone number
     final whatsappUrl = 'whatsapp://send?phone=$phoneNumber';
 
     if (await canLaunch(whatsappUrl)) {
@@ -202,6 +215,7 @@ class _LoginpageState extends State<Loginpage> {
       throw 'Could not launch $whatsappUrl';
     }
   }
+
   Widget _buildLoginBtn({
     required BuildContext context,
     required TextEditingController phController,

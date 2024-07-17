@@ -1,3 +1,4 @@
+import 'package:Billa/screen/wallet/wallet_controller.dart/all_hestory_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +10,7 @@ import 'package:Billa/utilis/boxSpace.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utilis/AllColor.dart';
+import '../../utilis/fontstyle.dart';
 import '../wallet/walletHestory.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -28,6 +30,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    AllHestoryController controller = Get.put(AllHestoryController());
     return AppBar(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 0,
@@ -67,33 +70,51 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       foregroundColor: myColorWhite,
       actions: [
         GestureDetector(
-          onTap: () {
-            showModalBottomSheet<void>(
-              showDragHandle: true,
-              useSafeArea: true,
-              isScrollControlled: true,
-              elevation: 8,
-              context: context,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16.0),
-                  topRight: Radius.circular(16.0),
+            onTap: () {
+              showModalBottomSheet<void>(
+                showDragHandle: true,
+                useSafeArea: true,
+                isScrollControlled: true,
+                elevation: 8,
+                context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16.0),
+                    topRight: Radius.circular(16.0),
+                  ),
                 ),
-              ),
-              builder: (BuildContext context) {
-                return const FractionallySizedBox(
-                  heightFactor:
-                      0.5, // Adjust this value to control the height (0.0 to 1.0).
-                  child: Myhestory(),
-                );
-              },
-            );
-          },
-          child: ImageComponent(
-            myWidth: 50.0,
-            myheight: 50.0,
-            myImage: "assets/icon/wallet2.png",
-          ),
+                builder: (BuildContext context) {
+                  return const FractionallySizedBox(
+                    heightFactor:
+                        0.5, // Adjust this value to control the height (0.0 to 1.0).
+                    child: Myhestory(),
+                  );
+                },
+              );
+            },
+            child: Row(
+              children: [
+                ImageComponent(
+                  myWidth: 50.0,
+                  myheight: 50.0,
+                  myImage: "assets/icon/wallet2.png",
+                ),
+                Obx(
+                      () {
+                    final withdrawData = controller.withdrawData.value;
+                    return withdrawData != null
+                        ? Text(
+                      "₹${withdrawData.availablePoints}",
+                      style: CustomStyles.headerTextStyle,
+                    )
+                        : Text(
+                      "Loading...", // Or any other placeholder text
+                      style: CustomStyles.headerTextStyle,
+                    );
+                  },
+                ),
+              ],
+            )
         ),
         // IconButton(
         //   icon: Icon(

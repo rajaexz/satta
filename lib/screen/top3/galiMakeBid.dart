@@ -12,7 +12,8 @@ class GaliMakeBidPage extends StatelessWidget {
   final String? title;
   final dynamic allData;
   final dynamic whicGameName;
-  GaliMakeBidPage({Key? key, this.title, required this.allData, this.whicGameName})
+  GaliMakeBidPage(
+      {Key? key, this.title, required this.allData, this.whicGameName})
       : super(key: key);
 
   @override
@@ -40,7 +41,7 @@ class GaliMakeBidScreen extends StatelessWidget {
   final dynamic whicGameName;
   final MakeBiteController controller;
 
-GaliMakeBidScreen(
+  GaliMakeBidScreen(
       {Key? key,
       required this.allData,
       required this.gameType,
@@ -630,7 +631,7 @@ GaliMakeBidScreen(
     }
   }
 
-void _deleteBid(int index) {
+  void _deleteBid(int index) {
     controller.bids.removeAt(index);
   }
 
@@ -657,14 +658,8 @@ void _deleteBid(int index) {
                     fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'Session Type',
-                style: TextStyle(color: Colors.black, fontSize: 18),
-              ),
-              const SizedBox(height: 8),
-              const SizedBox(height: 16),
+
               //===============//
-        
 
               Row(
                 children: [
@@ -704,7 +699,7 @@ void _deleteBid(int index) {
                   const SizedBox(width: 16),
                   Expanded(
                     child: TextField(
-                      controller:  controller.pointController,
+                      controller: controller.pointController,
                       decoration: const InputDecoration(
                         hintText: 'Enter Point',
                       ),
@@ -714,7 +709,7 @@ void _deleteBid(int index) {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed:controller. addBid,
+                onPressed: controller.addBid,
                 style: ElevatedButton.styleFrom(
                   shadowColor: Colors.black,
                   backgroundColor: Colors.red[900],

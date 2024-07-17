@@ -31,7 +31,7 @@ class SignupPage extends StatelessWidget {
               Column(
                 crossAxisAlignment: AlignmentStartCross,
                 children: [
-                  Text("Sign up on  Winer Satta App",
+                  Text("Sign up on  Billa App",
                       style: CustomStyles.headerTextStyle),
                   size10h,
                   Text("Get 50 Coins on  Sign up",

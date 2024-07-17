@@ -138,7 +138,7 @@ class GalibithestoryPage extends StatelessWidget {
                                   style: const TextStyle(fontSize: 12),
                                 ),
                                 Text(
-                                  "${item.bidPoints}",
+                                  item.bidPoints,
                                   style: const TextStyle(fontSize: 12),
                                 ),
                               ],

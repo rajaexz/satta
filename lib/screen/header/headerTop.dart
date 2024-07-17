@@ -47,14 +47,14 @@ Simpletitlebtn({
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       SizedBox(
-        height: 24,
+        height: 30,
         child: Column(
           children: [
             Row(
               children: [
                 Text(
                   HeadName,
-                  style: CustomStyles.header5TextStyle,
+                  style: CustomStyles.headerTextStyle,
                 ),
               ],
             ),

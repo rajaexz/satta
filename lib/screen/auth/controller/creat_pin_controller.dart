@@ -6,6 +6,7 @@ import 'package:dio/src/form_data.dart' as alfrom;
 import '../../../network/api_path.dart';
 import '../../../network/storage_repository.dart';
 import '../../../utilis/app_constant.dart';
+import '../pinset.dart';
 
 class CreatePinController extends GetxController {
   var isLoading = false.obs;
@@ -38,7 +39,8 @@ class CreatePinController extends GetxController {
         final newToken = badydecode['data']['token'];
         await StorageRepository.saveOffline(AppConstant.tokenKey, newToken);
         Get.snackbar('Success', badydecode['message']);
-        Get.offAllNamed("/home");
+
+        Get.offAll(PinPage());
       } else {
         Get.offAllNamed("/login");
         Get.snackbar('Error', ' failed: ${badydecode['message']}',
