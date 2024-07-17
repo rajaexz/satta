@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:Billa/screen/component/profileContainer.dart';
@@ -39,14 +40,32 @@ class PhonepayPageForm extends StatelessWidget {
       key: _formKey,
       child: Column(
         children: [
-          MyFunctionInput(
-            controller: phoneController,
-            fieldName: "Enter Phone ",
-            hintText: "Enter Your Phone ",
-            inputType: TextInputType.text,
-            errorMessage: "Please enter a valid 10-digit phone number",
-            usernameRegex: r'^\d{10}$',
-          ),
+      
+
+     TextFormField(
+                        controller: phoneController,
+                        decoration: InputDecoration(labelText: 'Mobile'),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(
+                              10), // Limits the length to 10 digits
+                          FilteringTextInputFormatter
+                              .digitsOnly, // Allows only digits
+                        ],
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your mobile number';
+                          }
+                          // Regex pattern for 10-digit mobile number
+                          String pattern = r'^[0-9]{10}$';
+                          RegExp regex = RegExp(pattern);
+                          if (!regex.hasMatch(value)) {
+                            return 'Please enter a valid 10-digit mobile number';
+                          }
+                          return null;
+                        },
+                      ),
+ 
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {

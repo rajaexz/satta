@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:Billa/screen/component/profileContainer.dart';
@@ -38,44 +39,33 @@ class UpdatePaytmForm extends StatelessWidget {
       key: _formKey,
       child: Column(
         children: [
-          TextFormField(
-            keyboardType: TextInputType.numberWithOptions(decimal: true),
-            style: TextStyle(
-              color: myColor,
-              fontFamily: 'OpenSans',
-            ),
-            decoration: InputDecoration(
-              errorText: "Please enter a valid amount",
-              contentPadding: const EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.attach_money,
-                color: myColor,
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: myColor!),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: myColor!),
-              ),
-              hintText: 'Enter amount for transaction',
-            ),
-            controller: phoneController, // Use a separate controller for amount
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'Please enter an amount';
-              }
 
-              // Validate if the input is a valid number
-              if (double.tryParse(value) == null) {
-                return 'Please enter a valid amount';
-              }
 
-              // If none of the conditions are met, return null (no error)
-              return null;
-            },
-          ),
-
-          // MyFunctionInput(
+     TextFormField(
+                        controller: phoneController,
+                        decoration: InputDecoration(labelText: 'Mobile'),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(
+                              10), // Limits the length to 10 digits
+                          FilteringTextInputFormatter
+                              .digitsOnly, // Allows only digits
+                        ],
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your mobile number';
+                          }
+                          // Regex pattern for 10-digit mobile number
+                          String pattern = r'^[0-9]{10}$';
+                          RegExp regex = RegExp(pattern);
+                          if (!regex.hasMatch(value)) {
+                            return 'Please enter a valid 10-digit mobile number';
+                          }
+                          return null;
+                        },
+                      ),
+                
+    // MyFunctionInput(
           //   controller: phoneController,
           //   fieldName: "Enter Phone ",
           //   hintText: "Enter Your Phone ",
