@@ -15,16 +15,37 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../utilis/alinement.dart';
 import '../../utilis/boxSpace.dart';
 import '../../utilis/fontstyle.dart';
-
+import '../controller/MyHomePage_controller.dart';
 class PinPage extends StatelessWidget {
-  final PinController pinController = Get.put(PinController());
-  var makepin;
+
+PinPage({Key? key, })
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final MyHomePageController controller = Get.put(MyHomePageController());
+
+    return  Scaffold(
       appBar: AppBar(),
-      body: SingleChildScrollView(
+      body: GetBuilder<MyHomePageController>(
+        builder: (controller) => PinPageSrceen(
+            controller: controller,
+        )
+      ),
+    );
+  }
+}
+
+class PinPageSrceen extends StatelessWidget {
+  final PinController pinController = Get.put(PinController());
+
+MyHomePageController? controller ;
+PinPageSrceen({super.key, this.controller});
+
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
         child: Center(
           child: Obx(() {
             if (pinController.isLoading.value) {
@@ -96,15 +117,15 @@ class PinPage extends StatelessWidget {
             }
           }),
         ),
-      ),
-    );
+      );
+  
 
     
   }
-  
 
+  
   Future<void> openWhatsApp() async {
-    const phoneNumber = '1234567890'; // Replace with the actual phone number
+    var  phoneNumber = '${controller?.dataModel!.contactDetails.mobileNo1}'; // Replace with the actual phone number
     final whatsappUrl = 'whatsapp://send?phone=$phoneNumber';
 
     if (await canLaunch(whatsappUrl)) {
@@ -113,4 +134,5 @@ class PinPage extends StatelessWidget {
       throw 'Could not launch $whatsappUrl';
     }
   }
+  
 }

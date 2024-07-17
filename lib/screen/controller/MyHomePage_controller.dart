@@ -18,22 +18,22 @@ class MyHomePageController extends GetxController {
   }
 
   void fetchData() async {
-    final token = await StorageRepository.getToken();
+ 
     try {
       isLoading(true);
       var response = await Dio().get('${ApiPath.baseUrl}app_details',
-          options: Options(headers: {'Token': token}));
+         );
 
       if (response.statusCode == 200) {
         var badydecode = jsonDecode(response.data);
-        if (badydecode["code"] == "100" && token!= null) {
+        if (badydecode["code"] == "100") {
           dataModel = DataModel.fromJson(badydecode["data"]);
           isLoading(false);
           update();
         } else {
           Get.snackbar('Api has erorr ', badydecode['message']);
           isLoading(false);
-          Get.offAllNamed("/login");
+        
           update();
         }
       } else {

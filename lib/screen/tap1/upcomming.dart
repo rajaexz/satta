@@ -289,7 +289,7 @@ class UpCommingView extends StatelessWidget {
 
   Future<void> openWhatsApp() async {
     final whatsappUrl =
-        'https://wa.me/${controller!.dataModel!.contactDetails.whatsappNo}';
+        'whatsapp://send?phone${controller!.dataModel!.contactDetails.whatsappNo}';
 
     if (await canLaunch(whatsappUrl)) {
       await launch(whatsappUrl);

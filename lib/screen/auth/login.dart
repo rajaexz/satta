@@ -1,5 +1,6 @@
 import 'package:Billa/routes/Api.dart';
 import 'package:Billa/screen/auth/forget.dart';
+import 'package:Billa/screen/tap1/upcomming.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:Billa/screen/auth/controller/authController.dart';
@@ -9,8 +10,10 @@ import 'package:Billa/utilis/boxSpace.dart';
 import 'package:Billa/utilis/fontstyle.dart';
 import 'package:Billa/utilis/globlemargin.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../utilis/AllColor.dart';
 import '../component/custom_toaster.dart';
+import '../controller/MyHomePage_controller.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -21,6 +24,7 @@ class Loginpage extends StatefulWidget {
 
 class _LoginpageState extends State<Loginpage> {
   final SignupController loginController = Get.put(SignupController());
+  final MyHomePageController controller = Get.put(MyHomePageController());
 
   var code = "";
   final themeSMS = Get.put(SmsController());
@@ -157,6 +161,16 @@ class _LoginpageState extends State<Loginpage> {
                             phController: phoneController,
                             pass: pass,
                             colors: myColorRed),
+
+
+                                customImageContainer(
+
+
+                      context: context,
+                      imageUrl: 'assets/wh.jpg',
+                      onTap: openWhatsApp,
+                      name: "Whatsapp",
+                      imageSize: 50),
                   ],
                 ),
                 Row(
@@ -178,7 +192,16 @@ class _LoginpageState extends State<Loginpage> {
       ),
     );
   }
+  Future<void> openWhatsApp() async {
+    var  phoneNumber = '${controller?.dataModel!.contactDetails.mobileNo1}'; // Replace with the actual phone number
+    final whatsappUrl = 'whatsapp://send?phone=$phoneNumber';
 
+    if (await canLaunch(whatsappUrl)) {
+      await launch(whatsappUrl);
+    } else {
+      throw 'Could not launch $whatsappUrl';
+    }
+  }
   Widget _buildLoginBtn({
     required BuildContext context,
     required TextEditingController phController,
