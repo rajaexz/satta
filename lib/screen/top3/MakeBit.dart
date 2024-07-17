@@ -633,30 +633,40 @@ class MakeBitPageScreen extends StatelessWidget {
 
   Widget getOpenredio(dynamic gameData) {
 
-  return   gameData.open
-          ? Row(
-              children: [
-                Radio(
-                  value: 0,
-                  groupValue: controller.selectedValue.value,
-                  onChanged: (value) {
-                    controller.selectedValue.value = value!;
-                  },
-                  activeColor: Colors.black,
-                ),
-                const Text('Open', style: TextStyle(color: Colors.black)),
-                Radio(
-                  value: 1,
-                  groupValue: controller.selectedValue.value,
-                  onChanged: (value) {
-                    controller.selectedValue.value = value!;
-                  },
-                  activeColor: Colors.black,
-                ),
-                const Text('Close', style: TextStyle(color: Colors.black)),
-              ],
-            )
-          : Container();
+  return  Row(
+  children: [
+    IgnorePointer(
+      ignoring: !gameData.open, // This will be true when the row should be disabled
+      child: Row(
+        children: [
+          Radio(
+            value: 0,
+            groupValue: controller.selectedValue.value,
+            onChanged: (value) {
+              if (gameData.open) {
+                controller.selectedValue.value = value!;
+              }
+            },
+            activeColor: Colors.black,
+          ),
+          const Text('Open', style: TextStyle(color: Colors.black)),
+          Radio(
+            value: 1,
+            groupValue: controller.selectedValue.value,
+            onChanged: (value) {
+              if (gameData.open) {
+                controller.selectedValue.value = value!;
+              }
+            },
+            activeColor: Colors.black,
+          ),
+          const Text('Close', style: TextStyle(color: Colors.black)),
+        ],
+      ),
+    ),
+  ],
+);
+
   }
 
   // void addBid() {
