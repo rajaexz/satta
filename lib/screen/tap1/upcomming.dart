@@ -152,135 +152,137 @@ class UpCommingView extends StatelessWidget {
 
 //Upcoming Match List
 
-        LayoutBuilder(
-          builder: (context, constraints) {
-            double width = constraints.maxWidth;
-            ;
-            return Column(
-              children: [
-                for (var bid in controller!.bids)
-                  Container(
-                    height: 200,
-                    margin: const EdgeInsets.only(top: 20),
-                    padding: const EdgeInsets.only(
-                        top: 10, bottom: 5, right: 10, left: 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? Colors.white
-                          : Colors.grey[800],
-                      boxShadow: [
-                        Theme.of(context).brightness == Brightness.light
-                            ? BoxShadow(color: Colors.black26, blurRadius: 5)
-                            : BoxShadow(color: Colors.black54, blurRadius: 5),
-                      ],
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+           SizedBox(
+            height: 350,
+             child: SingleChildScrollView(
+               child: Column(
+                  children: [
+                    for (var bid in controller!.bids)
+                      Container(
+                        height: 200,
+                        margin: const EdgeInsets.only(top: 20),
+                        padding: const EdgeInsets.only(
+                            top: 10, bottom: 5, right: 10, left: 10),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          color: Theme.of(context).brightness == Brightness.light
+                              ? Colors.white
+                              : Colors.grey[800],
+                          boxShadow: [
+                            Theme.of(context).brightness == Brightness.light
+                                ? BoxShadow(color: Colors.black26, blurRadius: 5)
+                                : BoxShadow(color: Colors.black54, blurRadius: 5),
+                          ],
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        child: Column(
                           children: [
-                            Container(
-                              height: 30,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                    Theme.of(context).brightness ==
-                                            Brightness.light
-                                        ? "assets/banner.png"
-                                        : "assets/banner-dark.png",
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  height: 30,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5),
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                        Theme.of(context).brightness ==
+                                                Brightness.light
+                                            ? "assets/banner.png"
+                                            : "assets/banner-dark.png",
+                                      ),
+                                      fit: BoxFit.fill,
+                                      alignment: Alignment.centerRight,
+                                    ),
                                   ),
-                                  fit: BoxFit.fill,
-                                  alignment: Alignment.centerRight,
+                                  child: Container(
+                                    width: 260,
+                                    child: Text(
+                                      bid.name,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              child: Container(
-                                width: 260,
-                                child: Text(
-                                  bid.name,
-                                  overflow: TextOverflow.ellipsis,
+                                GestureDetector(
+                                  onTap: () {
+                                    launch(bid.chartUrl);
+                                  },
+                                  child: Image.asset(
+                                    "assets/network-removebg-preview.png",
+                                    width: 30,
+                                    height: 30,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                launch(bid.chartUrl);
-                              },
-                              child: Image.asset(
-                                "assets/network-removebg-preview.png",
-                                width: 30,
-                                height: 30,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Divider(),
-                        Text(
-                          bid.sortCol.toString(),
-                          style: CustomStyles.headerTextStyle,
-                        ),
-                        Divider(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                            SizedBox(height: 10),
+                            Divider(),
                             Text(
-                              "Open : ${bid.openTime}",
-                              style: CustomStyles.textExternel,
+                              bid.sortCol.toString(),
+                              style: CustomStyles.headerTextStyle,
                             ),
-                            TextButton(
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
+                            Divider(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Open : ${bid.openTime}",
+                                  style: CustomStyles.textExternel,
+                                ),
+                                TextButton(
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                        bid.play
+                                            ? const Color.fromARGB(255, 26, 113, 29)
+                                            : Color.fromARGB(255, 199, 44, 44)),
+                                    padding: MaterialStateProperty.all(
+                                      const EdgeInsets.symmetric(
+                                          horizontal: 35, vertical: 10),
+                                    ),
+                                  ),
+                                  isSemanticButton: true,
+                                  onPressed: () {
                                     bid.play
-                                        ? const Color.fromARGB(255, 26, 113, 29)
-                                        : Color.fromARGB(255, 199, 44, 44)),
-                                padding: MaterialStateProperty.all(
-                                  const EdgeInsets.symmetric(
-                                      horizontal: 35, vertical: 10),
+                                        ? Get.to(GridViewWidget(
+                                            gameData: bid,
+                                            whicGameName: "main_game",
+                                          ))
+                                        : null;
+               
+                                    if (!bid.play) {
+                                      Vibration.vibrate();
+               
+                                      Get.snackbar('Market is Close ', "");
+                                    }
+                                  },
+                                  child: Text(
+                                    bid.play ? "Open" : "Close",
+                                    style: CustomStyleswhite.header2TextStyle,
+                                  ),
                                 ),
-                              ),
-                              isSemanticButton: true,
-                              onPressed: () {
-                                bid.play
-                                    ? Get.to(GridViewWidget(
-                                        gameData: bid,
-                                        whicGameName: "main_game",
-                                      ))
-                                    : null;
-
-                                if (!bid.play) {
-                                  Vibration.vibrate();
-
-                                  Get.snackbar('Market is Close ', "");
-                                }
-                              },
-                              child: Text(
-                                bid.play ? "Open" : "Close",
-                                style: CustomStyleswhite.header2TextStyle,
-                              ),
+                                Text(
+                                  "Close : ${bid.closeTime}",
+                                  style: CustomStyles.textExternel,
+                                ),
+                              ],
                             ),
+                            SizedBox(height: 10),
                             Text(
-                              "Close : ${bid.closeTime}",
-                              style: CustomStyles.textExternel,
+                              'Result: ${bid.result}',
+                              style: TextStyle(fontSize: 16),
                             ),
                           ],
                         ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Result: ${bid.result}',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ],
-                    ),
-                  ),
-              ],
-            );
-          },
-        )
+                      ),
+                  ],
+                ),
+             ),
+           )
+       
+        
       ],
     );
   }

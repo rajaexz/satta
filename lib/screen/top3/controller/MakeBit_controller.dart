@@ -20,6 +20,7 @@ class MakeBiteController extends GetxController {
   final Dio _dio = Dio();
 
   RxString? selectedDigit = ''.obs; // Initialize selectedDigit
+  
   MakeBiteController({this.allData, this.whicGameName, this.gameType});
 
   @override
@@ -29,6 +30,36 @@ class MakeBiteController extends GetxController {
 
   void deleteBid(int index) {
     bids.removeAt(index);
+    update();
+  }
+  void addBid() {
+    // Check if the required fields are not empty
+       update();
+    if ( pointController.text.isEmpty) {
+      Get.snackbar('Error', 'Please enter the points.');
+      return;
+    }
+
+    if (selectedDigit!.value.isEmpty) {
+      Get.snackbar('Error', 'Please select a digit.');
+      return;
+    }
+ bids.add({
+          "game_id": allData.id.toString(),
+          "game_type": gameType.toString(),
+          "session": selectedValue.value == 0 ? "Open" : "Close",
+          "bid_points": pointController.text,
+          "open_digit": selectedDigit!.value.toString(),
+          "close_digit": "",
+          "open_panna": "",
+          "close_panna": ""
+        });
+    // If validation passes, add the bid
+
+    // Clear the input fields after adding the bid
+   selectedDigit!.value = "";
+    pointController.clear();
+
     update();
   }
 
@@ -82,85 +113,5 @@ class MakeBiteController extends GetxController {
     } finally {
       isLoading(false);
     }
-  }
-
-  void addBid() {
-    // Check if the required fields are not empty
-    if (pointController.text.isEmpty) {
-      Get.snackbar('Error', 'Please enter the points.');
-      return;
-    }
-
-    if (selectedDigit!.value.isEmpty) {
-      Get.snackbar('Error', 'Please select a digit.');
-      return;
-    }
-    switch (whicGameName) {
-      case 'gali_disawar':
-        bids.add({
-          "game_id": allData.id.toString(),
-          "game_type": gameType.toString(),
-          "session": selectedValue.value == 0 ? "Open" : "Close",
-          "bid_points": pointController.text,
-          "left_digit":
-              selectedValue.value == 0 ? selectedDigit!.value.toString() : "",
-          "right_digit":
-              selectedValue.value == 1 ? selectedDigit!.value.toString() : "",
-          "open_panna": "",
-          "close_panna": ""
-        });
-        update();
-        break;
-      case 'star_line':
-        bids.add({
-          "game_id": allData.id.toString(),
-          "game_type": gameType.toString(),
-          "session": selectedValue.value == 0 ? "Open" : "Close",
-          "bid_points": pointController.text,
-          "digit":
-              selectedValue.value == 0 ? selectedDigit!.value.toString() : "",
-          "panna":
-              selectedValue.value == 1 ? selectedDigit!.value.toString() : "",
-        });
-        update();
-        break;
-      case 'main_game':
-        bids.add({
-          "game_id": allData.id.toString(),
-          "game_type": gameType.toString(),
-          "session": selectedValue.value == 0 ? "Close" : "Open",
-          "bid_points": pointController.text,
-          "open_digit":
-              selectedValue.value == 0 ? selectedDigit!.value.toString() : "",
-          "close_digit":
-              selectedValue.value == 1 ? selectedDigit!.value.toString() : "",
-          "open_panna": "",
-          "close_panna": ""
-        });
-        update();
-        break;
-      default:
-        bids.add({
-          "game_id": allData.id.toString(),
-          "game_type": gameType.toString(),
-          "session": selectedValue.value == 0 ? "Open" : "Close",
-          "bid_points": pointController.text,
-          "open_digit":
-              selectedValue.value == 0 ? selectedDigit!.value.toString() : "",
-          "close_digit":
-              selectedValue.value == 1 ? selectedDigit!.value.toString() : "",
-          "open_panna": "",
-          "close_panna": ""
-        });
-        update();
-        break;
-    }
-
-    // If validation passes, add the bid
-
-    // Clear the input fields after adding the bid
-    selectedDigit!.value = "";
-    pointController.clear();
-    update();
   }
 }

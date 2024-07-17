@@ -75,6 +75,8 @@ class PinPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   customImageContainer(
+
+
                       context: context,
                       imageUrl: 'assets/wh.jpg',
                       onTap: openWhatsApp,
@@ -96,7 +98,10 @@ class PinPage extends StatelessWidget {
         ),
       ),
     );
+
+    
   }
+  
 
   Future<void> openWhatsApp() async {
     const phoneNumber = '1234567890'; // Replace with the actual phone number
