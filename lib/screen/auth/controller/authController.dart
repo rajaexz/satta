@@ -232,8 +232,12 @@ class SignupController extends GetxController {
       'mobile': mobile.toString(),
       'password': password.toString(),
     });
+       final tokenst = await StorageRepository.getTokenpin();
+if(tokenst != null){
+ Get.to(PinPage()); 
+}else{
 
-    try {
+   try {
       final response = await dio.post(
         'https://development.smapidev.co.in/api/Api/login',
         data: formData,
@@ -250,8 +254,10 @@ class SignupController extends GetxController {
         StorageRepository.saveOffline(AppConstant.tokenKeypin, token);
         Get.snackbar('Success', 'Login successful',
             snackPosition: SnackPosition.BOTTOM);
-        final tokenst = await StorageRepository.getTokenpin();
-     Get.toNamed("/Createsetpin", arguments: mobile.toString());
+     
+
+
+   Get.toNamed("/Createsetpin", arguments: mobile.toString()) ;
 
       } else {
         Get.snackbar('Error', 'Login failed: ${badydecode["message"]}',
@@ -263,6 +269,9 @@ class SignupController extends GetxController {
       Get.snackbar('Error', 'Login failed: $e',
           snackPosition: SnackPosition.BOTTOM);
     }
+}
+
+ 
   }
 
   Future<void> verifyUser(String mobile, String otp) async {

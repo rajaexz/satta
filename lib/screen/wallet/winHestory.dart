@@ -38,7 +38,7 @@ class WinHestoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (controller.wingames.isEmpty && controller.isLoading.value) {
-      return Center(child: Text('Error fetching data'));
+      return Center(child: Text('Data is not available  empty'));
     } else {
       return Column(
         children: [

@@ -60,7 +60,7 @@ class GridViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: "My Game ",
+        title: "${whicGameName.toString().replaceAll("_", " ").toUpperCase()}",
       ),
       backgroundColor: Colors.white,
       body: Column(

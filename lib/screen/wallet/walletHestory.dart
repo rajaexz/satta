@@ -39,7 +39,7 @@ class MyhestoryView extends StatelessWidget {
     if (controller!.isLoading.value) {
       return const Center(child: CircularProgressIndicator());
     } else if (controller!.withdrawData.value == null) {
-      return const Center(child: Text('Error fetching data'));
+      return const Center(child: Text('Data is not available  empty'));
     } else {
       return SingleChildScrollView(
         child: Column(

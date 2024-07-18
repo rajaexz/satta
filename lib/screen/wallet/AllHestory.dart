@@ -39,7 +39,7 @@ class AllHestoryView extends StatelessWidget {
     if (controller!.isLoading.value) {
       return Center(child: CircularProgressIndicator());
     } else if (controller!.withdrawData.value == null) {
-      return Center(child: Text('Error fetching data'));
+      return Center(child: Text('Data is not available  empty'));
     } else {
       return Column(
         children: [

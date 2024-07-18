@@ -46,7 +46,7 @@ class PaymentConfigController extends GetxController {
         paymentConfig.value = response.body;
     } catch (e) {
       Get.showSnackbar(GetBar(
-        message: 'Error fetching data',
+        message: 'Data is not available  empty',
         duration: Duration(seconds: 2),
       ));
     } finally {

@@ -122,7 +122,7 @@ class _LoginpageState extends State<Loginpage> {
                       decoration: InputDecoration(
                         errorText: 'Please enter a Password',
                         contentPadding: EdgeInsets.only(top: 14.0),
-                        prefixIcon: IconButton(
+                        suffix: IconButton(
                           icon: Icon(
                             isPasswordVisible
                                 ? Icons.visibility
@@ -205,9 +205,11 @@ class _LoginpageState extends State<Loginpage> {
   }
 
   Future<void> openWhatsApp() async {
-    var phoneNumber =
-        '${controller?.dataModel!.contactDetails.mobileNo1}'; // Replace with the actual phone number
-    final whatsappUrl = 'whatsapp://send?phone=$phoneNumber';
+
+    print("--------------------${controller?.dataModel!.contactDetails.whatsappNo}");
+   
+    final whatsappUrl = 'https://wa.me/${controller?.dataModel!.contactDetails.mobileNo1}';
+;
 
     if (await canLaunch(whatsappUrl)) {
       await launch(whatsappUrl);

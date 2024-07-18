@@ -200,6 +200,7 @@ class UpCommingView extends StatelessWidget {
                                 width: 260,
                                 child: Text(
                                   bid.name,
+                                  style: CustomStyles.header2TextStyle,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -286,7 +287,7 @@ class UpCommingView extends StatelessWidget {
 
   Future<void> openWhatsApp() async {
     final whatsappUrl =
-        'https://wa.me/${controller!.dataModel!.contactDetails.whatsappNo}';
+        'https://wa.me/${controller?.dataModel!.contactDetails.mobileNo1}';
 
     if (await canLaunch(whatsappUrl)) {
       await launch(whatsappUrl);

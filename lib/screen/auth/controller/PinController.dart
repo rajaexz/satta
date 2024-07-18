@@ -47,6 +47,8 @@ class PinController extends GetxController {
         // You can handle storing token or navigating to the next screen after verification
       } else {
         Get.offAllNamed("/login");
+         await StorageRepository.destroyOfflineStorage();
+
         Get.snackbar('Error', 'Verify failed: ${responseData['message']}',
             snackPosition: SnackPosition.BOTTOM);
       }

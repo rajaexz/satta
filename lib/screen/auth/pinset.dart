@@ -117,9 +117,8 @@ class PinPageSrceen extends StatelessWidget {
   }
 
   Future<void> openWhatsApp() async {
-    var phoneNumber =
-        '${controller?.dataModel!.contactDetails.mobileNo1}'; // Replace with the actual phone number
-    final whatsappUrl = 'https://wa.me/$phoneNumber';
+      final whatsappUrl ='https://wa.me/${controller?.dataModel!.contactDetails.mobileNo1}';
+
 
     if (await canLaunch(whatsappUrl)) {
       await launch(whatsappUrl);

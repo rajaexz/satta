@@ -37,7 +37,7 @@ class GaliGameView extends StatelessWidget {
     if (controller.isLoading.value) {
       return const Center(child: CircularProgressIndicator());
     } else if (controller.starlineResponse.value.galiDisawarGames.isEmpty) {
-      return const Center(child: Text('Error fetching data'));
+      return const Center(child: Text('Data is not available  empty'));
     } else {
       return Column(
         children: [
@@ -219,7 +219,7 @@ class GaliGameView extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                "₹${item.name}",
+                                "${item.name}",
                                 style: CustomStyles.textExternel,
                               ),
                             ],

@@ -54,7 +54,7 @@ class WinHistoryController extends GetxController {
       }
     } catch (e) {
       Get.showSnackbar(const GetSnackBar(
-        message: 'Error fetching data',
+        message: 'Data is not available  empty',
         duration: Duration(seconds: 2),
       ));
     } finally {
