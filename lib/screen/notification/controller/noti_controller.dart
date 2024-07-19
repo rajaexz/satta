@@ -20,7 +20,7 @@ class NotificationController extends GetxController {
     final response = await GetConnect().post(
       '${ApiPath.baseUrl}read_notification',
       {"readnoti": true},
-      headers: {"Token": token},
+      headers: {"Token": token!},
     );
     print("-------------${response.body}");
 

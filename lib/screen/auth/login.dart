@@ -205,11 +205,12 @@ class _LoginpageState extends State<Loginpage> {
   }
 
   Future<void> openWhatsApp() async {
+    print(
+        "--------------------${controller?.dataModel!.contactDetails.whatsappNo}");
 
-    print("--------------------${controller?.dataModel!.contactDetails.whatsappNo}");
-   
-    final whatsappUrl = 'https://wa.me/${controller?.dataModel!.contactDetails.mobileNo1}';
-;
+    final whatsappUrl =
+        'https://wa.me/${controller?.dataModel!.contactDetails.mobileNo1}';
+    ;
 
     if (await canLaunch(whatsappUrl)) {
       await launch(whatsappUrl);

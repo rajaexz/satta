@@ -17,7 +17,7 @@ class NetworkProvider extends GetConnect {
     httpClient.addRequestModifier<void>((request) async {
       final token = await StorageRepository.getTokenpin();
 
-      request.headers['Token'] = token;
+      request.headers['Token'] = token!;
       return request;
     });
 

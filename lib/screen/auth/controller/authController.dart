@@ -176,10 +176,9 @@ class SignupController extends GetxController {
       if (jsonResponse['status'] == 'success') {
         Get.snackbar('Success', jsonResponse['message']);
         // Navigate to login screen
-        
-         Get.toNamed("/Createsetpin",arguments: mobile); 
+
+        Get.toNamed("/Createsetpin", arguments: mobile);
       } else {
-         
         Get.snackbar('Error', jsonResponse['message']);
       }
     } catch (e) {
@@ -212,8 +211,6 @@ class SignupController extends GetxController {
         Get.snackbar('Success', 'Successful send opt',
             snackPosition: SnackPosition.BOTTOM);
       } else {
-
-        
         Get.snackbar('Error', 'Signup failed: ${jsonResponse['message']}',
             snackPosition: SnackPosition.BOTTOM);
       }
@@ -261,52 +258,53 @@ class SignupController extends GetxController {
 
   Future<void> login({required String mobile, required String password}) async {
     isLoading.value = true;
-    final dio = Dio();
+
     final formData = alfrom.FormData.fromMap({
-      'mobile': mobile.toString(),
-      'password': password.toString(),
+      'mobile': mobile,
+      'password': password,
     });
 
-
- 
-
-   try {
-      final response = await dio.post(
+    try {
+      final response = await Dio().post(
         'https://development.smapidev.co.in/api/Api/login',
         data: formData,
       );
+
       isLoading.value = false;
 
-      var badydecode = jsonDecode(response.data);
+      final responseData = jsonDecode(response.data);
 
-
-  
-      if (badydecode["code"] != "400") {
-        // Ensure the comparison is made with the correct string
-        var token = badydecode["data"]["token"];
- print('==========================: $token');
-        StorageRepository.saveOffline(AppConstant.phone, mobile);
-        StorageRepository.saveOffline(AppConstant.tokenKeypin, token);
-        Get.snackbar('Success', 'Login successful',
-            snackPosition: SnackPosition.BOTTOM);
-              Get.to(PinPage());
- 
+      if (responseData["code"] != "400") {
+        await _handleSuccessfulLogin(responseData, mobile);
       } else {
-           
-        Get.snackbar('Error', 'Login failed: ${badydecode["message"]}',
+        Get.snackbar('Error', 'Login failed: ${responseData["message"]}',
             snackPosition: SnackPosition.BOTTOM);
-           
       }
     } catch (e) {
       isLoading.value = false;
-      print('Login failedsere: $e');
+      print('Login failed: $e');
       Get.snackbar('Error', 'Login failed: $e',
           snackPosition: SnackPosition.BOTTOM);
     }
-}
+  }
 
- 
-  
+  Future<void> _handleSuccessfulLogin(
+      Map<String, dynamic> responseData, String mobile) async {
+    await StorageRepository.destroyOfflineStorageOne(AppConstant.tokenKeypin);
+
+    final token = responseData["data"]["token"];
+    print('Token: $token');
+
+    await Future.delayed(Duration(seconds: 2));
+
+    await StorageRepository.saveOffline(AppConstant.phone, mobile);
+    await StorageRepository.saveOffline(AppConstant.createpin, token);
+    await StorageRepository.saveOffline(AppConstant.tokenKeypin, token);
+
+    Get.snackbar('Success', 'Login successful',
+        snackPosition: SnackPosition.BOTTOM);
+    Get.to(() => PinPage());
+  }
 
   Future<void> verifyUser(String mobile, String otp) async {
     final store = await SharedPreferences.getInstance();
