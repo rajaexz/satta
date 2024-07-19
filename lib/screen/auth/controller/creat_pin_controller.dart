@@ -13,17 +13,14 @@ class CreatePinController extends GetxController {
   var isLoading = false.obs;
   final Dio dio = Dio();
 
-  Future<void> CreateWithPin(
-    otp,
-    pin,
-  ) async {
+  Future<void> CreateWithPin(pin, num) async {
     final phone = await StorageRepository.getOfflineKey(AppConstant.phone);
     final tokenpin = await StorageRepository.getTokenpin();
     final getTokenpinCreate = await StorageRepository.getTokenpinCreate();
     isLoading.value = true;
-    print("${getTokenpinCreate} =============${otp} ==========${phone}");
+    print("${getTokenpinCreate} =============${num} ==========${phone}");
     final formData = alfrom.FormData.fromMap({
-      'mobile': phone,
+      'mobile': num,
       'pin': "$pin",
     });
 
@@ -46,9 +43,8 @@ class CreatePinController extends GetxController {
           await StorageRepository.saveOffline(AppConstant.tokenKey, newToken);
           Get.snackbar('Success', responseData['message']);
           isLoading.value = false;
-          // Get.offAllNamed("/home");
+          Get.toNamed('/login');
         } else {
-          Get.offAllNamed("/login");
           Get.snackbar('Error', ' failed: ${responseData['message']}',
               snackPosition: SnackPosition.BOTTOM);
         }

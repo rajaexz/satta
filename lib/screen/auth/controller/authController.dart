@@ -87,7 +87,7 @@ class SignupController extends GetxController {
       print(jsonResponse);
       if (jsonResponse['status'] == 'success') {
         Get.snackbar('Success', jsonResponse['message']);
-        // Navigate to verify OTP screen
+        Get.toNamed('/login');
       } else {
         Get.snackbar('Error', jsonResponse['message']);
       }
@@ -142,14 +142,26 @@ class SignupController extends GetxController {
       );
 
       var jsonResponse = jsonDecode(response.data!);
-      // Handle response
       if (jsonResponse['status'] == 'success') {
         Get.snackbar('Success', jsonResponse['message']);
-        // Navigate to login screen
+        await StorageRepository.destroyOfflineStorageOne(AppConstant.tokenKey);
+        final newToken = jsonResponse['data']['token'];
+
+        print("${newToken}-----------------");
+        await Future.delayed(const Duration(seconds: 2));
+        await StorageRepository.saveOffline(AppConstant.tokenKey, newToken);
         Get.to(() => CreateNewPasswordScreen(), arguments: mobile);
       } else {
         Get.snackbar('Error', jsonResponse['message']);
       }
+      // // Handle response
+      // if (jsonResponse['status'] == 'success') {
+      //   Get.snackbar('Success', jsonResponse['message']);
+      //   // Navigate to login screen
+      //   Get.to(() => CreateNewPasswordScreen(), arguments: mobile);
+      // } else {
+      //   Get.snackbar('Error', jsonResponse['message']);
+      // }
     } catch (e) {
       Get.snackbar('Error', e.toString());
     } finally {
@@ -175,8 +187,12 @@ class SignupController extends GetxController {
       // Handle response
       if (jsonResponse['status'] == 'success') {
         Get.snackbar('Success', jsonResponse['message']);
-        // Navigate to login screen
+        await StorageRepository.destroyOfflineStorageOne(AppConstant.createpin);
+        final newToken = jsonResponse['data']['token'];
 
+        print("${newToken}-----------------");
+        await Future.delayed(const Duration(seconds: 2));
+        await StorageRepository.saveOffline(AppConstant.createpin, newToken);
         Get.toNamed("/Createsetpin", arguments: mobile);
       } else {
         Get.snackbar('Error', jsonResponse['message']);
@@ -350,15 +366,6 @@ class SignupController extends GetxController {
       Get.snackbar('Error', 'Verify failed: $e',
           snackPosition: SnackPosition.BOTTOM);
     }
-  }
-
-  @override
-  void onClose() {
-    fullNameController.dispose();
-    mobileController.dispose();
-    pinController.dispose();
-    passwordController.dispose();
-    super.onClose();
   }
 }
 

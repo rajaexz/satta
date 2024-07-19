@@ -33,7 +33,6 @@ class ForgetPinController extends GetxController {
       if (jsonResponse['status'] == 'success') {
         Get.snackbar('Success', jsonResponse['message']);
 
-        print("${jsonResponse} ppppppppppppppppppppppppppp");
         // await StorageRepository.saveOffline(AppConstant.createpin, newToken);
         Get.to(OtpPagePin(), arguments: number);
       } else if (jsonResponse['code'] == "505") {
