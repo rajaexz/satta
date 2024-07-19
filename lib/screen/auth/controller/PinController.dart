@@ -17,13 +17,17 @@ class PinController extends GetxController {
   var errorMessage = ''.obs;
   final Dio dio = Dio();
   Future<void> loginWithPin() async {
-    final tokenpin = await StorageRepository.getToken();
+    final tokenpin = await StorageRepository.getTokenpin();
+print("--------------------${tokenpin}");
+
     isLoading.value = true;
     final dio = Dio();
 
     final formData = alfrom.FormData.fromMap({
       'pin': setpinController.text,
     });
+ 
+
 
     final response =
         await dio.post('https://development.smapidev.co.in/api/Api/login_pin',
@@ -35,10 +39,12 @@ class PinController extends GetxController {
             ));
 
     isLoading.value = false;
-    if (response.statusCode == 200 && tokenpin != null) {
+    if (response.statusCode == 200 ) {
       final responseData = jsonDecode(response.data);
       if (responseData['status'] == 'success') {
         final newToken = responseData['data']['token'];
+
+    
         await StorageRepository.saveOffline(AppConstant.tokenKey, newToken);
 
         Get.offAllNamed("/home");
@@ -46,14 +52,13 @@ class PinController extends GetxController {
             snackPosition: SnackPosition.BOTTOM);
         // You can handle storing token or navigating to the next screen after verification
       } else {
-        Get.offAllNamed("/login");
-         await StorageRepository.destroyOfflineStorage();
-
+      
+  
         Get.snackbar('Error', 'Verify failed: ${responseData['message']}',
             snackPosition: SnackPosition.BOTTOM);
       }
     } else {
-      Get.offAllNamed("/login");
+    
       Get.snackbar(
           'Error', 'token is not here  failed: ${response.statusMessage}',
           snackPosition: SnackPosition.BOTTOM);

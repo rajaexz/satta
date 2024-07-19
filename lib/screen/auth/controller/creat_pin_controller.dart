@@ -36,11 +36,11 @@ class CreatePinController extends GetxController {
       var badydecode = jsonDecode(response.data);
 
       if (badydecode["code"] != "400") {
-        final newToken = badydecode['data']['token'];
-        await StorageRepository.saveOffline(AppConstant.tokenKey, newToken);
+        // final newToken = badydecode['data']['token'];
+        // await StorageRepository.saveOffline(AppConstant.tokenKey, newToken);
         Get.snackbar('Success', badydecode['message']);
 
-        Get.offAll(PinPage());
+        Get.offAllNamed("/home");
       } else {
         Get.offAllNamed("/login");
         Get.snackbar('Error', ' failed: ${badydecode['message']}',

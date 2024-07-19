@@ -17,7 +17,10 @@ import '../utilis/app_constant.dart';
     final store = await SharedPreferences.getInstance();
     await store.clear();
   }
-
+  static Future<void> destroyOfflineStorageOne(name) async {
+    final store = await SharedPreferences.getInstance();
+    await store.remove(name);
+  }
   static Future<Object?> isLoggedIn() async {
     final store = await SharedPreferences.getInstance();
     // Read the value from storage and return it

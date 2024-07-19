@@ -157,7 +157,7 @@ class _LoginpageState extends State<Loginpage> {
                         Get.to(ForgotPasswordScreen());
                       },
                       child: const Center(
-                        child: Text("Forget pin"),
+                        child: Text("Forget "),
                       ),
                     ),
                     SizedBox(height: 10),

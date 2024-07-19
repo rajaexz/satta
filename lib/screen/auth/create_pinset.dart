@@ -16,7 +16,7 @@ class CreatePinPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Set Enter  Pin ')),
+      appBar: AppBar(title: const Text('Enter  Pin ')),
       body: Center(
         child: Obx(() {
           if (pinController.isLoading.value) {
@@ -38,7 +38,7 @@ class CreatePinPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     // Manually trigger login for testing or alternative UI flow
-                     print("--------------${makepin}");
+        
                     pinController.CreateWithPin(makepin, phone);
                   },
                   child: Text('Set pin'),

@@ -29,6 +29,8 @@ class _OtpPagePinState extends State<OtpPagePin> {
 
   @override
   Widget build(BuildContext context) {
+
+var   number =  Get.arguments;
     var otpcode;
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -78,11 +80,9 @@ class _OtpPagePinState extends State<OtpPagePin> {
                 children: [
                   GestureDetector(
                       onTap: () {
-                        if (otpcode != null) ;
-                        Get.toNamed("/Createsetpin");
+                 authController.verifyOtpPin(number,otpcode);
+                       
 
-                        Get.toNamed("/login");
-                        Get.snackbar('Error', "OTP is UnMatch");
                       },
                       child: DefaultTextStyle(
                         style: TextStyle(color: myColor),

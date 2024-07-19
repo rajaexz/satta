@@ -33,7 +33,7 @@ class ForgetPinController extends GetxController {
       if (jsonResponse['status'] == 'success') {
         Get.snackbar('Success', jsonResponse['message']);
 
-        Get.to(OtpPagePin());
+        Get.to(OtpPagePin(), arguments: number);
       } else if (jsonResponse['code'] == "505") {
         Get.toNamed('/login');
         Get.snackbar('Error', jsonResponse['message']);

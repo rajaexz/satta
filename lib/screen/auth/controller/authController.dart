@@ -157,6 +157,38 @@ class SignupController extends GetxController {
     }
   }
 
+  Future<void> verifyOtpPin(String mobile, String otp) async {
+    final dio = Dio();
+
+    isLoading(true);
+    final formData = alfrom.FormData.fromMap({
+      'mobile': mobile,
+      'otp': otp,
+    });
+    try {
+      final response = await dio.post(
+        'https://development.smapidev.co.in/api/Api/verify_otp',
+        data: formData,
+      );
+
+      var jsonResponse = jsonDecode(response.data!);
+      // Handle response
+      if (jsonResponse['status'] == 'success') {
+        Get.snackbar('Success', jsonResponse['message']);
+        // Navigate to login screen
+        
+         Get.toNamed("/Createsetpin",arguments: mobile); 
+      } else {
+         
+        Get.snackbar('Error', jsonResponse['message']);
+      }
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading(false);
+    }
+  }
+
   Future<void> resendotp() async {
     isLoading.value = true;
     final dio = Dio();
@@ -180,6 +212,8 @@ class SignupController extends GetxController {
         Get.snackbar('Success', 'Successful send opt',
             snackPosition: SnackPosition.BOTTOM);
       } else {
+
+        
         Get.snackbar('Error', 'Signup failed: ${jsonResponse['message']}',
             snackPosition: SnackPosition.BOTTOM);
       }
@@ -232,10 +266,9 @@ class SignupController extends GetxController {
       'mobile': mobile.toString(),
       'password': password.toString(),
     });
-       final tokenst = await StorageRepository.getTokenpin();
-if(tokenst != null){
- Get.to(PinPage()); 
-}else{
+
+
+ 
 
    try {
       final response = await dio.post(
@@ -246,22 +279,23 @@ if(tokenst != null){
 
       var badydecode = jsonDecode(response.data);
 
+
+  
       if (badydecode["code"] != "400") {
         // Ensure the comparison is made with the correct string
         var token = badydecode["data"]["token"];
-
+ print('==========================: $token');
         StorageRepository.saveOffline(AppConstant.phone, mobile);
         StorageRepository.saveOffline(AppConstant.tokenKeypin, token);
         Get.snackbar('Success', 'Login successful',
             snackPosition: SnackPosition.BOTTOM);
-     
-
-
-   Get.toNamed("/Createsetpin", arguments: mobile.toString()) ;
-
+              Get.to(PinPage());
+ 
       } else {
+           
         Get.snackbar('Error', 'Login failed: ${badydecode["message"]}',
             snackPosition: SnackPosition.BOTTOM);
+           
       }
     } catch (e) {
       isLoading.value = false;
@@ -272,7 +306,7 @@ if(tokenst != null){
 }
 
  
-  }
+  
 
   Future<void> verifyUser(String mobile, String otp) async {
     final store = await SharedPreferences.getInstance();

@@ -52,13 +52,9 @@ class _SplashScreenState extends State<SplashScreen>
     if (Intro == "0" || Intro == null) {
       Get.offNamed("/intro");
     } else {
-      if (tokenpin != null) {
-        Get.offNamed("/setpin");
-      } else {
-        tokenpin != null && phone != null
-            ? Get.offNamed("/Createsetpin")
+      tokenpin != null && phone != null
+            ? Get.offNamed("/setpin")
             : Get.offNamed("/login");
-      }
     }
   }
 
